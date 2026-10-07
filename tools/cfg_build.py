@@ -133,11 +133,11 @@ def waves():
                      'boss': 1 if boss else 0, 'bossHp': {5: 80, 10: 220, 15: 480}.get(w, 0), 'affixes': 0 if w < 4 else (2 if boss and w >= 10 else 1)})
     return rows
 BOSSES = [  # id, name, title, ability, p1, p2, p3, p4  (meaning described in sheet)
- ('yawn', 'Yawn', '黑猫', '九命：第一次退赛会原地复活（40% 体力）', 0.4, 1, 0, 0),
- ('gilg', 'Gilgamesh', '金王', '王之宝库：每 4 秒召唤 2 名金甲跑者', 4, 2, 8, 0.8),
- ('king', 'King', '黏液国王', '黏液王冠：身后留下黏液，踩到的跑者加速 30% 并回体力', 0.3, 1.3, 0.04, 5),
- ('lucas', 'Lucas', '光头', '铁头冲刺：每 5 秒冲刺 1 秒，3 倍速', 5, 1, 3, 0),
- ('shiti', 'Shiti', '笑声', '开怀大笑：每 6 秒大笑一次，身边的装置停工 1.5 秒', 6, 130, 1.5, 0),
+ ('yawn', 'Nox', '黑猫', '九命：第一次退赛会原地复活（40% 体力）', 0.4, 1, 0, 0),
+ ('gilg', 'Aurum', '金王', '王之宝库：每 4 秒召唤 2 名金甲跑者', 4, 2, 8, 0.8),
+ ('king', 'Slimo', '黏液国王', '黏液王冠：身后留下黏液，踩到的跑者加速 30% 并回体力', 0.3, 1.3, 0.04, 5),
+ ('lucas', 'Rocco', '光头', '铁头冲刺：每 5 秒冲刺 1 秒，3 倍速', 5, 1, 3, 0),
+ ('shiti', 'Chuckles', '笑声', '开怀大笑：每 6 秒大笑一次，身边的装置停工 1.5 秒', 6, 130, 1.5, 0),
  ('jerry', 'Jerry', '数据控', '数据分析：每 3 秒对受到最多的装置类型产生 65% 抗性', 3, 0.65, 0, 0),
 ]
 BOSS_PARAMS = {
@@ -202,9 +202,9 @@ ART += [
  ('runner.norm', '跑者', '慢跑者，侧面向右跑；横向序列帧', 'P1 样板关', 30, 36, .5, 1, 6, 10, 0),
  ('runner.arm', '跑者', '耐力跑者（更壮、带护具）', 'P1 样板关', 34, 42, .5, 1, 6, 10, 0),
  ('runner.mini', '跑者', '跑团分裂出的小跑者', 'P2', 22, 26, .5, 1, 6, 12, 0),
- ('runner.gold', '跑者', 'Gilgamesh 召唤的金甲跑者', 'P2', 32, 38, .5, 1, 6, 10, 0),
+ ('runner.gold', '跑者', 'Aurum 召唤的金甲跑者', 'P2', 32, 38, .5, 1, 6, 10, 0),
 ]
-_BOSSN = {'yawn':'Yawn（黑猫，九命）','gilg':'Gilgamesh','king':'King','lucas':'Lucas','shiti':'Shiti','jerry':'Jerry'}
+_BOSSN = {'yawn':'Nox（黑猫，九命）','gilg':'Aurum','king':'Slimo','lucas':'Rocco','shiti':'Chuckles','jerry':'Jerry'}
 for bid, nm in _BOSSN.items():
     ART.append((f'boss.{bid}', 'Boss', f'{nm}，侧面向右跑；真人原型需本人同意', 'P1 样板关' if bid == 'yawn' else 'P2', 64 if bid != 'yawn' else 72, 80 if bid != 'yawn' else 56, .5, 1, 6, 8, 0))
 ART += [
