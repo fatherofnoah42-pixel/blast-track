@@ -6,9 +6,9 @@ T = {
 '120 范围内其他装置出手间隔 −20%': ('Other devices within 120: interval −20%', 'Autres dispositifs à 120 : intervalle −20 %'),
 '1× 速度': ('1× speed', 'Vitesse 1×'),
 '2× 速度': ('2× speed', 'Vitesse 2×'),
-'3 个 Boss 波每局从 6 位传奇跑者里随机抽：Nox（九命复活）、Aurum（召唤金甲跑者）、Slimo（黏液加速）、Rocco（铁头冲刺）、Chuckles（大笑让装置停工）、Jerry（对常用装置产生抗性）。':
-  ('Each run draws 3 bosses from 6 legendary runners: Nox (nine lives), Aurum (summons golden runners), Slimo (slime boost), Rocco (headstrong dash), Chuckles (laughter jams devices), Jerry (adapts to your most-used device).',
-   'Chaque partie tire 3 boss parmi 6 coureurs légendaires : Nox (neuf vies), Aurum (invoque des coureurs dorés), Slimo (bave accélérante), Rocco (charge tête baissée), Chuckles (son rire bloque les dispositifs), Jerry (s’adapte à ton dispositif favori).'),
+'3 个 Boss 波每局从 6 位传奇跑者里随机抽：Nox（九命复活）、Aurum（召唤金甲跑者）、Slimo（黏液加速）、Rocco（铁头冲刺）、Chuckles（大笑让装置停工）、Datto（对常用装置产生抗性）。':
+  ('Each run draws 3 bosses from 6 legendary runners: Nox (nine lives), Aurum (summons golden runners), Slimo (slime boost), Rocco (headstrong dash), Chuckles (laughter jams devices), Datto (adapts to your most-used device).',
+   'Chaque partie tire 3 boss parmi 6 coureurs légendaires : Nox (neuf vies), Aurum (invoque des coureurs dorés), Slimo (bave accélérante), Rocco (charge tête baissée), Chuckles (son rire bloque les dispositifs), Datto (s’adapte à ton dispositif favori).'),
 '6 种装置：易拉罐投手（单体）、香蕉皮投手（范围滑倒）、洒水器（减速、冻结）、鞋盒无人机（全图空投）、广场舞音响（神曲连锁传播）、宝石发射器（红黄蓝三种宝石）。每种 3 条路线、每条 5 级；主路线可升满，次路线最多 2 级。':
   ('6 devices: Can Thrower (single target), Banana Peeler (area slip), Sprinkler (slow, freeze), Shoebox Drone (map-wide drop), Dance Speaker (chain earworm), Gem Launcher (ruby, topaz, sapphire). Each has 3 paths of 5 tiers; the main path can max out, the secondary stops at tier 2.',
    '6 dispositifs : Lanceur de canettes (cible unique), Lanceur de peaux de banane (glissade de zone), Arroseur (ralentit, gèle), Drone à boîtes (largage sur toute la carte), Enceinte de danse (tube viral en chaîne), Lance-gemmes (rubis, topaze, saphir). Chacun a 3 voies de 5 niveaux ; la voie principale peut être maximisée, la secondaire s’arrête au niveau 2.'),

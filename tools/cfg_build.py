@@ -138,7 +138,7 @@ BOSSES = [  # id, name, title, ability, p1, p2, p3, p4  (meaning described in sh
  ('king', 'Slimo', '黏液国王', '黏液王冠：身后留下黏液，踩到的跑者加速 30% 并回体力', 0.3, 1.3, 0.04, 5),
  ('lucas', 'Rocco', '光头', '铁头冲刺：每 5 秒冲刺 1 秒，3 倍速', 5, 1, 3, 0),
  ('shiti', 'Chuckles', '笑声', '开怀大笑：每 6 秒大笑一次，身边的装置停工 1.5 秒', 6, 130, 1.5, 0),
- ('jerry', 'Jerry', '数据控', '数据分析：每 3 秒对受到最多的装置类型产生 65% 抗性', 3, 0.65, 0, 0),
+ ('jerry', 'Datto', '数据控', '数据分析：每 3 秒对受到最多的装置类型产生 65% 抗性', 3, 0.65, 0, 0),
 ]
 BOSS_PARAMS = {
  'yawn': ['复活体力比例', '复活后无敌秒数', '', ''],
@@ -204,7 +204,7 @@ ART += [
  ('runner.mini', '跑者', '跑团分裂出的小跑者', 'P2', 22, 26, .5, 1, 6, 12, 0),
  ('runner.gold', '跑者', 'Aurum 召唤的金甲跑者', 'P2', 32, 38, .5, 1, 6, 10, 0),
 ]
-_BOSSN = {'yawn':'Nox（黑猫，九命）','gilg':'Aurum','king':'Slimo','lucas':'Rocco','shiti':'Chuckles','jerry':'Jerry'}
+_BOSSN = {'yawn':'Nox（黑猫，九命）','gilg':'Aurum','king':'Slimo','lucas':'Rocco','shiti':'Chuckles','jerry':'Datto'}
 for bid, nm in _BOSSN.items():
     ART.append((f'boss.{bid}', 'Boss', f'{nm}，侧面向右跑；真人原型需本人同意', 'P1 样板关' if bid == 'yawn' else 'P2', 64 if bid != 'yawn' else 72, 80 if bid != 'yawn' else 56, .5, 1, 6, 8, 0))
 ART += [
