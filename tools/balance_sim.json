@@ -7,17 +7,17 @@
 {
 "cfg": "base×1",
 "cost": 160,
-"frac": 0.451
+"frac": 0.375
 },
 {
 "cfg": "base×2",
 "cost": 320,
-"frac": 0.756
+"frac": 0.728
 },
 {
 "cfg": "base×3",
 "cost": 480,
-"frac": 0.968
+"frac": 0.949
 },
 {
 "cfg": "base×4",
@@ -34,21 +34,21 @@
 "path": 1,
 "tier": 1,
 "cost": 230,
-"frac": 0.451
+"frac": 0.424
 },
 {
 "cfg": "p1t2",
 "path": 1,
 "tier": 2,
 "cost": 330,
-"frac": 0.514
+"frac": 0.444
 },
 {
 "cfg": "p1t3",
 "path": 1,
 "tier": 3,
 "cost": 630,
-"frac": 0.981
+"frac": 0.988
 },
 {
 "cfg": "p1t4",
@@ -62,14 +62,14 @@
 "path": 2,
 "tier": 1,
 "cost": 230,
-"frac": 0.417
+"frac": 0.444
 },
 {
 "cfg": "p2t2",
 "path": 2,
 "tier": 2,
 "cost": 350,
-"frac": 0.579
+"frac": 0.569
 },
 {
 "cfg": "p2t3",
@@ -83,21 +83,21 @@
 "path": 2,
 "tier": 4,
 "cost": 1370,
-"frac": 0.725
+"frac": 0.78
 },
 {
 "cfg": "p3t1",
 "path": 3,
 "tier": 1,
 "cost": 210,
-"frac": 0.417
+"frac": 0.389
 },
 {
 "cfg": "p3t2",
 "path": 3,
 "tier": 2,
 "cost": 310,
-"frac": 0.382
+"frac": 0.354
 },
 {
 "cfg": "p3t3",
@@ -111,7 +111,7 @@
 "path": 3,
 "tier": 4,
 "cost": 1130,
-"frac": 0.667
+"frac": 0.646
 }
 ]
 },
@@ -123,111 +123,111 @@
 {
 "cfg": "base×1",
 "cost": 100,
-"frac": 0.23
+"frac": 0.186
 },
 {
 "cfg": "base×2",
 "cost": 200,
-"frac": 0.411
+"frac": 0.438
 },
 {
 "cfg": "base×3",
 "cost": 300,
-"frac": 0.591
+"frac": 0.608
 },
 {
 "cfg": "base×4",
 "cost": 400,
-"frac": 0.711
+"frac": 0.722
 },
 {
 "cfg": "base×6",
 "cost": 600,
-"frac": 0.879
+"frac": 0.831
 },
 {
 "cfg": "p1t1",
 "path": 1,
 "tier": 1,
 "cost": 160,
-"frac": 0.451
+"frac": 0.419
 },
 {
 "cfg": "p1t2",
 "path": 1,
 "tier": 2,
 "cost": 270,
-"frac": 0.515
+"frac": 0.468
 },
 {
 "cfg": "p1t3",
 "path": 1,
 "tier": 3,
 "cost": 530,
-"frac": 0.739
+"frac": 0.778
 },
 {
 "cfg": "p1t4",
 "path": 1,
 "tier": 4,
 "cost": 980,
-"frac": 0.789
+"frac": 0.831
 },
 {
 "cfg": "p2t1",
 "path": 2,
 "tier": 1,
 "cost": 145,
-"frac": 0.282
+"frac": 0.267
 },
 {
 "cfg": "p2t2",
 "path": 2,
 "tier": 2,
 "cost": 215,
-"frac": 0.306
+"frac": 0.31
 },
 {
 "cfg": "p2t3",
 "path": 2,
 "tier": 3,
 "cost": 415,
-"frac": 0.403
+"frac": 0.378
 },
 {
 "cfg": "p2t4",
 "path": 2,
 "tier": 4,
 "cost": 835,
-"frac": 0.376
+"frac": 0.441
 },
 {
 "cfg": "p3t1",
 "path": 3,
 "tier": 1,
 "cost": 150,
-"frac": 0.229
+"frac": 0.238
 },
 {
 "cfg": "p3t2",
 "path": 3,
 "tier": 2,
 "cost": 250,
-"frac": 0.248
+"frac": 0.227
 },
 {
 "cfg": "p3t3",
 "path": 3,
 "tier": 3,
 "cost": 530,
-"frac": 0.243
+"frac": 0.203
 },
 {
 "cfg": "p3t4",
 "path": 3,
 "tier": 4,
 "cost": 1080,
-"frac": 0.238
+"frac": 0.244
 }
 ]
 },
@@ -239,104 +239,104 @@
 {
 "cfg": "base×1",
 "cost": 120,
-"frac": 0.229
+"frac": 0.237
 },
 {
 "cfg": "base×2",
 "cost": 240,
-"frac": 0.487
+"frac": 0.477
 },
 {
 "cfg": "base×3",
 "cost": 360,
-"frac": 0.71
+"frac": 0.666
 },
 {
 "cfg": "base×4",
 "cost": 480,
-"frac": 0.793
+"frac": 0.811
 },
 {
 "cfg": "base×6",
 "cost": 720,
-"frac": 0.852
+"frac": 0.867
 },
 {
 "cfg": "p1t1",
 "path": 1,
 "tier": 1,
 "cost": 180,
-"frac": 0.385
+"frac": 0.356
 },
 {
 "cfg": "p1t2",
 "path": 1,
 "tier": 2,
 "cost": 260,
-"frac": 0.385
+"frac": 0.358
 },
 {
 "cfg": "p1t3",
 "path": 1,
 "tier": 3,
 "cost": 540,
-"frac": 0.647
+"frac": 0.615
 },
 {
 "cfg": "p1t4",
 "path": 1,
 "tier": 4,
 "cost": 1140,
-"frac": 0.81
+"frac": 0.808
 },
 {
 "cfg": "p2t1",
 "path": 2,
 "tier": 1,
 "cost": 165,
-"frac": 0.255
+"frac": 0.257
 },
 {
 "cfg": "p2t2",
 "path": 2,
 "tier": 2,
 "cost": 245,
-"frac": 0.329
+"frac": 0.351
 },
 {
 "cfg": "p2t3",
 "path": 2,
 "tier": 3,
 "cost": 545,
-"frac": 0.633
+"frac": 0.695
 },
 {
 "cfg": "p2t4",
 "path": 2,
 "tier": 4,
 "cost": 1195,
-"frac": 0.605
+"frac": 0.619
 },
 {
 "cfg": "p3t1",
 "path": 3,
 "tier": 1,
 "cost": 180,
-"frac": 0.374
+"frac": 0.377
 },
 {
 "cfg": "p3t2",
 "path": 3,
 "tier": 2,
 "cost": 290,
-"frac": 0.767
+"frac": 0.765
 },
 {
 "cfg": "p3t3",
 "path": 3,
 "tier": 3,
 "cost": 590,
-"frac": 0.787
+"frac": 0.796
 },
 {
 "cfg": "p3t4",
@@ -355,55 +355,55 @@
 {
 "cfg": "base×1",
 "cost": 180,
-"frac": 0.25
+"frac": 0.211
 },
 {
 "cfg": "base×2",
 "cost": 360,
-"frac": 0.406
+"frac": 0.453
 },
 {
 "cfg": "base×3",
 "cost": 540,
-"frac": 0.656
+"frac": 0.617
 },
 {
 "cfg": "base×4",
 "cost": 720,
-"frac": 0.744
+"frac": 0.781
 },
 {
 "cfg": "base×6",
 "cost": 1080,
-"frac": 0.936
+"frac": 0.897
 },
 {
 "cfg": "p1t1",
 "path": 1,
 "tier": 1,
 "cost": 240,
-"frac": 0.308
+"frac": 0.253
 },
 {
 "cfg": "p1t2",
 "path": 1,
 "tier": 2,
 "cost": 340,
-"frac": 0.256
+"frac": 0.297
 },
 {
 "cfg": "p1t3",
 "path": 1,
 "tier": 3,
 "cost": 600,
-"frac": 0.504
+"frac": 0.531
 },
 {
 "cfg": "p1t4",
 "path": 1,
 "tier": 4,
 "cost": 1300,
-"frac": 0.68
+"frac": 0.609
 },
 {
 "cfg": "p2t1",
@@ -417,49 +417,49 @@
 "path": 2,
 "tier": 2,
 "cost": 420,
-"frac": 0.428
+"frac": 0.381
 },
 {
 "cfg": "p2t3",
 "path": 2,
 "tier": 3,
 "cost": 680,
-"frac": 0.336
+"frac": 0.408
 },
 {
 "cfg": "p2t4",
 "path": 2,
 "tier": 4,
 "cost": 1230,
-"frac": 0.631
+"frac": 0.6
 },
 {
 "cfg": "p3t1",
 "path": 3,
 "tier": 1,
 "cost": 250,
-"frac": 0.289
+"frac": 0.267
 },
 {
 "cfg": "p3t2",
 "path": 3,
 "tier": 2,
 "cost": 370,
-"frac": 0.325
+"frac": 0.292
 },
 {
 "cfg": "p3t3",
 "path": 3,
 "tier": 3,
 "cost": 670,
-"frac": 0.342
+"frac": 0.267
 },
 {
 "cfg": "p3t4",
 "path": 3,
 "tier": 4,
 "cost": 1270,
-"frac": 0.3
+"frac": 0.289
 }
 ]
 },
@@ -471,34 +471,34 @@
 {
 "cfg": "base×1",
 "cost": 150,
-"frac": 0.261
+"frac": 0.266
 },
 {
 "cfg": "base×2",
 "cost": 300,
-"frac": 0.484
+"frac": 0.5
 },
 {
 "cfg": "base×3",
 "cost": 450,
-"frac": 0.703
+"frac": 0.722
 },
 {
 "cfg": "base×4",
 "cost": 600,
-"frac": 0.845
+"frac": 0.831
 },
 {
 "cfg": "base×6",
 "cost": 900,
-"frac": 0.966
+"frac": 0.915
 },
 {
 "cfg": "p1t1",
 "path": 1,
 "tier": 1,
 "cost": 195,
-"frac": 0.258
+"frac": 0.257
 },
 {
 "cfg": "p1t2",
@@ -512,70 +512,70 @@
 "path": 1,
 "tier": 3,
 "cost": 575,
-"frac": 0.647
+"frac": 0.613
 },
 {
 "cfg": "p1t4",
 "path": 1,
 "tier": 4,
 "cost": 1075,
-"frac": 0.636
+"frac": 0.624
 },
 {
 "cfg": "p2t1",
 "path": 2,
 "tier": 1,
 "cost": 220,
-"frac": 0.383
+"frac": 0.425
 },
 {
 "cfg": "p2t2",
 "path": 2,
 "tier": 2,
 "cost": 350,
-"frac": 0.426
+"frac": 0.403
 },
 {
 "cfg": "p2t3",
 "path": 2,
 "tier": 3,
 "cost": 590,
-"frac": 0.46
+"frac": 0.423
 },
 {
 "cfg": "p2t4",
 "path": 2,
 "tier": 4,
 "cost": 1110,
-"frac": 0.593
+"frac": 0.602
 },
 {
 "cfg": "p3t1",
 "path": 3,
 "tier": 1,
 "cost": 200,
-"frac": 0.272
+"frac": 0.256
 },
 {
 "cfg": "p3t2",
 "path": 3,
 "tier": 2,
 "cost": 310,
-"frac": 0.407
+"frac": 0.421
 },
 {
 "cfg": "p3t3",
 "path": 3,
 "tier": 3,
 "cost": 610,
-"frac": 0.459
+"frac": 0.444
 },
 {
 "cfg": "p3t4",
 "path": 3,
 "tier": 4,
 "cost": 1210,
-"frac": 0.593
+"frac": 0.611
 }
 ]
 }

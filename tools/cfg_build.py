@@ -97,6 +97,7 @@ G = [  # key, value, description
  ('rerollSats', 1500, '区块奖励重抽一次花费的聪'),
  ('padTrackGap', 34, '额外放置点：离跑道中心线的最小距离'),
  ('padGap', 32, '额外放置点：离其他空位的最小距离'),
+ ('gridTrackGap', 24, '放置格子：格子中心离跑道中心线小于这个距离就算跑道，不能放装置'),
  ('scoreKill', 600, '分数：劝退率权重'),
  ('scoreLives', 300, '分数：剩余生命权重'),
  ('scoreClean', 100, '分数：无漏怪波数权重'),
@@ -159,7 +160,6 @@ CARDS = [  # id, tag, rarity, stack, name, desc, v1, v2, note
  ('u_tesla', '装置', 'R', 0, '广场舞音响', '解锁广场舞音响：洗脑神曲在跑者之间传播', 0, 0, ''),
  ('u_miner', '装置', 'R', 0, '矿机', '解锁矿机：挖区块得聪，并触发区块奖励三选一', 0, 0, ''),
  ('u_lure', '装置', 'R', 0, '休闲诱惑站', '解锁休闲诱惑站：美食、沙发和限量球鞋让跑者停下来', 0, 0, ''),
- ('pad', '道具', 'R', 1, '额外放置点', '获得 1 个放置点：点地图上跑道以外的空地，新增一个装置空位', 1, 0, 'v1 = 放置点个数'),
  ('freeup', '道具', 'C', 1, '鞋匠', '场上一个装置沿主路线免费升 1 级（没有装置时改为 +100 GST）', 0, 0, ''),
  ('coupon', '道具', 'C', 1, '升级卷轴', '接下来 3 次路线升级半价', 3, 0, 'v1 = 半价次数'),
  ('m_dart', '徽章', 'R', 0, '', '', 0, 0, '名称和说明自动生成'),
@@ -233,7 +233,7 @@ cfg = {'global': {k: v for k, v, _ in G}, 'globalDesc': {k: d for k, _, d in G},
        'art': [{'key': k, 'kind': kd, 'desc': d, 'prio': pr, 'src': '', 'json': '', 'w': w, 'h': h, 'ax': ax, 'ay': ay, 'frames': fr, 'fps': fps, 'cover': cv} for (k, kd, d, pr, w, h, ax, ay, fr, fps, cv) in ART]}
 for (i, n, sh, d, cost, dmg, rate, rng, rad, slow, chain, armor, col, extra) in TOWERS:
     cfg['towers'].append({'id': i, 'name': L(n), 'short': L(sh), 'desc': L(d), 'cost': cost, 'dmg': dmg, 'rate': rate, 'range': rng, 'rad': rad, 'slow': slow,
-                          'slowDur': 1.5 if i == 'frost' else 0, 'chain': chain, 'decay': .85 if i == 'tesla' else 1, 'armor': armor, 'bossMul': .6 if i == 'dart' else 1, 'color': col, 'extra': extra})
+                          'slowDur': 1.5 if i == 'frost' else 0, 'chain': chain, 'decay': .85 if i == 'tesla' else 1, 'armor': armor, 'bossMul': .6 if i == 'dart' else 1, 'color': col, 'extra': extra, 'size': {'lure': 3, 'miner': 3}.get(i, 2)})
     entity_zh |= {n, sh, d}
 for (t, p, pn, tiers) in PATHS:
     cfg['paths'].append({'tower': t, 'path': p, 'name': L(pn), 'tiers': [{'tier': k + 1, 'name': L(a), 'cost': c, 'desc': L(d), 'effect': e} for k, (a, c, d, e) in enumerate(tiers)]})

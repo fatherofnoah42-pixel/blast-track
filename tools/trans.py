@@ -661,3 +661,18 @@ T.update({
 '点跑道，设定投递区（Esc 取消）': ('Tap the track to set the drop zone (Esc to cancel)', 'Touche la piste pour choisir la zone de largage (Échap pour annuler)'),
 '点跑道，设定布阵路段（Esc 取消）': ('Tap the track to set the trap stretch (Esc to cancel)', 'Touche la piste pour choisir le tronçon à piéger (Échap pour annuler)'),
 })
+
+T.update({
+'放不下': ('No room', 'Pas de place'),
+'这里不能放': ('Can’t build here', 'Impossible ici'),
+'再点一次重新开始': ('Tap again to restart', 'Touche encore pour recommencer'),
+'重开本关': ('Restart level', 'Rejouer le niveau'),
+'重新开始': ('Restart', 'Recommencer'),
+'↻ 重新开始': ('↻ Restart', '↻ Recommencer'),
+'点跑道外任意空地放置装置（每种装置占的格子不同），再点已放的装置升级。每个装置最多发展两条路线：都能先升到 2 级，先到 3 级的成为主路线，可升到 5 级；6 级专精会移除副路线，已花的钱抵扣。': ('Tap any free ground off the track to place a device (each device takes a different number of cells), then tap it to upgrade. Each device can grow two paths: both can reach tier 2, the first to tier 3 becomes main and goes up to 5; tier 6 specialisation removes the secondary path and credits what you spent on it.', 'Touche n’importe quel terrain libre hors de la piste pour poser un dispositif (chacun occupe un nombre de cases différent), puis touche-le pour l’améliorer. Deux voies maximum : les deux peuvent atteindre le niveau 2, la première au niveau 3 devient principale jusqu’au 5 ; la spécialisation niv. 6 retire la secondaire et déduit ce que tu y as dépensé.'),
+})
+
+T.update({
+'点跑道外的空地放置装置，再点装置直接升级。': ('Tap any free ground off the track to place a device, then tap the device to upgrade it.', 'Touchez un terrain libre hors de la piste pour poser un dispositif, puis touchez-le pour l’améliorer.'),
+'点跑道外的空地放置装置，再点「开始第 1 波」': ('Tap free ground off the track to place a device, then press “Start wave 1”', 'Touchez un terrain libre hors de la piste pour poser un dispositif, puis « Lancer la vague 1 »'),
+})

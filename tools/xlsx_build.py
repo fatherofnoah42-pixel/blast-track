@@ -67,7 +67,7 @@ lines = [
  ('词缀：4 种对手词缀的名称和说明（数值在「全局」）', False),
  ('卡牌：神秘箱里的全部卡牌', False),
  ('跑道列表：6 种跑道（单进单出、双进双出、单进双出、双进单出、十字交叉、三进单出）的名称、启用开关和难度倍率', False),
- ('地图：每种跑道的路线点和装置空位坐标', False),
+ ('地图：每种跑道的路线点（空位坐标已不再使用：装置可以放在跑道外任意空格子上）', False),
  ('美术资源：每张美术图的编号、图片地址、动画 JSON、游戏内尺寸和锚点；留空就用游戏里的矢量占位图', False),
  ('弹道：每种子弹的弹道类型、速度、抛物线高度和是否追踪', False),
  ('界面文字：按钮、提示等界面文字的三语翻译', False),
@@ -89,9 +89,9 @@ ws = wb.create_sheet('装置')
 cols = [('id', 'id', 'id')] + L3('name', '名称') + L3('short', '简称') + L3('desc', '说明') + [
  ('放置价格', 'cost', 'num'), ('效果', 'dmg', 'num'), ('出手间隔（秒）', 'rate', 'num'), ('射程（999=全图）', 'range', 'num'),
  ('范围半径', 'rad', 'num'), ('减速比例', 'slow', 'num'), ('湿滑持续（秒）', 'slowDur', 'num'), ('传播人数', 'chain', 'num'),
- ('传播衰减', 'decay', 'num'), ('对耐力跑者效果', 'armor', 'num'), ('对 Boss 效果', 'bossMul', 'num'), ('颜色', 'color', 'text'), ('基础附加效果（写法同「升级」的 effect）', 'extra', 'num')]
-rows = [[t['id']] + V3(t['name']) + V3(t['short']) + V3(t['desc']) + [t[k] for k in ['cost','dmg','rate','range','rad','slow','slowDur','chain','decay','armor','bossMul','color','extra']] for t in cfg['towers']]
-table(ws, cols, rows, [9, 14, 16, 18, 10, 10, 12, 40, 40, 40] + [11] * 11 + [10, 46])
+ ('传播衰减', 'decay', 'num'), ('对耐力跑者效果', 'armor', 'num'), ('对 Boss 效果', 'bossMul', 'num'), ('颜色', 'color', 'text'), ('基础附加效果（写法同「升级」的 effect）', 'extra', 'num'), ('占地（N × N 格，1 格 = 20）', 'size', 'num')]
+rows = [[t['id']] + V3(t['name']) + V3(t['short']) + V3(t['desc']) + [t[k] for k in ['cost','dmg','rate','range','rad','slow','slowDur','chain','decay','armor','bossMul','color','extra','size']] for t in cfg['towers']]
+table(ws, cols, rows, [9, 14, 16, 18, 10, 10, 12, 40, 40, 40] + [11] * 11 + [10, 46, 12])
 
 # ---------- 升级路线 ----------
 ws = wb.create_sheet('升级路线')
