@@ -1,8 +1,13 @@
 # 爆破跑道 · Blast Track
 
-FSL 公会塔防原型：对手公会的跑者冲过你的领地，你用香蕉皮、易拉罐、洒水器、宝石发射器等「装置」让他们摔倒退赛。每波结束开神秘箱三选一，15 波通关。支持中文 / English / Français，手机和电脑浏览器都能玩。
+FSL 公会塔防原型：STEPN 跑者冲过你的领地，你用香蕉皮、易拉罐、洒水器、宝石发射器等「装置」让他们摔倒退赛。支持中文 / English / Français，电脑（横屏、快捷键）和手机都能玩。
 
-> 这是可玩原型，数值没有经过正式平衡。局内 GST 只是关卡内货币，不和任何真实资产挂钩。
+- **第一章「创世纪 · 2008–2010」**：6 个短关卡 + 章节地图，跟着剧情从比特币白皮书走到价值溢出事件，每关结束收一张知识卡。
+- **矿机**：比赛中按算力占比抢区块，挖到区块得「聪」并开一次三选一；全网算力会随难度调整上涨。
+- **组合**：湿、滑、辣、冻、懵、热六种状态叠在同一个跑者身上会触发碎冰、热胀冷缩、水上漂、蒸汽、蹦迪、当头一棒等组合，首次触发收入图鉴。
+- **经典模式**：原来的 15 波 + 每波神秘箱玩法，在章节地图里进入。
+
+> 这是可玩原型，数值只用脚本机器人粗调过。局内 GST、聪和积分都只是原型里的链下数字，不和任何真实资产或代币挂钩。
 
 **在线试玩：** `https://<你的 GitHub 用户名或组织>.github.io/<仓库名>/`（开启 GitHub Pages 后可用，见下文）
 
@@ -39,6 +44,7 @@ bash build.sh        # 重新生成 ../index.html 和 ../config/blast-track-conf
 
 - 游戏逻辑和界面：`tools/script.js`、`tools/head.html`
 - 内置数值：`tools/cfg_build.py`；地图坐标：`tools/maps.py`；三语翻译：`tools/trans.py`
+- 第一章剧情、关卡波次、知识卡和组合：写在 `tools/script.js` 里的 `CH1`、`REACT`（还没进配置表）
 
 ## 已知限制
 
@@ -51,9 +57,9 @@ bash build.sh        # 重新生成 ../index.html 和 ../config/blast-track-conf
 
 ## English
 
-Blast Track is a tower-defense prototype for FSL guilds: rival runners dash through your turf and you trip them up with devices (banana peels, cans, sprinklers, gem launchers…). Every wave ends with a pick-one-of-three Mystery Box; survive 15 waves. UI in Chinese, English and French; plays in mobile and desktop browsers.
+Blast Track is a tower-defense prototype for FSL guilds: STEPN runners dash through your turf and you trip them up with devices (banana peels, cans, sprinklers, gem launchers…). Chapter 1 (2008–2010) is six short story levels through early bitcoin history, with a miner device that wins blocks (sats + a pick-one-of-three) and status combos between devices. Classic mode keeps the 15-wave Mystery Box run. UI in Chinese, English and French; desktop (landscape, hotkeys) and mobile.
 
 - **Play:** enable GitHub Pages (Settings → Pages → Deploy from branch `main`, folder `/`), then open `https://<owner>.github.io/<repo>/`.
 - **Tune without code:** edit `config/blast-track-config.xlsx`, then use "Import config" on the game page (applies to your browser only).
 - **Rebuild:** `cd tools && bash build.sh` (Python 3 + openpyxl).
-- Prototype balance is untested. In-game GST is a level currency only and has no link to any real asset.
+- Balance is only bot-tested. In-game GST, sats and points are off-chain prototype numbers with no link to any real asset or token.

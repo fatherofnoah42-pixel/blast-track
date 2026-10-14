@@ -280,6 +280,99 @@ span.pu.done{color:var(--green3)}
 @keyframes coreOut{0%{filter:drop-shadow(0 0 40px #fff)}100%{transform:scale(2.2);opacity:0}}
 .coins i{background:var(--gst) center/contain no-repeat;box-shadow:0 0 0 2px #3b2a1e;width:22px;height:22px;margin:-11px}
 .coins i:nth-child(11){--x:-30px;--y:-200px}.coins i:nth-child(12){--x:50px;--y:-40px}
+
+/* ===== layout: phones = one column; wide screens = field left, side panel right ===== */
+.side{display:contents}
+header{order:0}.side .board{order:1}.stagecol{order:2}.side .controls{order:3}.side .mine{order:4}.side .keys{display:none}
+.side .build{order:5}.side .dock{order:6}.side .settings{order:7}.side .cfgbox{order:8}.side details{order:9}
+.stagecol{display:flex;flex-direction:column;gap:10px;min-width:0}
+body.land .wrap{max-width:1500px;display:grid;grid-template-columns:minmax(0,1fr) 380px;grid-template-rows:auto 1fr;gap:14px 22px;align-items:start;padding:12px 22px 30px}
+body.land header{grid-column:1 / -1}
+body.land .stagecol{grid-column:1;grid-row:2;order:0;position:sticky;top:12px}
+body.land .stage{width:min(100%, calc((100vh - 110px) * 5 / 3));margin:0 auto}
+body.land .side{grid-column:2;grid-row:2;display:flex;flex-direction:column;gap:12px;max-height:calc(100vh - 90px);overflow-y:auto;padding:4px 6px 10px 4px;scrollbar-width:thin}
+body.land .side > *{flex:none}
+body.land .side .keys{display:block;margin:0;font-size:12px;font-weight:700;color:#e8fbff;text-shadow:0 1px 0 rgba(0,0,0,.35)}
+body.land .board{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 14px}
+body.land .controls .primary{flex-basis:100%}
+.lvtag{position:absolute;z-index:2;right:10px;top:10px;padding:3px 12px 4px;border-radius:999px;background:rgba(32,30,44,.82);color:#fff;font-size:12px;font-weight:900;pointer-events:none;box-shadow:inset 0 0 0 1px rgba(255,255,255,.2)}
+.lvtag:empty{display:none}
+
+/* ===== mining panel ===== */
+.mine{padding:10px 12px;border-radius:16px;background:linear-gradient(180deg,#2b2a3a,#1d1a28);color:#fff;box-shadow:0 0 0 3px var(--ink),inset 0 2px 0 rgba(255,255,255,.12),0 5px 0 3px rgba(0,0,0,.2)}
+.mine-h{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:15px}
+.msats{display:inline-flex;align-items:center;gap:5px;font-family:var(--f-display);font-size:20px;color:#ffd28a}
+.sat{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:#f7931a;color:#fff;font-style:normal;font-size:14px;font-family:var(--f-body);font-weight:900;box-shadow:0 0 0 2px #3b2a1e}
+.mbar{height:8px;margin:8px 0;border-radius:4px;background:rgba(255,255,255,.12);overflow:hidden}
+.mbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#f7931a,#ffd23f);transition:width .3s linear}
+.mgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;font-size:11px;color:#c9cbe0}
+.mgrid > span{display:flex;flex-direction:column;gap:1px;padding:4px 6px;border-radius:8px;background:rgba(255,255,255,.06)}
+.mgrid b{font-family:var(--f-display);font-weight:400;font-size:16px;color:#fff;line-height:1.1}
+.mine .cfghint{margin:8px 0 0;color:#aab0cc}
+
+/* ===== pop-up tags ===== */
+.pop-tags{margin:0 0 6px;font-size:11.5px;font-weight:900;color:#7a3a00;background:#ffe9b0;border-radius:8px;padding:3px 8px}
+.tagline{color:#a0560a;font-weight:900}
+
+/* ===== story ===== */
+.ov-story{align-items:flex-end;background:linear-gradient(180deg,rgba(14,10,30,.15),rgba(14,10,30,.75))}
+.ov-story .ocard{max-width:560px}
+.story{display:flex;flex-direction:column;gap:8px}
+.st-date{align-self:flex-start;display:flex;gap:8px;align-items:center;padding:3px 12px 4px 4px;border-radius:999px;background:rgba(32,30,44,.85);color:#fff;font-weight:900;font-size:13px}
+.st-date span{padding:1px 8px;border-radius:999px;background:#f7931a;font-family:var(--f-display);font-weight:400;font-size:15px}
+.st-box{display:flex;gap:10px;align-items:flex-start;padding:12px;border-radius:18px;background:linear-gradient(180deg,#fffaf0,#f0dfba);box-shadow:0 0 0 3px var(--ink),inset 0 3px 0 #fff,0 6px 0 3px rgba(0,0,0,.25)}
+.st-por{flex:none;width:58px;height:58px;border-radius:16px;background:var(--sc);box-shadow:0 0 0 3px var(--ink),inset 0 -4px 0 rgba(0,0,0,.2);display:flex;align-items:center;justify-content:center}
+.st-por svg{width:50px;height:50px}.st-por.dark{background:#3a3850}
+.st-body{min-width:0}
+.st-name{display:block;font-family:var(--f-display);font-weight:400;font-size:19px;color:#fff;-webkit-text-stroke:3.5px var(--ink);paint-order:stroke fill}
+.st-txt{margin:3px 0 0;font-size:15px;font-weight:700;line-height:1.55;color:var(--text);animation:stIn .25s ease-out}
+@keyframes stIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.st-ctl{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.st-ctl .st-n{margin-right:auto;color:#fff;font-size:12px;font-weight:900;text-shadow:0 1px 0 rgba(0,0,0,.5)}
+.st-ctl .primary{flex:0 0 auto;font-size:18px;min-height:44px;padding:6px 20px}
+
+/* ===== chapter map / codex ===== */
+.ov-map .ocard{max-width:560px}
+.cmap{display:flex;flex-direction:column;gap:10px;padding:14px;border-radius:20px;background:linear-gradient(180deg,#fffaf0,#f0dfba);box-shadow:0 0 0 3px var(--ink),inset 0 3px 0 #fff,0 6px 0 3px rgba(0,0,0,.28)}
+.cmap .sub{color:var(--muted);text-shadow:none;text-align:left}
+.cm-h{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.cm-h h2{margin:0;padding:0;background:none;box-shadow:none;font-size:24px;-webkit-text-stroke:4px var(--ink)}
+.cm-ch{padding:2px 10px;border-radius:999px;background:#f7931a;color:#fff;font-weight:900;font-size:12px}
+.cm-stars{margin-left:auto;font-family:var(--f-display);font-size:20px;color:#e9a000;-webkit-text-stroke:3px #7a3a00;paint-order:stroke fill}
+.cm-path{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;position:relative}
+.cm-path::before{content:"";position:absolute;left:21px;top:16px;bottom:16px;width:4px;border-radius:2px;background:repeating-linear-gradient(180deg,#c9a46a 0 8px,transparent 8px 14px)}
+.cm-node button{width:100%;display:flex;align-items:center;gap:10px;text-align:left;padding:8px 12px 8px 8px}
+.cm-i{position:relative;z-index:1;flex:none;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#f7931a;color:#fff;font-family:var(--f-display);font-size:17px;box-shadow:0 0 0 2.5px var(--ink)}
+.cm-t{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.2}
+.cm-t small{color:var(--muted);font-size:11px;font-weight:900}
+.cm-t b{font-size:15px}
+.cm-s i{font-style:normal;color:rgba(59,42,30,.25);font-size:18px}.cm-s i.on{color:#ffb21a;-webkit-text-stroke:1px #7a3a00}
+.cm-node.next button{background:linear-gradient(180deg,#ffe46a,#ffb21a);box-shadow:0 0 0 2.5px #5a3200,inset 0 2px 0 #fff7c0,inset 0 -4px 0 #d9781a,0 4px 0 2.5px rgba(0,0,0,.25);animation:pulse 1.4s ease-in-out infinite}
+.cm-node.lock .cm-i{background:#9aa3a9}
+.cm-node.soon button{opacity:.6}
+.cm-f{display:flex;gap:8px;flex-wrap:wrap}.cm-f button{flex:1 1 140px}
+.cm-pts{margin:0;font-size:12px;font-weight:900;color:var(--text)}.cm-pts span{font-weight:700;color:var(--muted)}
+.cx-tabs{display:flex;gap:6px}.cx-tabs button{flex:1;min-height:38px;font-size:13px}
+.cx-tabs button[aria-pressed="true"]{background:linear-gradient(180deg,#ffe46a,#ffb21a)}
+.cx-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;max-height:52vh;overflow-y:auto;padding:3px}
+.cx-card{padding:10px 12px;border-radius:12px;background:#fff;box-shadow:0 0 0 2px rgba(59,42,30,.3);font-size:12.5px;line-height:1.45}
+.cx-card small{display:block;color:var(--muted);font-weight:900}.cx-card b{font-size:15px}
+.cx-card ul{margin:4px 0 0;padding-left:16px}.cx-card p{margin:4px 0 0}
+.cx-card.lock{background:rgba(255,255,255,.5);color:var(--muted)}
+.cx-r{box-shadow:0 0 0 3px var(--rc)}
+
+/* ===== knowledge card + stars ===== */
+.kcard{position:relative;padding:22px 18px 16px;border-radius:20px;background:linear-gradient(180deg,#fff,#fff3d6);box-shadow:0 0 0 3px var(--ink),0 0 0 9px #f7931a,0 0 0 12px var(--ink),0 10px 0 10px rgba(0,0,0,.25);animation:deal .5s cubic-bezier(.2,1.3,.4,1) both}
+.kc-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);padding:3px 14px;border-radius:999px;background:#f7931a;color:#fff;font-weight:900;font-size:13px;box-shadow:0 0 0 2.5px var(--ink);white-space:nowrap}
+.kcard small{color:var(--muted);font-weight:900}
+.kcard h2{margin:2px 0 8px;padding:0;background:none;box-shadow:none;font-size:24px;text-align:left;-webkit-text-stroke:4px var(--ink)}
+.kcard ul{margin:0 0 12px;padding-left:18px;font-size:14px;font-weight:700;line-height:1.6;color:var(--text)}
+.kcard .primary{width:100%}
+.stars3{display:flex;justify-content:center;gap:8px;font-size:52px;line-height:1}
+.stars3 i{font-style:normal;color:rgba(255,255,255,.25);-webkit-text-stroke:3px #1d1a28;paint-order:stroke fill}
+.stars3 i.on{color:#ffd23f;-webkit-text-stroke-color:#7a3a00;animation:starIn .45s cubic-bezier(.2,1.6,.4,1) both;animation-delay:calc(var(--k) * 180ms)}
+@keyframes starIn{from{transform:scale(2.4) rotate(-30deg);opacity:0}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion: reduce){.st-txt,.kcard,.stars3 i.on,.cm-node.next button{animation:none}}
 @media (max-width:380px){.val{font-size:20px}h1{font-size:34px}.cell{padding-left:26px}}
 @media (prefers-reduced-motion: reduce){.combo.pop{animation:none}button{transition:none}}
 </style>
@@ -295,14 +388,9 @@ span.pu.done{color:var(--green3)}
     </div>
   </header>
 
-  <div class="board" role="status" aria-live="polite">
-    <div class="cell"><span class="ico" data-art="icon.wave"><svg viewBox="0 0 38 38" width="38" height="38"><path d="M8 34 V6" stroke="#3b2a1e" stroke-width="3.5" stroke-linecap="round"/><path d="M9 6 H30 L25 12 L30 18 H9 Z" fill="#e0473a" stroke="#3b2a1e" stroke-width="2.5" stroke-linejoin="round"/><path d="M12 9 H24" stroke="#ffb3a6" stroke-width="2" stroke-linecap="round"/></svg></span><span class="lab" data-i18n="波次">波次</span><span class="val" id="hWave">0</span></div>
-    <div class="cell"><span class="ico" data-art="icon.lives"><svg viewBox="0 0 38 38" width="38" height="38"><path d="M19 34 L5 20 Q-1 13 5 7 Q12 1 19 10 Q26 1 33 7 Q39 13 33 20 Z" fill="#ff4a5a" stroke="#5a1018" stroke-width="2.6" stroke-linejoin="round"/><ellipse cx="11" cy="12" rx="3.6" ry="2.4" fill="#fff" opacity=".8"/></svg></span><span class="lab" data-i18n="生命">生命</span><span class="val" id="hLives">20</span></div>
-    <div class="cell"><span class="ico" data-art="icon.gst"><i class="gsti" style="width:38px;height:38px"></i></span><span class="lab">GST</span><span class="val" id="hGold">200</span></div>
-    <div class="cell"><span class="ico" data-art="icon.score"><svg viewBox="0 0 38 38" width="38" height="38"><path d="M19 3 l4.6 9.6 10.4 1.4 -7.6 7.2 1.9 10.4 -9.3 -5.1 -9.3 5.1 1.9 -10.4 -7.6 -7.2 10.4 -1.4 Z" fill="#ffd23f" stroke="#a8620a" stroke-width="2.4" stroke-linejoin="round"/><circle cx="15" cy="14" r="2.2" fill="#fff"/></svg></span><span class="lab" data-i18n="分数">分数</span><span class="val hot" id="hScore">0</span></div>
-  </div>
-
+  <div class="stagecol">
   <div class="stage">
+    <div class="lvtag" id="lvTag"></div>
     <canvas id="cv" data-i18n-aria="领地跑道，点击虚线圆圈放置装置" aria-label="领地跑道，点击虚线圆圈放置装置"></canvas>
     <div class="combo" id="combo"></div>
     <div class="frenzy" aria-hidden="true"><i id="frenzyBar"></i></div>
@@ -311,6 +399,29 @@ span.pu.done{color:var(--green3)}
     <div class="overlay" id="ov" hidden><div class="ocard" id="ovBody"></div></div>
   </div>
 
+  </div>
+
+  <div class="side">
+  <div class="board" role="status" aria-live="polite">
+    <div class="cell"><span class="ico" data-art="icon.wave"><svg viewBox="0 0 38 38" width="38" height="38"><path d="M8 34 V6" stroke="#3b2a1e" stroke-width="3.5" stroke-linecap="round"/><path d="M9 6 H30 L25 12 L30 18 H9 Z" fill="#e0473a" stroke="#3b2a1e" stroke-width="2.5" stroke-linejoin="round"/><path d="M12 9 H24" stroke="#ffb3a6" stroke-width="2" stroke-linecap="round"/></svg></span><span class="lab" data-i18n="波次">波次</span><span class="val" id="hWave">0</span></div>
+    <div class="cell"><span class="ico" data-art="icon.lives"><svg viewBox="0 0 38 38" width="38" height="38"><path d="M19 34 L5 20 Q-1 13 5 7 Q12 1 19 10 Q26 1 33 7 Q39 13 33 20 Z" fill="#ff4a5a" stroke="#5a1018" stroke-width="2.6" stroke-linejoin="round"/><ellipse cx="11" cy="12" rx="3.6" ry="2.4" fill="#fff" opacity=".8"/></svg></span><span class="lab" data-i18n="生命">生命</span><span class="val" id="hLives">20</span></div>
+    <div class="cell"><span class="ico" data-art="icon.gst"><i class="gsti" style="width:38px;height:38px"></i></span><span class="lab">GST</span><span class="val" id="hGold">200</span></div>
+    <div class="cell"><span class="ico" data-art="icon.score"><svg viewBox="0 0 38 38" width="38" height="38"><path d="M19 3 l4.6 9.6 10.4 1.4 -7.6 7.2 1.9 10.4 -9.3 -5.1 -9.3 5.1 1.9 -10.4 -7.6 -7.2 10.4 -1.4 Z" fill="#ffd23f" stroke="#a8620a" stroke-width="2.4" stroke-linejoin="round"/><circle cx="15" cy="14" r="2.2" fill="#fff"/></svg></span><span class="lab" data-i18n="分数">分数</span><span class="val hot" id="hScore">0</span></div>
+  </div>
+
+  <div class="mine" id="mine" hidden>
+    <div class="mine-h"><b data-i18n="⛏ 挖矿">⛏ 挖矿</b><span class="msats"><i class="sat">₿</i><span id="hSats">0</span> <span data-i18n="聪">聪</span></span></div>
+    <div class="mbar" aria-hidden="true"><i id="mBar"></i></div>
+    <div class="mgrid">
+      <span><span data-i18n="区块高度">区块高度</span><b id="mHeight"></b></span>
+      <span><span data-i18n="你的算力">你的算力</span><b id="mHash"></b></span>
+      <span><span data-i18n="全网算力">全网算力</span><b id="mNet"></b></span>
+      <span><span data-i18n="出块几率">出块几率</span><b id="mShare"></b></span>
+      <span><span data-i18n="下个区块">下个区块</span><b id="mNext"></b></span>
+      <span><span data-i18n="已挖到">已挖到</span><b id="mWon"></b></span>
+    </div>
+    <p class="cfghint" data-i18n="全网每隔十几秒出一个区块，你的算力占全网的比例，就是抢到它的几率。挖到区块：得聪，再开一次三选一。">全网每隔十几秒出一个区块，你的算力占全网的比例，就是抢到它的几率。挖到区块：得聪，再开一次三选一。</p>
+  </div>
   <div class="controls">
     <button class="primary" id="go" type="button"></button>
     <button id="spd" type="button" aria-pressed="false"></button>
@@ -318,6 +429,7 @@ span.pu.done{color:var(--green3)}
     <button id="mus" type="button" aria-pressed="true"></button>
   </div>
 
+  <p class="keys" data-i18n="快捷键：空格 开波 · F 切换速度 · 1–7 建造 · Q/W/E 升级 · X 回收 · Esc 取消">快捷键：空格 开波 · F 切换速度 · 1–7 建造 · Q/W/E 升级 · X 回收 · Esc 取消</p>
   <div class="build">
     <div class="lab"><span data-i18n="本局构筑">本局构筑</span><span id="buildCount"></span></div>
     <div class="chips" id="buildChips"></div>
@@ -361,5 +473,6 @@ span.pu.done{color:var(--green3)}
       <li data-i18n="数值没有经过试玩平衡。">数值没有经过试玩平衡。</li>
     </ul>
   </details>
+  </div>
 </div>
 
