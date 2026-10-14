@@ -197,13 +197,14 @@ for mid, nm in _MAPN.items():
     ART.append((f'map.{mid}', '地图', f'{nm}整张底图（草地、装饰；cover=1 时连跑道一起画，游戏就不再画跑道）', 'P1 样板关' if mid == 'classic' else 'P2', 360, 600, 0, 0, 1, 0, 0))
 _TOWN = {'dart':'易拉罐投手','bomb':'香蕉皮投手','frost':'洒水器','sniper':'鞋盒无人机','tesla':'广场舞音响','lure':'休闲诱惑站','miner':'矿机'}
 for tid, nm in _TOWN.items():
-    ART.append((f'tower.{tid}', '装置', f'{nm}：基础造型，面朝右（朝左时游戏自动翻转）。可做动画：idle 待机 + fire 发射（JSON 标出 release 出手帧和 muzzle 出手点）', 'P1 样板关' if tid in ('dart', 'bomb') else 'P2', 40, 50, .5, .92, 1, 0, 0))
+    ART.append((f'tower.{tid}', '装置', f'{nm}：基础造型，面朝右（朝左时游戏自动翻转）。可做动画：idle 待机 + fire 发射（JSON 标出 release 出手帧和 muzzle 出手点）', 'P1 样板关' if tid in ('dart', 'bomb') else 'P2', 46 if tid == 'dart' else 40, 50, .5, .92, 1, 0, 0))
 for tid, nm in _TOWN.items():
     if tid == 'miner': continue
     for i, PL in enumerate('ABC', 1):
         pn = next(p[2][0] for p in PATHS6 if p[0] == tid and p[1] == i)
         for lv in (3, 6):
             ART.append((f'tower.{tid}.{PL}{lv}', '装置变种', f'{nm}「{pn}」主路线 {lv} 级起的造型（{PL}{lv}；没有 {PL}4、{PL}5 时沿用 {PL}3）', 'P2' if lv == 3 else 'P3', 44 if lv == 3 else 48, 54 if lv == 3 else 58, .5, .92, 1, 0, 0))
+ART_SRC = {'tower.dart': ('art/tower.dart.png', 'art/tower.dart.json'), 'shot.dart': ('art/shot.dart.png', 'art/shot.dart.json')}
 ART += [
  ('pad.empty', '空位', '可放置装置的空位（石台 + 加号）', 'P2', 36, 22, .5, 1, 1, 0, 0),
  ('pad.base', '空位', '装置脚下的底座', 'P2', 36, 22, .5, 1, 1, 0, 0),
@@ -216,7 +217,7 @@ _BOSSN = {'yawn':'Nox（黑猫，九命）','gilg':'Aurum','king':'Slimo','lucas
 for bid, nm in _BOSSN.items():
     ART.append((f'boss.{bid}', 'Boss', f'{nm}，侧面向右跑；真人原型需本人同意', 'P1 样板关' if bid == 'yawn' else 'P2', 64 if bid != 'yawn' else 72, 80 if bid != 'yawn' else 56, .5, 1, 6, 8, 0))
 ART += [
- ('shot.dart', '子弹', '易拉罐：fly 飞行循环（画朝右，游戏沿弹道旋转）+ hit 命中', 'P2', 10, 12, .5, .5, 1, 0, 0),
+ ('shot.dart', '子弹', '易拉罐：fly 飞行循环（画朝右，游戏沿弹道旋转）+ hit 命中', 'P2', 13, 13, .5, .5, 1, 0, 0),
  ('shot.bomb', '子弹', '飞行中的香蕉皮：fly + hit（落地）', 'P2', 14, 12, .5, .5, 1, 0, 0),
  ('shot.sniper', '子弹', '无人机空投的鞋盒：fly（下落）+ hit（砸地）', 'P2', 16, 12, .5, 1, 1, 0, 0),
  ('fx.peel', '地面效果', '落在跑道上的香蕉皮', 'P2', 18, 18, .5, .5, 1, 0, 0),
@@ -230,7 +231,7 @@ entity_zh = set()
 cfg = {'global': {k: v for k, v, _ in G}, 'globalDesc': {k: d for k, _, d in G},
        'towers': [], 'paths': [], 'enemies': [], 'waves': waves(), 'bosses': [], 'bossParams': BOSS_PARAMS,
        'affixes': [], 'cards': [], 'maps': [], 'texts': [],
-       'art': [{'key': k, 'kind': kd, 'desc': d, 'prio': pr, 'src': '', 'json': '', 'w': w, 'h': h, 'ax': ax, 'ay': ay, 'frames': fr, 'fps': fps, 'cover': cv} for (k, kd, d, pr, w, h, ax, ay, fr, fps, cv) in ART]}
+       'art': [{'key': k, 'kind': kd, 'desc': d, 'prio': pr, 'src': ART_SRC.get(k, ('', ''))[0], 'json': ART_SRC.get(k, ('', ''))[1], 'w': w, 'h': h, 'ax': ax, 'ay': ay, 'frames': fr, 'fps': fps, 'cover': cv} for (k, kd, d, pr, w, h, ax, ay, fr, fps, cv) in ART]}
 for (i, n, sh, d, cost, dmg, rate, rng, rad, slow, chain, armor, col, extra) in TOWERS:
     cfg['towers'].append({'id': i, 'name': L(n), 'short': L(sh), 'desc': L(d), 'cost': cost, 'dmg': dmg, 'rate': rate, 'range': rng, 'rad': rad, 'slow': slow,
                           'slowDur': 1.5 if i == 'frost' else 0, 'chain': chain, 'decay': .85 if i == 'tesla' else 1, 'armor': armor, 'bossMul': .6 if i == 'dart' else 1, 'color': col, 'extra': extra})
