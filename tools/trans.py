@@ -590,3 +590,7 @@ T.update({
 '整数溢出：第一次倒下时满血复活并分裂成两个；几秒后“软分叉”修复，两个都掉一半体力': ('Integer overflow: the first time it falls it revives at full stamina and splits in two; a few seconds later a “soft fork” fix cuts both to half', 'Dépassement d’entier : à sa première chute il revient à pleine endurance et se divise en deux ; quelques secondes plus tard, un « soft fork » les réduit tous deux de moitié'),
 '解锁矿机：挖区块得聪，并触发区块奖励三选一': ('Unlock the Miner: mine blocks for sats and a block-reward pick', 'Débloque le Mineur : mine des blocs pour des sats et un choix de récompense'),
 })
+
+T.update({
+'再点一次离开（本局进度不保存）': ('Tap again to leave (this run is not saved)', 'Touche encore pour quitter (partie non sauvegardée)'),
+})
