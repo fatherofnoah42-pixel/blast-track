@@ -1,0 +1,698 @@
+[
+{
+"kind": "dart",
+"base": 100,
+"HP": 6,
+"rows": [
+{
+"cfg": "base×1",
+"cost": 100,
+"frac": 0.235
+},
+{
+"cfg": "base×2",
+"cost": 200,
+"frac": 0.413
+},
+{
+"cfg": "base×3",
+"cost": 300,
+"frac": 0.582
+},
+{
+"cfg": "base×4",
+"cost": 400,
+"frac": 0.714
+},
+{
+"cfg": "base×6",
+"cost": 600,
+"frac": 0.822
+},
+{
+"cfg": "p1t1",
+"path": 1,
+"tier": 1,
+"cost": 170,
+"frac": 0.449
+},
+{
+"cfg": "p1t2",
+"path": 1,
+"tier": 2,
+"cost": 290,
+"frac": 0.456
+},
+{
+"cfg": "p1t3",
+"path": 1,
+"tier": 3,
+"cost": 550,
+"frac": 0.785
+},
+{
+"cfg": "p1t4",
+"path": 1,
+"tier": 4,
+"cost": 1150,
+"frac": 1
+},
+{
+"cfg": "p2t1",
+"path": 2,
+"tier": 1,
+"cost": 140,
+"frac": 0.255
+},
+{
+"cfg": "p2t2",
+"path": 2,
+"tier": 2,
+"cost": 210,
+"frac": 0.296
+},
+{
+"cfg": "p2t3",
+"path": 2,
+"tier": 3,
+"cost": 490,
+"frac": 0.772
+},
+{
+"cfg": "p2t4",
+"path": 2,
+"tier": 4,
+"cost": 1140,
+"frac": 0.921
+},
+{
+"cfg": "p3t1",
+"path": 3,
+"tier": 1,
+"cost": 150,
+"frac": 0.201
+},
+{
+"cfg": "p3t2",
+"path": 3,
+"tier": 2,
+"cost": 250,
+"frac": 0.281
+},
+{
+"cfg": "p3t3",
+"path": 3,
+"tier": 3,
+"cost": 550,
+"frac": 0.271
+},
+{
+"cfg": "p3t4",
+"path": 3,
+"tier": 4,
+"cost": 1250,
+"frac": 0.36
+}
+]
+},
+{
+"kind": "bomb",
+"base": 160,
+"HP": 22,
+"rows": [
+{
+"cfg": "base×1",
+"cost": 160,
+"frac": 0.217
+},
+{
+"cfg": "base×2",
+"cost": 320,
+"frac": 0.409
+},
+{
+"cfg": "base×3",
+"cost": 480,
+"frac": 0.622
+},
+{
+"cfg": "base×4",
+"cost": 640,
+"frac": 0.817
+},
+{
+"cfg": "base×6",
+"cost": 960,
+"frac": 0.976
+},
+{
+"cfg": "p1t1",
+"path": 1,
+"tier": 1,
+"cost": 230,
+"frac": 0.394
+},
+{
+"cfg": "p1t2",
+"path": 1,
+"tier": 2,
+"cost": 380,
+"frac": 0.452
+},
+{
+"cfg": "p1t3",
+"path": 1,
+"tier": 3,
+"cost": 710,
+"frac": 0.821
+},
+{
+"cfg": "p1t4",
+"path": 1,
+"tier": 4,
+"cost": 1460,
+"frac": 0.826
+},
+{
+"cfg": "p2t1",
+"path": 2,
+"tier": 1,
+"cost": 260,
+"frac": 0.413
+},
+{
+"cfg": "p2t2",
+"path": 2,
+"tier": 2,
+"cost": 420,
+"frac": 0.634
+},
+{
+"cfg": "p2t3",
+"path": 2,
+"tier": 3,
+"cost": 640,
+"frac": 0.788
+},
+{
+"cfg": "p2t4",
+"path": 2,
+"tier": 4,
+"cost": 1120,
+"frac": 0.919
+},
+{
+"cfg": "p3t1",
+"path": 3,
+"tier": 1,
+"cost": 240,
+"frac": 0.338
+},
+{
+"cfg": "p3t2",
+"path": 3,
+"tier": 2,
+"cost": 380,
+"frac": 0.361
+},
+{
+"cfg": "p3t3",
+"path": 3,
+"tier": 3,
+"cost": 640,
+"frac": 0.526
+},
+{
+"cfg": "p3t4",
+"path": 3,
+"tier": 4,
+"cost": 1200,
+"frac": 0.701
+}
+]
+},
+{
+"kind": "frost",
+"base": 120,
+"HP": 12,
+"rows": [
+{
+"cfg": "base×1",
+"cost": 120,
+"frac": 0.205
+},
+{
+"cfg": "base×2",
+"cost": 240,
+"frac": 0.392
+},
+{
+"cfg": "base×3",
+"cost": 360,
+"frac": 0.631
+},
+{
+"cfg": "base×4",
+"cost": 480,
+"frac": 0.714
+},
+{
+"cfg": "base×6",
+"cost": 720,
+"frac": 0.84
+},
+{
+"cfg": "p1t1",
+"path": 1,
+"tier": 1,
+"cost": 180,
+"frac": 0.232
+},
+{
+"cfg": "p1t2",
+"path": 1,
+"tier": 2,
+"cost": 270,
+"frac": 0.259
+},
+{
+"cfg": "p1t3",
+"path": 1,
+"tier": 3,
+"cost": 570,
+"frac": 0.861
+},
+{
+"cfg": "p1t4",
+"path": 1,
+"tier": 4,
+"cost": 1320,
+"frac": 0.99
+},
+{
+"cfg": "p2t1",
+"path": 2,
+"tier": 1,
+"cost": 190,
+"frac": 0.387
+},
+{
+"cfg": "p2t2",
+"path": 2,
+"tier": 2,
+"cost": 320,
+"frac": 0.473
+},
+{
+"cfg": "p2t3",
+"path": 2,
+"tier": 3,
+"cost": 640,
+"frac": 0.837
+},
+{
+"cfg": "p2t4",
+"path": 2,
+"tier": 4,
+"cost": 1320,
+"frac": 0.856
+},
+{
+"cfg": "p3t1",
+"path": 3,
+"tier": 1,
+"cost": 180,
+"frac": 0.347
+},
+{
+"cfg": "p3t2",
+"path": 3,
+"tier": 2,
+"cost": 290,
+"frac": 0.44
+},
+{
+"cfg": "p3t3",
+"path": 3,
+"tier": 3,
+"cost": 550,
+"frac": 0.483
+},
+{
+"cfg": "p3t4",
+"path": 3,
+"tier": 4,
+"cost": 1150,
+"frac": 0.479
+}
+]
+},
+{
+"kind": "sniper",
+"base": 180,
+"HP": 12,
+"rows": [
+{
+"cfg": "base×1",
+"cost": 180,
+"frac": 0.394
+},
+{
+"cfg": "base×2",
+"cost": 360,
+"frac": 0.628
+},
+{
+"cfg": "base×3",
+"cost": 540,
+"frac": 0.925
+},
+{
+"cfg": "base×4",
+"cost": 720,
+"frac": 1
+},
+{
+"cfg": "base×6",
+"cost": 1080,
+"frac": 1
+},
+{
+"cfg": "p1t1",
+"path": 1,
+"tier": 1,
+"cost": 280,
+"frac": 0.619
+},
+{
+"cfg": "p1t2",
+"path": 1,
+"tier": 2,
+"cost": 460,
+"frac": 0.726
+},
+{
+"cfg": "p1t3",
+"path": 1,
+"tier": 3,
+"cost": 860,
+"frac": 0.757
+},
+{
+"cfg": "p1t4",
+"path": 1,
+"tier": 4,
+"cost": 1610,
+"frac": 0.833
+},
+{
+"cfg": "p2t1",
+"path": 2,
+"tier": 1,
+"cost": 260,
+"frac": 0.422
+},
+{
+"cfg": "p2t2",
+"path": 2,
+"tier": 2,
+"cost": 360,
+"frac": 0.594
+},
+{
+"cfg": "p2t3",
+"path": 2,
+"tier": 3,
+"cost": 660,
+"frac": 0.897
+},
+{
+"cfg": "p2t4",
+"path": 2,
+"tier": 4,
+"cost": 1310,
+"frac": 1
+},
+{
+"cfg": "p3t1",
+"path": 3,
+"tier": 1,
+"cost": 270,
+"frac": 0.372
+},
+{
+"cfg": "p3t2",
+"path": 3,
+"tier": 2,
+"cost": 420,
+"frac": 0.703
+},
+{
+"cfg": "p3t3",
+"path": 3,
+"tier": 3,
+"cost": 780,
+"frac": 0.724
+},
+{
+"cfg": "p3t4",
+"path": 3,
+"tier": 4,
+"cost": 1480,
+"frac": 0.669
+}
+]
+},
+{
+"kind": "tesla",
+"base": 150,
+"HP": 16,
+"rows": [
+{
+"cfg": "base×1",
+"cost": 150,
+"frac": 0.24
+},
+{
+"cfg": "base×2",
+"cost": 300,
+"frac": 0.396
+},
+{
+"cfg": "base×3",
+"cost": 450,
+"frac": 0.513
+},
+{
+"cfg": "base×4",
+"cost": 600,
+"frac": 0.683
+},
+{
+"cfg": "base×6",
+"cost": 900,
+"frac": 0.904
+},
+{
+"cfg": "p1t1",
+"path": 1,
+"tier": 1,
+"cost": 200,
+"frac": 0.285
+},
+{
+"cfg": "p1t2",
+"path": 1,
+"tier": 2,
+"cost": 290,
+"frac": 0.357
+},
+{
+"cfg": "p1t3",
+"path": 1,
+"tier": 3,
+"cost": 610,
+"frac": 0.651
+},
+{
+"cfg": "p1t4",
+"path": 1,
+"tier": 4,
+"cost": 1360,
+"frac": 0.724
+},
+{
+"cfg": "p2t1",
+"path": 2,
+"tier": 1,
+"cost": 240,
+"frac": 0.321
+},
+{
+"cfg": "p2t2",
+"path": 2,
+"tier": 2,
+"cost": 390,
+"frac": 0.6
+},
+{
+"cfg": "p2t3",
+"path": 2,
+"tier": 3,
+"cost": 770,
+"frac": 0.621
+},
+{
+"cfg": "p2t4",
+"path": 2,
+"tier": 4,
+"cost": 1570,
+"frac": 1
+},
+{
+"cfg": "p3t1",
+"path": 3,
+"tier": 1,
+"cost": 220,
+"frac": 0.238
+},
+{
+"cfg": "p3t2",
+"path": 3,
+"tier": 2,
+"cost": 350,
+"frac": 0.248
+},
+{
+"cfg": "p3t3",
+"path": 3,
+"tier": 3,
+"cost": 680,
+"frac": 0.268
+},
+{
+"cfg": "p3t4",
+"path": 3,
+"tier": 4,
+"cost": 1380,
+"frac": 1
+}
+]
+},
+{
+"kind": "gem",
+"base": 140,
+"HP": 7,
+"rows": [
+{
+"cfg": "base×1",
+"cost": 140,
+"frac": 0.207
+},
+{
+"cfg": "base×2",
+"cost": 280,
+"frac": 0.369
+},
+{
+"cfg": "base×3",
+"cost": 420,
+"frac": 0.531
+},
+{
+"cfg": "base×4",
+"cost": 560,
+"frac": 0.773
+},
+{
+"cfg": "base×6",
+"cost": 840,
+"frac": 1
+},
+{
+"cfg": "p1t1",
+"path": 1,
+"tier": 1,
+"cost": 220,
+"frac": 0.357
+},
+{
+"cfg": "p1t2",
+"path": 1,
+"tier": 2,
+"cost": 310,
+"frac": 0.373
+},
+{
+"cfg": "p1t3",
+"path": 1,
+"tier": 3,
+"cost": 510,
+"frac": 0.506
+},
+{
+"cfg": "p1t4",
+"path": 1,
+"tier": 4,
+"cost": 960,
+"frac": 0.698
+},
+{
+"cfg": "p2t1",
+"path": 2,
+"tier": 1,
+"cost": 190,
+"frac": 0.231
+},
+{
+"cfg": "p2t2",
+"path": 2,
+"tier": 2,
+"cost": 320,
+"frac": 0.454
+},
+{
+"cfg": "p2t3",
+"path": 2,
+"tier": 3,
+"cost": 620,
+"frac": 0.47
+},
+{
+"cfg": "p2t4",
+"path": 2,
+"tier": 4,
+"cost": 1180,
+"frac": 0.97
+},
+{
+"cfg": "p3t1",
+"path": 3,
+"tier": 1,
+"cost": 200,
+"frac": 0.216
+},
+{
+"cfg": "p3t2",
+"path": 3,
+"tier": 2,
+"cost": 320,
+"frac": 0.247
+},
+{
+"cfg": "p3t3",
+"path": 3,
+"tier": 3,
+"cost": 620,
+"frac": 0.255
+},
+{
+"cfg": "p3t4",
+"path": 3,
+"tier": 4,
+"cost": 1300,
+"frac": 0.336
+}
+]
+}
+]

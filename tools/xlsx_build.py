@@ -61,8 +61,8 @@ lines = [
  ('装置：6 种装置的名称、价格和基础数值', False),
  ('升级路线：每种装置 3 条路线的名称', False),
  ('升级：75 个升级的名称、价格、说明和效果', False),
- ('敌人：普通跑者、耐力跑者、Boss 的基础数值', False),
- ('波次：每一波的人数、体力、是否有 Boss、词缀数量', False),
+ ('敌人：慢跑者、耐力跑者、Boss，以及雨衣、弹簧鞋、降噪耳机、巨鲸 4 种克制型跑者的基础数值', False),
+ ('波次：每一波的人数、体力、是否有 Boss、词缀数量、4 种克制型跑者的人数', False),
  ('Boss：6 位 Boss 的名称、能力说明和能力参数 p1–p4', False),
  ('词缀：4 种对手词缀的名称和说明（数值在「全局」）', False),
  ('卡牌：神秘箱里的全部卡牌', False),
@@ -71,6 +71,8 @@ lines = [
  ('美术资源：每张美术图的编号、图片地址、游戏内尺寸和锚点；留空就用游戏里的矢量占位图', False),
  ('界面文字：按钮、提示等界面文字的三语翻译', False),
  ('效果语法：「升级」表 effect 列的写法', False),
+ ('数值体检·波次：用公式估算每一波的压力系数（需要的输出 ÷ 可用输出），改了波次、敌人、全局表会自动重算', False),
+ ('数值体检·装置：每个升级和「同价多放几座基础装置」比谁更划算，含估算和实测两套数字', False),
 ]
 for i, (t, b) in enumerate(lines, 1):
     c = ws.cell(i, 1, t); c.font = Font(name=F, bold=b, size=14 if i == 1 else 11); c.alignment = Alignment(wrap_text=True, vertical='top')
@@ -112,16 +114,17 @@ for i in range(3, last + 1):
 ws = wb.create_sheet('敌人')
 table(ws, [('id', 'id', 'id')] + L3('name', '名称') + [('体型半径', 'radius', 'num'), ('移速', 'speed', 'num'), ('劝退 GST', 'gold', 'num'), ('计分权重', 'value', 'num'), ('漏过扣能量', 'leak', 'num')],
       [[e['id']] + V3(e['name']) + [e['radius'], e['speed'], e['gold'], e['value'], e['leak']] for e in cfg['enemies']], [8, 14, 20, 22, 10, 10, 10, 10, 12])
-ws.cell(3 + len(cfg['enemies']) + 1, 1, '※ 体力按波次配置，见「波次」表。').font = Font(name=F, italic=True, color='5A6478')
+ws.cell(3 + len(cfg['enemies']) + 1, 1, '※ 体力按波次配置，见「波次」表。雨衣/弹簧鞋/降噪耳机跑者体力 = 慢跑者体力 × hpRain/hpHop/hpPhones，巨鲸 = 耐力跑者体力 × hpWhale（见「全局」）。克制：雨衣跑者不怕洒水器；弹簧鞋跑者跳过香蕉皮（懵时除外）；降噪耳机跑者不怕音响；巨鲸削弱单次效果低于 whaleMin 的攻击。').font = Font(name=F, italic=True, color='5A6478')
 
 # ---------- 波次 ----------
 ws = wb.create_sheet('波次')
 cols = [('波次', 'wave', 'id'), ('慢跑者人数', 'normals', 'num'), ('耐力跑者人数', 'armored', 'num'), ('慢跑者体力', 'normHp', 'num'), ('耐力跑者体力', 'armHp', 'num'),
-        ('是否 Boss 波（1/0）', 'boss', 'num'), ('Boss 体力', 'bossHp', 'num'), ('词缀数量', 'affixes', 'num'), ('本波总人数', '', 'calc')]
-rows = [[w['wave'], w['normals'], w['armored'], w['normHp'], w['armHp'], w['boss'], w['bossHp'], w['affixes'], None] for w in cfg['waves']]
-table(ws, cols, rows, [8, 12, 13, 12, 13, 16, 11, 10, 12], 'B3')
+        ('是否 Boss 波（1/0）', 'boss', 'num'), ('Boss 体力', 'bossHp', 'num'), ('词缀数量', 'affixes', 'num'),
+        ('雨衣跑者', 'rain', 'num'), ('弹簧鞋跑者', 'hop', 'num'), ('降噪耳机跑者', 'phones', 'num'), ('巨鲸', 'whale', 'num'), ('本波总人数', '', 'calc')]
+rows = [[w['wave'], w['normals'], w['armored'], w['normHp'], w['armHp'], w['boss'], w['bossHp'], w['affixes'], w['rain'], w['hop'], w['phones'], w['whale'], None] for w in cfg['waves']]
+table(ws, cols, rows, [8, 12, 13, 12, 13, 16, 11, 10, 10, 11, 13, 8, 12], 'B3')
 for i in range(3, 3 + len(rows)):
-    ws.cell(i, 9, f'=B{i}+C{i}+F{i}').font = CALC; ws.cell(i, 9).border = BD
+    ws.cell(i, 13, f'=B{i}+C{i}+F{i}+SUM(I{i}:L{i})').font = CALC; ws.cell(i, 13).border = BD
 dv = DataValidation(type='list', formula1='"0,1"', allow_blank=False); ws.add_data_validation(dv); dv.add(f'F3:F{200}')
 ws.cell(3 + len(rows) + 1, 1, '※ 行数就是总波数，可以增删行；精英小队的词缀数量见「全局」eliteAffixes。').font = Font(name=F, italic=True, color='5A6478')
 
@@ -216,8 +219,101 @@ syntax = [
  ('iceAge', '人工降雪间隔秒数'), ('vulnSlow', '被淋湿后额外受到的效果比例'), ('vulnFreeze', '被冻住后额外受到的效果比例'), ('strip', '泡水鞋持续秒数'),
  ('exec25', '1 = 体力低于 25% 直接退赛'), ('decap', '1 = 开启神秘箱轰炸'), ('ricochet', '鞋盒弹跳次数'), ('gpw', '每波结束额外 GST'),
  ('globalDmg', '全场装置效果加成'), ('overN', '每第几次触发重低音'), ('overMul', '重低音效果倍率'), ('staticDps', '魔性旋律每秒效果'),
+ ('hash', '矿机算力'), ('blockBonus', '出块奖励加成'), ('heat', '矿机热风每秒效果'),
 ]
 table(ws, [('写法 / 属性', '', 'id'), ('说明', '', 'text')], [list(r) for r in syntax], [16, 70], 'A3')
+
+# ---------- 数值体检 ----------
+import os
+from openpyxl.formatting.rule import CellIsRule, FormulaRule
+import balance_model as BM
+RED = PatternFill('solid', fgColor='FBD5D0'); YEL = PatternFill('solid', fgColor='FFF1C2'); GRN = PatternFill('solid', fgColor='D8F2D0')
+NOTE = Font(name=F, italic=True, color='5A6478')
+def gref(k): return f'INDEX(全局!$B:$B,MATCH("{k}",全局!$A:$A,0))'
+def eref(e, col='G'): return f'INDEX(敌人!${col}:${col},MATCH("{e}",敌人!$A:$A,0))'
+
+ws = wb.create_sheet('数值体检·波次')
+P = [('耐力跑者体力折算', 1.6, '耐力跑者对大多数装置有减免，按 ×1.6 算有效体力'),
+     ('巨鲸体力折算', 1.5, '巨鲸削弱小伤害，按 ×1.5 算有效体力'),
+     ('跑道长度（像素）', 1500, '经典跑道大约 1500'),
+     ('平均移速', f'={eref("norm", "F")}', '取慢跑者移速'),
+     ('每 GST 可换来的输出（HP/秒）', 0.025, '用「数值体检·装置」里基础装置的平均值粗估；投入越多、越靠后的升级越不划算'),
+     ('压力系数：上限', 0.85, '超过就标红（按机器人实测校准：现有 15 波在 1.4 倍体力下仍能通关）'),
+     ('压力系数：下限', 0.25, '低于就标黄，太轻松')]
+cols = [('波次', '', 'calc'), ('总人数', '', 'calc'), ('有效总体力', '', 'calc'), ('本波劝退可得 GST', '', 'calc'), ('开打前累计可用 GST', '', 'calc'),
+        ('预计时长（秒）', '', 'calc'), ('需要的输出（HP/秒）', '', 'calc'), ('预计可用输出（HP/秒）', '', 'calc'), ('压力系数 = 需要 ÷ 可用', '', 'calc'), ('较上一波', '', 'calc')]
+n = len(cfg['waves'])
+table(ws, cols, [[None] * len(cols) for _ in range(n)], [7, 9, 12, 14, 16, 12, 16, 18, 18, 11], 'B3')
+for j, (lab, v, d) in enumerate(P, 3):
+    ws.cell(j, 13, lab).font = Font(name=F, bold=True); c = ws.cell(j, 14, v); c.font = INF; c.border = BD; ws.cell(j, 15, d).font = NOTE
+ws.cell(2, 13, '假设参数（蓝字可改）').font = Font(name=F, bold=True, color='1A2437')
+ws.column_dimensions['M'].width = 26; ws.column_dimensions['N'].width = 10; ws.column_dimensions['O'].width = 70
+for i in range(3, 3 + n):
+    r = i
+    f = {
+     1: f'=波次!A{r}', 2: f'=波次!M{r}',
+     3: f'=波次!B{r}*波次!D{r}+波次!C{r}*波次!E{r}*$N$3+波次!F{r}*波次!G{r}+(波次!I{r}*{gref("hpRain")}+波次!J{r}*{gref("hpHop")}+波次!K{r}*{gref("hpPhones")})*波次!D{r}+波次!L{r}*波次!E{r}*{gref("hpWhale")}*$N$4',
+     4: f'=波次!B{r}*{eref("norm")}+波次!C{r}*{eref("arm")}+波次!F{r}*{eref("boss")}+波次!I{r}*{eref("rain")}+波次!J{r}*{eref("hop")}+波次!K{r}*{eref("phones")}+波次!L{r}*{eref("whale")}',
+     5: f'={gref("startGold")}' if i == 3 else f'=E{i-1}+D{i-1}+{gref("waveReward")}',
+     6: f'=B{i}*MAX({gref("spawnMin")},{gref("spawnBase")}-A{i}*{gref("spawnPerWave")})+$N$5/$N$6',
+     7: f'=C{i}/F{i}', 8: f'=E{i}*$N$7', 9: f'=G{i}/H{i}', 10: '' if i == 3 else f'=I{i}/I{i-1}-1'}
+    for col, val in f.items():
+        c = ws.cell(i, col, val); c.font = CALC; c.border = BD
+    for col in (3, 7, 8): ws.cell(i, col).number_format = '0'
+    ws.cell(i, 6).number_format = '0.0'; ws.cell(i, 9).number_format = '0.00'; ws.cell(i, 10).number_format = '+0%;-0%'
+rng = f'I3:I{2 + n}'
+ws.conditional_formatting.add(rng, CellIsRule(operator='greaterThan', formula=['$N$8'], fill=RED))
+ws.conditional_formatting.add(rng, CellIsRule(operator='lessThan', formula=['$N$9'], fill=YEL))
+ws.conditional_formatting.add(rng, CellIsRule(operator='between', formula=['$N$9', '$N$8'], fill=GRN))
+ws.conditional_formatting.add(f'J4:J{2 + n}', CellIsRule(operator='greaterThan', formula=['0.3'], fill=RED))
+notes = ['怎么看：压力系数 = 这一波需要的输出 ÷ 按累计 GST 估出来的可用输出。绿色在目标区间，红色太难，黄色太轻松。',
+         '理想曲线：前几波偏低让玩家站稳，之后缓慢上升；「较上一波」超过 +30% 会标红，代表难度突然跳一大截。',
+         '这是粗估：没算神秘箱卡牌、组合和矿机，所以只看相对走势，不看绝对值。改了「波次」「敌人」「全局」表，这里会自动重算。']
+for j, t in enumerate(notes):
+    ws.cell(4 + n + j, 1, t).font = NOTE
+
+# ---------- 数值体检 · 装置 ----------
+ws = wb.create_sheet('数值体检·装置')
+sim = {}
+if os.path.exists('balance_sim.json'):
+    for r in json.load(open('balance_sim.json')):
+        base = sorted((x['cost'], x['frac']) for x in r['rows'] if x['cfg'].startswith('base'))
+        def eq(cost, base=base):
+            pts = [(0, 0.0)] + base
+            for (c0, f0), (c1, f1) in zip(pts, pts[1:]):
+                if cost <= c1: return f0 + (f1 - f0) * (cost - c0) / (c1 - c0)
+            (c0, f0), (c1, f1) = pts[-2], pts[-1]
+            return min(1.0, f1 + (f1 - f0) * (cost - c1) / (c1 - c0))
+        for x in r['rows']:
+            if 'path' in x: sim[(r['kind'], x['path'], x['tier'])] = (x['frac'], eq(x['cost']))
+rows = []
+for r in BM.table(cfg):
+    if r['tower'] == 'miner': continue
+    s = sim.get((r['tower'], r['path'], r['tier']))
+    rows.append([r['tower'], r['path'], r['tier'], r['name'], r['cost'], r['cum'], round(r['eff'], 2), None, None, None,
+                 s[0] if s else None, round(s[1], 3) if s else None, None, r['func'], None])
+cols = [('装置', '', 'calc'), ('路线（0=基础）', '', 'calc'), ('等级', '', 'calc'), ('名称', '', 'calc'), ('本级价格', '', 'calc'), ('累计花费', '', 'calc'),
+        ('估算输出（HP/秒）', '', 'calc'), ('每 100 GST 输出', '', 'calc'), ('比同价多买基础塔（估算）', '', 'calc'), ('本级边际性价比', '', 'calc'),
+        ('实测：本配置清除体力比例', '', 'calc'), ('实测：同价基础塔清除比例', '', 'calc'), ('实测比值', '', 'calc'), ('功能型效果', '', 'calc'), ('结论', '', 'calc')]
+table(ws, cols, rows, [8, 9, 6, 14, 9, 9, 12, 12, 16, 13, 16, 16, 10, 16, 30], 'E3')
+last = 2 + len(rows)
+for i in range(3, last + 1):
+    ws.cell(i, 8, f'=G{i}/F{i}*100').number_format = '0.00'
+    ws.cell(i, 9, f'=IFERROR((G{i}/F{i})/(SUMIFS($G$3:$G${last},$A$3:$A${last},A{i},$B$3:$B${last},0)/SUMIFS($F$3:$F${last},$A$3:$A${last},A{i},$B$3:$B${last},0)),"")').number_format = '0.00'
+    ws.cell(i, 10, f'=IF(B{i}=0,1,IF(C{i}<=1,G{i}-SUMIFS($G$3:$G${last},$A$3:$A${last},A{i},$B$3:$B${last},0),G{i}-G{i-1})/E{i}/(SUMIFS($G$3:$G${last},$A$3:$A${last},A{i},$B$3:$B${last},0)/SUMIFS($F$3:$F${last},$A$3:$A${last},A{i},$B$3:$B${last},0)))').number_format = '0.00'
+    ws.cell(i, 13, f'=IF(OR(K{i}="",L{i}="",L{i}=0),"",K{i}/L{i})').number_format = '0.00'
+    ws.cell(i, 15, f'=IF(B{i}=0,"基准",IF(AND(N{i}<>"",I{i}<0.85),"功能型：单看输出偏低属正常",IF(I{i}>=0.85,"划算",IF(I{i}>=0.65,"略亏：空位紧张时仍值得","偏亏：建议降价或加强"))))')
+    for col in (8, 9, 10, 13, 15): ws.cell(i, col).font = CALC; ws.cell(i, col).border = BD
+for rng in (f'I3:I{last}', f'M3:M{last}'):
+    ws.conditional_formatting.add(rng, CellIsRule(operator='greaterThanOrEqual', formula=['0.85'], fill=GRN))
+    ws.conditional_formatting.add(rng, CellIsRule(operator='between', formula=['0.65', '0.8499'], fill=YEL))
+    ws.conditional_formatting.add(rng, CellIsRule(operator='lessThan', formula=['0.65'], fill=RED))
+notes = ['怎么看：「比同价多买基础塔」= 这套升级每 GST 的输出 ÷ 基础装置每 GST 的输出。1.0 表示和把钱拿去多放几座基础装置一样划算；装置空位有限，所以 0.85 以上就算合格。',
+         f'估算假设：跑者间距 {BM.ASSUME["spacing"]} 像素，射程内覆盖跑道 ≈ {BM.ASSUME["cover"]} × 射程，射程内最多 {BM.ASSUME["maxTargets"]} 人。减速、冻结、眩晕、经济、光环等功能型效果不计入输出。',
+         '实测：在经典跑道上用同一波 30 人测试，比较「一座升级装置」和「花同样 GST 放几座基础装置」各清掉多少体力（脚本 tools/sim_duel.mjs）。实测只覆盖 1–4 级。',
+         '本表的估算列和实测列是生成时的快照：改了「装置」「升级」表的数值后，需要维护者重新运行 build.sh 才会更新；比值和结论列是公式，会随快照自动重算。']
+for j, t in enumerate(notes):
+    ws.cell(last + 2 + j, 1, t).font = NOTE
 
 wb.save(OUT)
 print('saved', OUT)

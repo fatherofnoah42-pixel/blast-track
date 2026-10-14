@@ -69,7 +69,6 @@ T = {
 '减速 +10%': ('Slow +10%', 'Ralenti +10 %'),
 '出手速度 ×1.6，持续 5 秒': ('Device speed ×1.6 for 5 s', 'Vitesse des dispositifs ×1,6 pendant 5 s'),
 '出手速度 ×2，持续 10 秒': ('Device speed ×2 for 10 s', 'Vitesse des dispositifs ×2 pendant 10 s'),
-'出手间隔 −15%': ('Interval −15%', 'Intervalle −15 %'),
 '出手间隔 −20%': ('Interval −20%', 'Intervalle −20 %'),
 '出手间隔 −30%，多传 3 人': ('Interval −30%, chains 3 more', 'Intervalle −30 %, 3 de plus en chaîne'),
 '出手间隔 −40%': ('Interval −40%', 'Intervalle −40 %'),
@@ -174,18 +173,13 @@ T = {
 '效果 +1': ('Effect +1', 'Effet +1'),
 '效果 +1.5': ('Effect +1.5', 'Effet +1,5'),
 '效果 +10，出手间隔再 −30%': ('Effect +10, interval −30% more', 'Effet +10, intervalle encore −30 %'),
-'效果 +10，射程 +40': ('Effect +10, range +40', 'Effet +10, portée +40'),
 '效果 +2': ('Effect +2', 'Effet +2'),
-'效果 +20，范围 +25': ('Effect +20, area +25', 'Effet +20, zone +25'),
-'效果 +2，对耐力跑者全额生效': ('Effect +2, full effect vs endurance runners', 'Effet +2, plein effet contre les endurants'),
 '效果 +3': ('Effect +3', 'Effet +3'),
 '效果 +4': ('Effect +4', 'Effet +4'),
 '效果 +6': ('Effect +6', 'Effet +6'),
-'效果 +8；命中有 10% 概率直接绊倒退赛（非 Boss）': ('Effect +8; 10% chance to trip a non-boss out of the race', 'Effet +8 ; 10 % de chances de faire abandonner (hors boss)'),
 '效果 ×2': ('Effect ×2', 'Effet ×2'),
 '效果 ×2，对 Boss 不再打折': ('Effect ×2, no penalty vs bosses', 'Effet ×2, sans pénalité contre les boss'),
 '效果 ×2，对 Boss 再 ×1.5': ('Effect ×2, another ×1.5 vs bosses', 'Effet ×2, encore ×1,5 contre les boss'),
-'效果 ×3': ('Effect ×3', 'Effet ×3'),
 '效率宝石': ('Efficiency Gem', 'Gemme d’efficacité'),
 '数值没有经过试玩平衡。': ('Numbers are not balanced by playtesting yet.', 'Les valeurs ne sont pas encore équilibrées.'),
 '数据分析：每 3 秒对受到最多的装置类型产生 65% 抗性': ('Data Analysis: every 3 s gains 65% resistance to the device hitting him most', 'Analyse de données : toutes les 3 s, résiste à 65 % au dispositif qui le touche le plus'),
@@ -587,10 +581,35 @@ T.update({
 '披萨外卖员': ('Pizza courier', 'Livreur de pizza'),
 '一万枚换两个披萨：体力掉到 2/3 和 1/3 时各扔下一盒披萨，冒出一群披萨跑者': ('10,000 coins for two pizzas: at 2/3 and 1/3 stamina he drops a pizza box and a swarm of pizza runners pours out', '10 000 pièces pour deux pizzas : à 2/3 et 1/3 d’endurance, il lâche une boîte et une nuée de coureurs-pizza en sort'),
 '溢出怪': ('The Overflow', 'Le Débordement'),
-'整数溢出：第一次倒下时满血复活并分裂成两个；几秒后“软分叉”修复，两个都掉一半体力': ('Integer overflow: the first time it falls it revives at full stamina and splits in two; a few seconds later a “soft fork” fix cuts both to half', 'Dépassement d’entier : à sa première chute il revient à pleine endurance et se divise en deux ; quelques secondes plus tard, un « soft fork » les réduit tous deux de moitié'),
 '解锁矿机：挖区块得聪，并触发区块奖励三选一': ('Unlock the Miner: mine blocks for sats and a block-reward pick', 'Débloque le Mineur : mine des blocs pour des sats et un choix de récompense'),
 })
 
 T.update({
 '再点一次离开（本局进度不保存）': ('Tap again to leave (this run is not saved)', 'Touche encore pour quitter (partie non sauvegardée)'),
 })
+
+T.update({
+'雨衣跑者': ('Raincoat Runner', 'Coureur en ciré'),
+'弹簧鞋跑者': ('Spring-Shoe Runner', 'Coureur à ressorts'),
+'降噪耳机跑者': ('Headphones Runner', 'Coureur au casque'),
+'巨鲸': ('Whale', 'Baleine'),
+'皮厚': ('Tough', 'Coriace'),
+'防水': ('Waterproof', 'Imperméable'),
+'跳过！': ('Hop!', 'Hop !'),
+'跑者': ('Runners', 'Coureurs'),
+'对策': ('Counter', 'Parade'),
+'还没遇到过。': ('Not met yet.', 'Pas encore croisé.'),
+'新跑者': ('New runner', 'Nouveau coureur'),
+'对{x}无效': ('No effect on {x}', 'Sans effet sur {x}'),
+})
+
+T.update({
+'效果 +3，对耐力跑者全额生效': ('Effect +3, full effect vs endurance runners', 'Effet +3, plein effet contre les endurants'),
+'效果 ×2；命中有 10% 概率直接绊倒退赛（非 Boss）': ('Effect ×2; 10% chance to trip a non-boss out of the race', 'Effet ×2 ; 10 % de chances de faire abandonner (hors boss)'),
+'效果 +30，范围 +25': ('Effect +30, area +25', 'Effet +30, zone +25'),
+'效果 +6，射程 +40': ('Effect +6, range +40', 'Effet +6, portée +40'),
+})
+
+T.update({'效果 +0.5': ('Effect +0.5', 'Effet +0,5')})
+
+T.update({'整数溢出：第一次倒下时分裂成两个，各带 60% 体力；几秒后“软分叉”修复，两个都掉一半体力': ('Integer overflow: the first time it falls it splits into two, each with 60% stamina; a few seconds later a “soft fork” patch halves both', 'Dépassement d’entier : la première fois qu’il tombe, il se divise en deux, chacun à 60 % d’endurance ; quelques secondes plus tard, un « soft fork » coupe leur endurance de moitié')})
