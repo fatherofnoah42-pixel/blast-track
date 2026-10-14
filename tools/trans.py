@@ -613,3 +613,51 @@ T.update({
 T.update({'效果 +0.5': ('Effect +0.5', 'Effet +0,5')})
 
 T.update({'整数溢出：第一次倒下时分裂成两个，各带 60% 体力；几秒后“软分叉”修复，两个都掉一半体力': ('Integer overflow: the first time it falls it splits into two, each with 60% stamina; a few seconds later a “soft fork” patch halves both', 'Dépassement d’entier : la première fois qu’il tombe, il se divise en deux, chacun à 60 % d’endurance ; quelques secondes plus tard, un « soft fork » coupe leur endurance de moitié')})
+
+T.update({
+'休闲诱惑站': ('Chill Spot', 'Coin détente'),
+'解锁休闲诱惑站：美食、沙发和限量球鞋让跑者停下来': ('Unlock the Chill Spot: food, sofas and limited sneakers make runners stop', 'Débloque le Coin détente : bouffe, canapés et baskets limitées arrêtent les coureurs'),
+'6 级专精升级费用 −30%': ('Tier-6 specialisation upgrades −30%', 'Spécialisations de niveau 6 −30 %'),
+'解锁香蕉皮投手：往跑道扔香蕉皮陷阱，踩中的几个人一起滑倒': ('Unlock the Banana Peeler: peel traps on the track trip several runners at once', 'Débloque le Lance-peaux : des pièges sur la piste font tomber plusieurs coureurs'),
+'解锁洒水器：持续喷水，范围减速': ('Unlock the Sprinkler: keeps spraying, slows an area', 'Débloque l’Arroseur : arrose en continu et ralentit une zone'),
+'解锁鞋盒无人机：指定投递区，全图空投鞋盒': ('Unlock the Shoebox Drone: pick a drop zone anywhere on the map', 'Débloque le Drone à boîtes : choisis une zone de largage n’importe où'),
+})
+
+T.update({
+'跳过！': ('Hop!', 'Hop !'),
+'连撞 ×{n}': ('Crash ×{n}', 'Collision ×{n}'),
+'整道铺皮！': ('Paved with peels!', 'Piste couverte !'),
+'后勤补给！': ('Supplies in!', 'Ravitaillement !'),
+'重低音 ×{n}': ('Bass drop ×{n}', 'Basse ×{n}'),
+'限量发售！': ('Launch event!', 'Lancement !'),
+'投递区已设定': ('Drop zone set', 'Zone de largage fixée'),
+'布阵路段已设定': ('Trap stretch set', 'Tronçon piégé fixé'),
+'副路线最多 2 级': ('Secondary path max tier 2', 'Voie secondaire : niveau 2 max'),
+'6 级专精 −30%': ('Tier-6 specialisation −30%', 'Spécialisation niv. 6 −30 %'),
+'副': ('2nd', '2e'),
+'副路线': ('Secondary', 'Secondaire'),
+'6 级会移除副路线，已花的 {n} GST 抵扣': ('Tier 6 removes the secondary path; the {n} GST spent on it is credited', 'Le niveau 6 retire la voie secondaire ; les {n} GST dépensés sont déduits'),
+'点地图上的跑道…': ('Tap the track…', 'Touche la piste…'),
+'🎯 设定投递区': ('🎯 Set drop zone', '🎯 Zone de largage'),
+'🎯 设定布阵路段': ('🎯 Set trap stretch', '🎯 Tronçon à piéger'),
+'两条路线可各升到 2 级；先到 3 级的是主路线，最高 5 级；6 级专精会移除副路线': ('Two paths can each reach tier 2; the first to tier 3 becomes main (up to 5); tier 6 specialisation removes the secondary', 'Deux voies peuvent atteindre le niveau 2 ; la première au niveau 3 devient principale (jusqu’à 5) ; la spécialisation niv. 6 retire la secondaire'),
+'点跑道旁的石台放置装置，再点已放的装置升级。每个装置最多发展两条路线：都能先升到 2 级，先到 3 级的成为主路线，可升到 5 级；6 级专精会移除副路线，已花的钱抵扣。': ('Tap a stone pad by the track to place a device, then tap it to upgrade. Each device can grow two paths: both can reach tier 2, the first to tier 3 becomes main and goes up to 5; tier 6 specialisation removes the secondary path and credits what you spent on it.', 'Touche un socle près de la piste pour poser un dispositif, puis touche-le pour l’améliorer. Deux voies maximum : les deux peuvent atteindre le niveau 2, la première au niveau 3 devient principale jusqu’au 5 ; la spécialisation niv. 6 retire la secondaire et déduit ce que tu y as dépensé.'),
+'{x} 专精！': ('{x} specialisation!', 'Spécialisation : {x} !'),
+'场上上限': ('Max on track', 'Max sur piste'),
+'每次箱数': ('Boxes per run', 'Boîtes par sortie'),
+'每次招呼': ('Per invite', 'Par invitation'),
+'停留': ('Stay', 'Arrêt'),
+'盾破': ('Shield broken', 'Bouclier brisé'),
+})
+
+T.update({
+'{x} 的动画 JSON 读不出来': ('Could not read the animation JSON for {x}', 'Impossible de lire le JSON d’animation de {x}'),
+'弹道 {x} {k}': ('Trajectory {x} {k}', 'Trajectoire {x} {k}'),
+'装置 {x}：基础附加效果「{y}」写法有误，保留原效果': ('Device {x}: base extra effect “{y}” is malformed, kept the original', 'Dispositif {x} : effet de base « {y} » mal écrit, original conservé'),
+'导入美术图片 / 动画（可多选）': ('Import art / animations (multi-select)', 'Importer images / animations (plusieurs)'),
+})
+
+T.update({
+'点跑道，设定投递区（Esc 取消）': ('Tap the track to set the drop zone (Esc to cancel)', 'Touche la piste pour choisir la zone de largage (Échap pour annuler)'),
+'点跑道，设定布阵路段（Esc 取消）': ('Tap the track to set the trap stretch (Esc to cancel)', 'Touche la piste pour choisir le tronçon à piéger (Échap pour annuler)'),
+})

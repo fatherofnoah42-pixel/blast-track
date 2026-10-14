@@ -1,5 +1,121 @@
 [
 {
+"kind": "bomb",
+"base": 160,
+"HP": 12,
+"rows": [
+{
+"cfg": "base×1",
+"cost": 160,
+"frac": 0.451
+},
+{
+"cfg": "base×2",
+"cost": 320,
+"frac": 0.756
+},
+{
+"cfg": "base×3",
+"cost": 480,
+"frac": 0.968
+},
+{
+"cfg": "base×4",
+"cost": 640,
+"frac": 1
+},
+{
+"cfg": "base×6",
+"cost": 960,
+"frac": 1
+},
+{
+"cfg": "p1t1",
+"path": 1,
+"tier": 1,
+"cost": 230,
+"frac": 0.451
+},
+{
+"cfg": "p1t2",
+"path": 1,
+"tier": 2,
+"cost": 330,
+"frac": 0.514
+},
+{
+"cfg": "p1t3",
+"path": 1,
+"tier": 3,
+"cost": 630,
+"frac": 0.981
+},
+{
+"cfg": "p1t4",
+"path": 1,
+"tier": 4,
+"cost": 1280,
+"frac": 1
+},
+{
+"cfg": "p2t1",
+"path": 2,
+"tier": 1,
+"cost": 230,
+"frac": 0.417
+},
+{
+"cfg": "p2t2",
+"path": 2,
+"tier": 2,
+"cost": 350,
+"frac": 0.579
+},
+{
+"cfg": "p2t3",
+"path": 2,
+"tier": 3,
+"cost": 670,
+"frac": 0.701
+},
+{
+"cfg": "p2t4",
+"path": 2,
+"tier": 4,
+"cost": 1370,
+"frac": 0.725
+},
+{
+"cfg": "p3t1",
+"path": 3,
+"tier": 1,
+"cost": 210,
+"frac": 0.417
+},
+{
+"cfg": "p3t2",
+"path": 3,
+"tier": 2,
+"cost": 310,
+"frac": 0.382
+},
+{
+"cfg": "p3t3",
+"path": 3,
+"tier": 3,
+"cost": 530,
+"frac": 0.326
+},
+{
+"cfg": "p3t4",
+"path": 3,
+"tier": 4,
+"cost": 1130,
+"frac": 0.667
+}
+]
+},
+{
 "kind": "dart",
 "base": 100,
 "HP": 6,
@@ -7,343 +123,227 @@
 {
 "cfg": "base×1",
 "cost": 100,
-"frac": 0.235
+"frac": 0.23
 },
 {
 "cfg": "base×2",
 "cost": 200,
-"frac": 0.413
+"frac": 0.411
 },
 {
 "cfg": "base×3",
 "cost": 300,
-"frac": 0.582
+"frac": 0.591
 },
 {
 "cfg": "base×4",
 "cost": 400,
-"frac": 0.714
+"frac": 0.711
 },
 {
 "cfg": "base×6",
 "cost": 600,
-"frac": 0.822
+"frac": 0.879
 },
 {
 "cfg": "p1t1",
 "path": 1,
 "tier": 1,
-"cost": 170,
-"frac": 0.449
-},
-{
-"cfg": "p1t2",
-"path": 1,
-"tier": 2,
-"cost": 290,
-"frac": 0.456
-},
-{
-"cfg": "p1t3",
-"path": 1,
-"tier": 3,
-"cost": 550,
-"frac": 0.785
-},
-{
-"cfg": "p1t4",
-"path": 1,
-"tier": 4,
-"cost": 1150,
-"frac": 1
-},
-{
-"cfg": "p2t1",
-"path": 2,
-"tier": 1,
-"cost": 140,
-"frac": 0.255
-},
-{
-"cfg": "p2t2",
-"path": 2,
-"tier": 2,
-"cost": 210,
-"frac": 0.296
-},
-{
-"cfg": "p2t3",
-"path": 2,
-"tier": 3,
-"cost": 490,
-"frac": 0.772
-},
-{
-"cfg": "p2t4",
-"path": 2,
-"tier": 4,
-"cost": 1140,
-"frac": 0.921
-},
-{
-"cfg": "p3t1",
-"path": 3,
-"tier": 1,
-"cost": 150,
-"frac": 0.201
-},
-{
-"cfg": "p3t2",
-"path": 3,
-"tier": 2,
-"cost": 250,
-"frac": 0.281
-},
-{
-"cfg": "p3t3",
-"path": 3,
-"tier": 3,
-"cost": 550,
-"frac": 0.271
-},
-{
-"cfg": "p3t4",
-"path": 3,
-"tier": 4,
-"cost": 1250,
-"frac": 0.36
-}
-]
-},
-{
-"kind": "bomb",
-"base": 160,
-"HP": 22,
-"rows": [
-{
-"cfg": "base×1",
 "cost": 160,
-"frac": 0.217
-},
-{
-"cfg": "base×2",
-"cost": 320,
-"frac": 0.409
-},
-{
-"cfg": "base×3",
-"cost": 480,
-"frac": 0.622
-},
-{
-"cfg": "base×4",
-"cost": 640,
-"frac": 0.817
-},
-{
-"cfg": "base×6",
-"cost": 960,
-"frac": 0.976
-},
-{
-"cfg": "p1t1",
-"path": 1,
-"tier": 1,
-"cost": 230,
-"frac": 0.394
-},
-{
-"cfg": "p1t2",
-"path": 1,
-"tier": 2,
-"cost": 380,
-"frac": 0.452
-},
-{
-"cfg": "p1t3",
-"path": 1,
-"tier": 3,
-"cost": 710,
-"frac": 0.821
-},
-{
-"cfg": "p1t4",
-"path": 1,
-"tier": 4,
-"cost": 1460,
-"frac": 0.826
-},
-{
-"cfg": "p2t1",
-"path": 2,
-"tier": 1,
-"cost": 260,
-"frac": 0.413
-},
-{
-"cfg": "p2t2",
-"path": 2,
-"tier": 2,
-"cost": 420,
-"frac": 0.634
-},
-{
-"cfg": "p2t3",
-"path": 2,
-"tier": 3,
-"cost": 640,
-"frac": 0.788
-},
-{
-"cfg": "p2t4",
-"path": 2,
-"tier": 4,
-"cost": 1120,
-"frac": 0.919
-},
-{
-"cfg": "p3t1",
-"path": 3,
-"tier": 1,
-"cost": 240,
-"frac": 0.338
-},
-{
-"cfg": "p3t2",
-"path": 3,
-"tier": 2,
-"cost": 380,
-"frac": 0.361
-},
-{
-"cfg": "p3t3",
-"path": 3,
-"tier": 3,
-"cost": 640,
-"frac": 0.526
-},
-{
-"cfg": "p3t4",
-"path": 3,
-"tier": 4,
-"cost": 1200,
-"frac": 0.701
-}
-]
-},
-{
-"kind": "frost",
-"base": 120,
-"HP": 12,
-"rows": [
-{
-"cfg": "base×1",
-"cost": 120,
-"frac": 0.205
-},
-{
-"cfg": "base×2",
-"cost": 240,
-"frac": 0.392
-},
-{
-"cfg": "base×3",
-"cost": 360,
-"frac": 0.631
-},
-{
-"cfg": "base×4",
-"cost": 480,
-"frac": 0.714
-},
-{
-"cfg": "base×6",
-"cost": 720,
-"frac": 0.84
-},
-{
-"cfg": "p1t1",
-"path": 1,
-"tier": 1,
-"cost": 180,
-"frac": 0.232
+"frac": 0.451
 },
 {
 "cfg": "p1t2",
 "path": 1,
 "tier": 2,
 "cost": 270,
-"frac": 0.259
+"frac": 0.515
 },
 {
 "cfg": "p1t3",
 "path": 1,
 "tier": 3,
-"cost": 570,
-"frac": 0.861
+"cost": 530,
+"frac": 0.739
 },
 {
 "cfg": "p1t4",
 "path": 1,
 "tier": 4,
-"cost": 1320,
-"frac": 0.99
+"cost": 980,
+"frac": 0.789
 },
 {
 "cfg": "p2t1",
 "path": 2,
 "tier": 1,
-"cost": 190,
-"frac": 0.387
+"cost": 145,
+"frac": 0.282
 },
 {
 "cfg": "p2t2",
 "path": 2,
 "tier": 2,
-"cost": 320,
-"frac": 0.473
+"cost": 215,
+"frac": 0.306
 },
 {
 "cfg": "p2t3",
 "path": 2,
 "tier": 3,
-"cost": 640,
-"frac": 0.837
+"cost": 415,
+"frac": 0.403
 },
 {
 "cfg": "p2t4",
 "path": 2,
 "tier": 4,
-"cost": 1320,
-"frac": 0.856
+"cost": 835,
+"frac": 0.376
+},
+{
+"cfg": "p3t1",
+"path": 3,
+"tier": 1,
+"cost": 150,
+"frac": 0.229
+},
+{
+"cfg": "p3t2",
+"path": 3,
+"tier": 2,
+"cost": 250,
+"frac": 0.248
+},
+{
+"cfg": "p3t3",
+"path": 3,
+"tier": 3,
+"cost": 530,
+"frac": 0.243
+},
+{
+"cfg": "p3t4",
+"path": 3,
+"tier": 4,
+"cost": 1080,
+"frac": 0.238
+}
+]
+},
+{
+"kind": "frost",
+"base": 120,
+"HP": 10,
+"rows": [
+{
+"cfg": "base×1",
+"cost": 120,
+"frac": 0.229
+},
+{
+"cfg": "base×2",
+"cost": 240,
+"frac": 0.487
+},
+{
+"cfg": "base×3",
+"cost": 360,
+"frac": 0.71
+},
+{
+"cfg": "base×4",
+"cost": 480,
+"frac": 0.793
+},
+{
+"cfg": "base×6",
+"cost": 720,
+"frac": 0.852
+},
+{
+"cfg": "p1t1",
+"path": 1,
+"tier": 1,
+"cost": 180,
+"frac": 0.385
+},
+{
+"cfg": "p1t2",
+"path": 1,
+"tier": 2,
+"cost": 260,
+"frac": 0.385
+},
+{
+"cfg": "p1t3",
+"path": 1,
+"tier": 3,
+"cost": 540,
+"frac": 0.647
+},
+{
+"cfg": "p1t4",
+"path": 1,
+"tier": 4,
+"cost": 1140,
+"frac": 0.81
+},
+{
+"cfg": "p2t1",
+"path": 2,
+"tier": 1,
+"cost": 165,
+"frac": 0.255
+},
+{
+"cfg": "p2t2",
+"path": 2,
+"tier": 2,
+"cost": 245,
+"frac": 0.329
+},
+{
+"cfg": "p2t3",
+"path": 2,
+"tier": 3,
+"cost": 545,
+"frac": 0.633
+},
+{
+"cfg": "p2t4",
+"path": 2,
+"tier": 4,
+"cost": 1195,
+"frac": 0.605
 },
 {
 "cfg": "p3t1",
 "path": 3,
 "tier": 1,
 "cost": 180,
-"frac": 0.347
+"frac": 0.374
 },
 {
 "cfg": "p3t2",
 "path": 3,
 "tier": 2,
 "cost": 290,
-"frac": 0.44
+"frac": 0.767
 },
 {
 "cfg": "p3t3",
 "path": 3,
 "tier": 3,
-"cost": 550,
-"frac": 0.483
+"cost": 590,
+"frac": 0.787
 },
 {
 "cfg": "p3t4",
 "path": 3,
 "tier": 4,
-"cost": 1150,
-"frac": 0.479
+"cost": 1140,
+"frac": 0.604
 }
 ]
 },
@@ -355,343 +355,227 @@
 {
 "cfg": "base×1",
 "cost": 180,
-"frac": 0.394
+"frac": 0.25
 },
 {
 "cfg": "base×2",
 "cost": 360,
-"frac": 0.628
+"frac": 0.406
 },
 {
 "cfg": "base×3",
 "cost": 540,
-"frac": 0.925
+"frac": 0.656
 },
 {
 "cfg": "base×4",
 "cost": 720,
-"frac": 1
+"frac": 0.744
 },
 {
 "cfg": "base×6",
 "cost": 1080,
-"frac": 1
+"frac": 0.936
 },
 {
 "cfg": "p1t1",
 "path": 1,
 "tier": 1,
-"cost": 280,
-"frac": 0.619
+"cost": 240,
+"frac": 0.308
 },
 {
 "cfg": "p1t2",
 "path": 1,
 "tier": 2,
-"cost": 460,
-"frac": 0.726
+"cost": 340,
+"frac": 0.256
 },
 {
 "cfg": "p1t3",
 "path": 1,
 "tier": 3,
-"cost": 860,
-"frac": 0.757
+"cost": 600,
+"frac": 0.504
 },
 {
 "cfg": "p1t4",
 "path": 1,
 "tier": 4,
-"cost": 1610,
-"frac": 0.833
+"cost": 1300,
+"frac": 0.68
 },
 {
 "cfg": "p2t1",
 "path": 2,
 "tier": 1,
-"cost": 260,
-"frac": 0.422
+"cost": 270,
+"frac": 0.408
 },
 {
 "cfg": "p2t2",
 "path": 2,
 "tier": 2,
-"cost": 360,
-"frac": 0.594
+"cost": 420,
+"frac": 0.428
 },
 {
 "cfg": "p2t3",
 "path": 2,
 "tier": 3,
-"cost": 660,
-"frac": 0.897
+"cost": 680,
+"frac": 0.336
 },
 {
 "cfg": "p2t4",
 "path": 2,
 "tier": 4,
-"cost": 1310,
-"frac": 1
+"cost": 1230,
+"frac": 0.631
 },
 {
 "cfg": "p3t1",
 "path": 3,
 "tier": 1,
-"cost": 270,
-"frac": 0.372
+"cost": 250,
+"frac": 0.289
 },
 {
 "cfg": "p3t2",
 "path": 3,
 "tier": 2,
-"cost": 420,
-"frac": 0.703
+"cost": 370,
+"frac": 0.325
 },
 {
 "cfg": "p3t3",
 "path": 3,
 "tier": 3,
-"cost": 780,
-"frac": 0.724
+"cost": 670,
+"frac": 0.342
 },
 {
 "cfg": "p3t4",
 "path": 3,
 "tier": 4,
-"cost": 1480,
-"frac": 0.669
+"cost": 1270,
+"frac": 0.3
 }
 ]
 },
 {
 "kind": "tesla",
 "base": 150,
-"HP": 16,
+"HP": 14,
 "rows": [
 {
 "cfg": "base×1",
 "cost": 150,
-"frac": 0.24
+"frac": 0.261
 },
 {
 "cfg": "base×2",
 "cost": 300,
-"frac": 0.396
+"frac": 0.484
 },
 {
 "cfg": "base×3",
 "cost": 450,
-"frac": 0.513
+"frac": 0.703
 },
 {
 "cfg": "base×4",
 "cost": 600,
-"frac": 0.683
+"frac": 0.845
 },
 {
 "cfg": "base×6",
 "cost": 900,
-"frac": 0.904
+"frac": 0.966
 },
 {
 "cfg": "p1t1",
 "path": 1,
 "tier": 1,
-"cost": 200,
-"frac": 0.285
+"cost": 195,
+"frac": 0.258
 },
 {
 "cfg": "p1t2",
 "path": 1,
 "tier": 2,
-"cost": 290,
-"frac": 0.357
+"cost": 275,
+"frac": 0.379
 },
 {
 "cfg": "p1t3",
 "path": 1,
 "tier": 3,
-"cost": 610,
-"frac": 0.651
+"cost": 575,
+"frac": 0.647
 },
 {
 "cfg": "p1t4",
 "path": 1,
 "tier": 4,
-"cost": 1360,
-"frac": 0.724
+"cost": 1075,
+"frac": 0.636
 },
 {
 "cfg": "p2t1",
 "path": 2,
 "tier": 1,
-"cost": 240,
-"frac": 0.321
+"cost": 220,
+"frac": 0.383
 },
 {
 "cfg": "p2t2",
 "path": 2,
-"tier": 2,
-"cost": 390,
-"frac": 0.6
-},
-{
-"cfg": "p2t3",
-"path": 2,
-"tier": 3,
-"cost": 770,
-"frac": 0.621
-},
-{
-"cfg": "p2t4",
-"path": 2,
-"tier": 4,
-"cost": 1570,
-"frac": 1
-},
-{
-"cfg": "p3t1",
-"path": 3,
-"tier": 1,
-"cost": 220,
-"frac": 0.238
-},
-{
-"cfg": "p3t2",
-"path": 3,
 "tier": 2,
 "cost": 350,
-"frac": 0.248
-},
-{
-"cfg": "p3t3",
-"path": 3,
-"tier": 3,
-"cost": 680,
-"frac": 0.268
-},
-{
-"cfg": "p3t4",
-"path": 3,
-"tier": 4,
-"cost": 1380,
-"frac": 1
-}
-]
-},
-{
-"kind": "gem",
-"base": 140,
-"HP": 7,
-"rows": [
-{
-"cfg": "base×1",
-"cost": 140,
-"frac": 0.207
-},
-{
-"cfg": "base×2",
-"cost": 280,
-"frac": 0.369
-},
-{
-"cfg": "base×3",
-"cost": 420,
-"frac": 0.531
-},
-{
-"cfg": "base×4",
-"cost": 560,
-"frac": 0.773
-},
-{
-"cfg": "base×6",
-"cost": 840,
-"frac": 1
-},
-{
-"cfg": "p1t1",
-"path": 1,
-"tier": 1,
-"cost": 220,
-"frac": 0.357
-},
-{
-"cfg": "p1t2",
-"path": 1,
-"tier": 2,
-"cost": 310,
-"frac": 0.373
-},
-{
-"cfg": "p1t3",
-"path": 1,
-"tier": 3,
-"cost": 510,
-"frac": 0.506
-},
-{
-"cfg": "p1t4",
-"path": 1,
-"tier": 4,
-"cost": 960,
-"frac": 0.698
-},
-{
-"cfg": "p2t1",
-"path": 2,
-"tier": 1,
-"cost": 190,
-"frac": 0.231
-},
-{
-"cfg": "p2t2",
-"path": 2,
-"tier": 2,
-"cost": 320,
-"frac": 0.454
+"frac": 0.426
 },
 {
 "cfg": "p2t3",
 "path": 2,
 "tier": 3,
-"cost": 620,
-"frac": 0.47
+"cost": 590,
+"frac": 0.46
 },
 {
 "cfg": "p2t4",
 "path": 2,
 "tier": 4,
-"cost": 1180,
-"frac": 0.97
+"cost": 1110,
+"frac": 0.593
 },
 {
 "cfg": "p3t1",
 "path": 3,
 "tier": 1,
 "cost": 200,
-"frac": 0.216
+"frac": 0.272
 },
 {
 "cfg": "p3t2",
 "path": 3,
 "tier": 2,
-"cost": 320,
-"frac": 0.247
+"cost": 310,
+"frac": 0.407
 },
 {
 "cfg": "p3t3",
 "path": 3,
 "tier": 3,
-"cost": 620,
-"frac": 0.255
+"cost": 610,
+"frac": 0.459
 },
 {
 "cfg": "p3t4",
 "path": 3,
 "tier": 4,
-"cost": 1300,
-"frac": 0.336
+"cost": 1210,
+"frac": 0.593
 }
 ]
 }

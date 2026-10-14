@@ -2,7 +2,7 @@
 // Usage: npm i playwright && node tools/sim_duel.mjs [kinds] [out.json]   (run from the repo root after build.sh)
 import { chromium } from 'playwright';
 import fs from 'fs';
-const kinds = (process.argv[2] || 'dart,bomb,frost,tesla,sniper,gem').split(',');
+const kinds = (process.argv[2] || 'dart,bomb,frost,tesla,sniper').split(',');
 const out = process.argv[3] || new URL('balance_sim.json', import.meta.url).pathname;
 const b = await chromium.launch();
 const results = [];
@@ -31,7 +31,7 @@ await Promise.all(kinds.map(async kind => {
       return +(done / tot).toFixed(3);
     }
     const base = B.TOW[kind].cost, rows = [];
-    const HP = {dart:6, bomb:22, frost:12, tesla:16, sniper:12, gem:7}[kind];
+    const HP = {dart:6, bomb:12, frost:10, tesla:14, sniper:12}[kind];
     for (const n of [1, 2, 3, 4, 6]) rows.push({cfg:'base×' + n, cost: base * n, frac: await trial(Array.from({length:n}, () => [kind, [0,0,0]]), HP, 30)});
     for (let path = 0; path < 3; path++) for (const tier of [1, 2, 3, 4]) {
       const p = [0,0,0]; p[path] = tier; const c = cost(kind, p);

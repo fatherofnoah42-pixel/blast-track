@@ -102,39 +102,16 @@ G = [  # key, value, description
  ('scoreClean', 100, '分数：无漏怪波数权重'),
 ]
 
-TOWERS = [
- # id, name, short, desc, cost, dmg, rate, range, rad, slow, chain, armor, color
- ('dart', '易拉罐投手', '易拉罐', '单体速投易拉罐；对耐力跑者只有 25% 效果，「铁罐」2 级后破甲', 100, 1, .5, 95, 0, 0, 0, .25, '#ff6b6b'),
- ('bomb', '香蕉皮投手', '香蕉皮', '扔香蕉皮，一片跑者一起滑倒；耐力跑者的克星', 160, 3, 1.3, 82, 40, 0, 0, 1, '#ffd84a'),
- ('frost', '洒水器', '洒水器', '洒水让跑道湿滑，范围减速', 120, .5, 1.1, 72, 0, .35, 0, .5, '#6fc3ff'),
- ('sniper', '鞋盒无人机', '无人机', '全图空投鞋盒，专砸体力最多的跑者，无视耐力', 180, 6, 1.7, 999, 0, 0, 0, 1, '#ff9d7a'),
- ('tesla', '广场舞音响', '音响', '洗脑神曲在跑者之间传播，一次影响好几个', 150, 2, .9, 88, 0, 0, 3, .5, '#ff8fd0'),
- ('miner', '矿机', '矿机', '不攻击，比赛中不停算题挖区块：挖到区块得聪和一次三选一', 120, 0, 1, 70, 0, 0, 0, 1, '#f7931a'),
- ('gem', '宝石发射器', '宝石', '发射宝石：红宝石主攻暴击，黄宝石主攻连发和 GST，蓝宝石减速冻结', 140, 1.5, .7, 100, 0, 0, 0, .6, '#00a6f4'),
+exec(open('devices_cfg.py').read())
+T.update(translations())
+TOWERS = [(d[0], d[1][0], d[2][0], d[3][0], d[4], d[5], d[6], d[7], d[8], d[9], d[10], d[11], d[12], d[13]) for d in DEVICES] + [
+ ('miner', '矿机', '矿机', '不攻击，比赛中不停算题挖区块：挖到区块得聪和一次三选一', 120, 0, 1, 70, 0, 0, 0, 1, '#f7931a', ''),
 ]
 # tower, path, path name, [(tier name, cost, desc, effect)]
-PATHS = [
+PATHS = [(tw, pi, pn[0], [(a, c, d, e) for (a, _en, _fr, c, d, _ed, _fd, e) in tiers]) for tw, pi, pn, tiers in PATHS6] + [
  ('miner', 1, '算力', [('超频 CPU', 60, '算力 +50%', 'hash*=1.5'), ('双核处理器', 120, '算力 +50%', 'hash*=1.5'), ('显卡挖矿', 300, '算力 ×3（2010 年显卡挖矿开始流行）', 'hash*=3'), ('多卡矿机', 700, '算力 ×2', 'hash*=2'), ('显卡农场', 1500, '算力 ×2.5', 'hash*=2.5')]),
  ('miner', 2, '矿池', [('加入矿池', 70, '出块奖励 +25%', 'blockBonus+=0.25'), ('矿池分成', 140, '射程内其他装置效果 +15%', 'auraDmg=1.15'), ('稳定收益', 320, '出块奖励再 +50%', 'blockBonus+=0.5'), ('大矿池', 700, '射程内其他装置效果 +30%，射程 +30', 'auraDmg=1.3; range+=30'), ('算力联盟', 1500, '出块奖励再 +100%，射程内装置出手间隔 −15%', 'blockBonus+=1; auraRate=0.85')]),
  ('miner', 3, '散热', [('风扇狂转', 60, '吹出热风：射程内跑者每秒受 1 点效果并挂上“热”', 'heat+=1'), ('机箱漏风', 120, '热风 +2', 'heat+=2'), ('水冷管道', 300, '射程 +25', 'range+=25'), ('烧机模式', 700, '热风 ×3', 'heat*=3'), ('矿场火炉', 1500, '热风 +15，射程 +30', 'heat+=15; range+=30')]),
- ('gem', 1, '红宝石', [('打磨红宝石', 80, '效果 +1', 'dmg+=1'), ('鸽血红', 90, '暴击率 +20%', 'crit+=0.2'), ('红宝石切面', 200, '暴击 ×3，对耐力跑者全额生效', 'critMul=3; armor=1'), ('炽红核心', 450, '效果 ×2，对 Boss 再 ×1.5', 'dmg*=2; bossMul*=1.5'), ('红宝石之心', 1700, '效果 +12，暴击率再 +20%', 'dmg+=12; crit+=0.2')]),
- ('gem', 2, '黄宝石', [('黄晶碎片', 50, '出手间隔 −20%', 'rate*=0.8'), ('双生黄晶', 130, '每次多打 1 名跑者', 'multi+=1'), ('黄晶矿脉', 300, '每波结束额外 +40 GST', 'gpw+=40'), ('黄晶棱镜', 560, '再多打 2 名跑者，出手间隔 −25%', 'multi+=2; rate*=0.75'), ('GST 金矿', 1600, '每波结束再 +120 GST，出手间隔减半', 'gpw+=120; rate*=0.5')]),
- ('gem', 3, '蓝宝石', [('冰蓝切片', 60, '命中减速 25%，持续 1.5 秒', 'slow=0.25; slowDur=1.5'), ('深海蓝', 120, '射程 +25', 'range+=25'), ('蓝宝石冰封', 300, '命中时冻住非 Boss 跑者 0.6 秒', 'freeze=0.6'), ('寒光', 680, '被减速的跑者受到所有效果 +30%', 'vulnSlow=0.3'), ('星海蓝钻', 1500, '减速 50%，冻结 1.2 秒，Boss 也吃满减速', 'slow=0.5; freeze=1.2; bossSlowFull=1')]),
- ('dart', 1, '铁罐', [('加料汽水罐', 70, '效果 +1', 'dmg+=1'), ('铁皮罐', 120, '对耐力跑者：25% → 60%', 'armor>=0.6'), ('实心铁罐', 260, '效果 +3，对耐力跑者全额生效', 'dmg+=3; armor=1'), ('罐头炮', 600, '效果 ×2，对 Boss 不再打折', 'dmg*=2; bossMul=1'), ('大桶可乐', 1400, '效果 ×2；命中有 10% 概率直接绊倒退赛（非 Boss）', 'dmg*=2; execChance=0.1')]),
- ('dart', 2, '连投', [('快手', 40, '出手间隔 −25%', 'rate*=0.75'), ('双手投', 70, '出手间隔 −25%', 'rate*=0.75'), ('三连投', 280, '每次多砸 2 名跑者', 'multi+=2'), ('自动投罐机', 650, '出手间隔减半', 'rate*=0.5'), ('罐头暴雨', 1500, '再多砸 4 名跑者，间隔再 −30%', 'multi+=4; rate*=0.7')]),
- ('dart', 3, '瞄准', [('远投', 50, '射程 +25', 'range+=25'), ('精准', 100, '暴击率 +15%', 'crit+=0.15'), ('汽水黏鞋', 300, '被砸中的跑者鞋底发黏，2 秒内受到所有效果 +20%', 'mark=2'), ('远程狙罐', 700, '射程 +60，暴击 ×3', 'range+=60; critMul=3'), ('补给站站长', 1300, '120 范围内其他装置出手间隔 −20%', 'auraRate=0.8; auraR=120')]),
- ('bomb', 1, '大香蕉', [('大片香蕉皮', 70, '滑倒范围 +10', 'rad+=10'), ('熟透香蕉', 150, '效果 +3', 'dmg+=3'), ('四脚朝天', 330, '滑倒的跑者眩晕 0.6 秒', 'stun=0.6'), ('香蕉船', 750, '对 Boss 效果 ×3', 'bossMul*=3'), ('香蕉海啸', 1400, '效果 +30，范围 +25', 'dmg+=30; rad+=25')]),
- ('bomb', 2, '一串香蕉', [('双发香蕉', 100, '一次扔 2 片，砸 2 个点', 'bombs=2'), ('香蕉碎片', 160, '落地后溅出 4 块碎皮，各 30% 效果', 'shrapnel=4'), ('一串香蕉', 220, '落地后再弹出 3 根小香蕉', 'cluster=1'), ('香蕉连环', 480, '小香蕉还会再散开一次', 'cluster=2'), ('香蕉雨', 1500, '出手间隔 −60%', 'rate*=0.4')]),
- ('bomb', 3, '辣椒油', [('辣椒粉', 80, '沾到的跑者辣到跳脚 2 秒', 'burnDur=2; burnPct=0.25'), ('魔鬼椒', 140, '持续 3 秒，持续效果 +40%', 'burnDur=3; burnPct=0.35'), ('辣油泼地', 260, '落点留下 2 秒辣油', 'firePatch=2'), ('变态辣', 560, '持续效果 ×2.5', 'burnPct*=2.5'), ('火锅底料', 1600, '辣到退赛的跑者会把辣油溅到身边', 'inferno=1')]),
- ('frost', 1, '冰水', [('凉水', 60, '减速 +10%', 'slow+=0.1'), ('持续喷淋', 90, '湿滑持续 +1 秒', 'slowDur+=1'), ('冰水', 300, '冻住非 Boss 跑者 0.8 秒', 'freeze=0.8'), ('冰桶挑战', 750, '冻住 1.5 秒，Boss 也吃满减速', 'freeze=1.5; bossSlowFull=1'), ('人工降雪', 1600, '每 8 秒冻住全场非 Boss 跑者 2 秒', 'iceAge=8')]),
- ('frost', 2, '高压水枪', [('加压', 70, '效果 +0.5', 'dmg+=0.5'), ('湿身', 130, '被淋湿的跑者受到所有效果 +25%', 'vulnSlow=0.25'), ('高压水柱', 320, '效果 ×2', 'dmg*=2'), ('冰面', 680, '被冻住的跑者受到所有效果 +60%', 'vulnFreeze=0.6'), ('消防水炮', 1500, '效果 +6，射程 +40', 'dmg+=6; range+=40')]),
- ('frost', 3, '补水站', [('喷头扩展', 60, '射程 +20', 'range+=20'), ('快速喷淋', 110, '出手间隔 −20%', 'rate*=0.8'), ('泡水鞋', 260, '耐力跑者的鞋泡水，3 秒内失去耐力加成', 'strip=3'), ('补水光环', 600, '射程内其他装置效果 +20%', 'auraDmg=1.2'), ('能量饮料站', 1300, '射程内其他装置出手间隔 −25%', 'auraRate=0.75')]),
- ('sniper', 1, '重型鞋盒', [('加重鞋盒', 100, '效果 +4', 'dmg+=4'), ('大号鞋盒', 180, '效果 +6', 'dmg+=6'), ('退赛通知', 400, '体力低于 25% 的非 Boss 跑者直接退赛', 'exec25=1'), ('创世鞋盒', 750, '效果 ×2，对 Boss 再 ×1.5', 'dmg*=2; bossMul*=1.5'), ('神秘箱轰炸', 2000, '每第 4 次：砸 Boss 额外扣其 15% 体力，砸其他跑者 ×3', 'decap=1')]),
- ('sniper', 2, '快递', [('夜航', 80, '暴击率 +20%', 'crit+=0.2'), ('快速装填', 100, '出手间隔 −20%', 'rate*=0.8'), ('双桨无人机', 300, '出手间隔减半', 'rate*=0.5'), ('无人机群', 650, '出手间隔 −40%', 'rate*=0.6'), ('当日达', 1900, '效果 +10，出手间隔再 −30%', 'dmg+=10; rate*=0.7')]),
- ('sniper', 3, '空投支援', [('震地', 90, '鞋盒落地震晕 0.4 秒', 'stun=0.4'), ('弹跳鞋盒', 150, '鞋盒弹跳再砸 2 名跑者，50% 效果', 'ricochet=2'), ('GST 补给', 360, '每波结束 +40 GST', 'gpw=40'), ('GST 空投', 700, '每波结束 +100 GST', 'gpw=100'), ('空中支援', 1500, '全场所有装置效果 +15%', 'globalDmg=0.15')]),
- ('tesla', 1, '传唱', [('小音箱', 50, '多传 1 人', 'chain+=1'), ('蓝牙串联', 90, '多传 2 人', 'chain+=2'), ('无损音质', 320, '多传 3 人，传播不衰减', 'chain+=3; decay=1'), ('双声道', 750, '同时放两首', 'starts=2'), ('全城广场舞', 1700, '多传 10 人，效果 +6', 'chain+=10; dmg+=6')]),
- ('tesla', 2, '重低音', [('低音炮', 90, '效果 +1.5', 'dmg+=1.5'), ('大功率', 150, '效果 +2', 'dmg+=2'), ('重低音', 380, '每第 4 首效果 ×3', 'overN=4; overMul=3'), ('炸街', 800, '效果 ×2', 'dmg*=2'), ('地动山摇', 1500, '重低音效果 ×8', 'overN=4; overMul=8')]),
- ('tesla', 3, '洗脑神曲', [('扩音', 70, '射程 +20', 'range+=20'), ('跟着跳', 130, '听到的跑者停下来跳 0.25 秒', 'stun=0.25'), ('震碎能量盾', 330, '对能量盾效果 ×3', 'shieldMul=3'), ('魔性旋律', 700, '射程内跑者每秒持续受 3 点效果', 'staticDps=3'), ('广场舞女王', 1600, '出手间隔 −30%，多传 3 人', 'rate*=0.7; chain+=3')]),
 ]
 ENEMIES = [  # id, name, radius, speed, gold, scoreValue, energyCost
  ('norm', '慢跑者', 9, 55, 6, 1, 1),
@@ -176,12 +153,12 @@ BOSS_PARAMS = {
 }
 AFFIXES = [('swift', '冲刺', '移速 +40%'), ('regen', '补给', '1 秒没被干扰就回体力'), ('shield', '能量盾', '额外 35% 能量护盾'), ('split', '跑团', '退赛时 2 名跟跑者接力')]
 CARDS = [  # id, tag, rarity, stack, name, desc, v1, v2, note
- ('u_bomb', '装置', 'C', 0, '香蕉皮投手', '解锁香蕉皮投手：一片跑者一起滑倒，专克耐力跑者', 0, 0, ''),
- ('u_frost', '装置', 'C', 0, '洒水器', '解锁洒水器：跑道湿滑，范围减速', 0, 0, ''),
- ('u_sniper', '装置', 'R', 0, '鞋盒无人机', '解锁鞋盒无人机：全图空投鞋盒，无视耐力', 0, 0, ''),
+ ('u_bomb', '装置', 'C', 0, '香蕉皮投手', '解锁香蕉皮投手：往跑道扔香蕉皮陷阱，踩中的几个人一起滑倒', 0, 0, ''),
+ ('u_frost', '装置', 'C', 0, '洒水器', '解锁洒水器：持续喷水，范围减速', 0, 0, ''),
+ ('u_sniper', '装置', 'R', 0, '鞋盒无人机', '解锁鞋盒无人机：指定投递区，全图空投鞋盒', 0, 0, ''),
  ('u_tesla', '装置', 'R', 0, '广场舞音响', '解锁广场舞音响：洗脑神曲在跑者之间传播', 0, 0, ''),
  ('u_miner', '装置', 'R', 0, '矿机', '解锁矿机：挖区块得聪，并触发区块奖励三选一', 0, 0, ''),
- ('u_gem', '装置', 'R', 0, '宝石发射器', '解锁宝石发射器：红、黄、蓝三种宝石对应三条路线', 0, 0, ''),
+ ('u_lure', '装置', 'R', 0, '休闲诱惑站', '解锁休闲诱惑站：美食、沙发和限量球鞋让跑者停下来', 0, 0, ''),
  ('pad', '道具', 'R', 1, '额外放置点', '获得 1 个放置点：点地图上跑道以外的空地，新增一个装置空位', 1, 0, 'v1 = 放置点个数'),
  ('freeup', '道具', 'C', 1, '鞋匠', '场上一个装置沿主路线免费升 1 级（没有装置时改为 +100 GST）', 0, 0, ''),
  ('coupon', '道具', 'C', 1, '升级卷轴', '接下来 3 次路线升级半价', 3, 0, 'v1 = 半价次数'),
@@ -191,8 +168,8 @@ CARDS = [  # id, tag, rarity, stack, name, desc, v1, v2, note
  ('m_sniper', '徽章', 'R', 0, '', '', 0, 0, '名称和说明自动生成'),
  ('m_tesla', '徽章', 'R', 0, '', '', 0, 0, '名称和说明自动生成'),
  ('m_miner', '徽章', 'R', 0, '', '', 0, 0, '名称和说明自动生成'),
- ('m_gem', '徽章', 'R', 0, '', '', 0, 0, '名称和说明自动生成'),
- ('breaker', '道具', 'L', 0, '创世鞋', '所有装置的次路线上限 2 级 → 3 级', 0, 0, '上限见全局 secCapBreaker'),
+ ('m_lure', '徽章', 'R', 0, '', '', 0, 0, '名称和说明自动生成'),
+ ('breaker', '道具', 'L', 0, '创世鞋', '6 级专精升级费用 −30%', 0.7, 0, 'v1 = 费用倍率'),
  ('drill', '宝石', 'C', 1, '效率宝石', '所有装置效果 +15%（可叠加）', 0.15, 0, 'v1 = 效果加成'),
  ('crit', '宝石', 'C', 1, '幸运宝石', '暴击率 +10%（可叠加）', 0.1, 0, 'v1 = 暴击率加成'),
  ('heart', '宝石', 'C', 1, '舒适宝石', '生命 +6', 6, 0, 'v1 = 生命'),
@@ -218,12 +195,15 @@ ART = []
 _MAPN = {'classic':'蛇形跑道','twin':'双子跑道','fork':'分岔路口','merge':'汇流跑道','cross':'十字路口','trident':'三路汇聚'}
 for mid, nm in _MAPN.items():
     ART.append((f'map.{mid}', '地图', f'{nm}整张底图（草地、装饰；cover=1 时连跑道一起画，游戏就不再画跑道）', 'P1 样板关' if mid == 'classic' else 'P2', 360, 600, 0, 0, 1, 0, 0))
-_TOWN = {'dart':'易拉罐投手','bomb':'香蕉皮投手','frost':'洒水器','sniper':'鞋盒无人机','tesla':'广场舞音响','gem':'宝石发射器','miner':'矿机'}
+_TOWN = {'dart':'易拉罐投手','bomb':'香蕉皮投手','frost':'洒水器','sniper':'鞋盒无人机','tesla':'广场舞音响','lure':'休闲诱惑站','miner':'矿机'}
 for tid, nm in _TOWN.items():
-    ART.append((f'tower.{tid}', '装置', f'{nm}：操作员 + 道具，面朝右（朝左时游戏自动翻转），脚底对齐空位中心', 'P1 样板关' if tid in ('dart', 'bomb') else 'P2', 40, 50, .5, .92, 1, 0, 0))
+    ART.append((f'tower.{tid}', '装置', f'{nm}：基础造型，面朝右（朝左时游戏自动翻转）。可做动画：idle 待机 + fire 发射（JSON 标出 release 出手帧和 muzzle 出手点）', 'P1 样板关' if tid in ('dart', 'bomb') else 'P2', 40, 50, .5, .92, 1, 0, 0))
 for tid, nm in _TOWN.items():
-    for i in (1, 2, 3):
-        ART.append((f'tower.{tid}.p{i}', '装置进化', f'{nm} 第 {i} 条路线升到 3 级以上作为主路线时的外观', 'P3', 44, 54, .5, .92, 1, 0, 0))
+    if tid == 'miner': continue
+    for i, PL in enumerate('ABC', 1):
+        pn = next(p[2][0] for p in PATHS6 if p[0] == tid and p[1] == i)
+        for lv in (3, 6):
+            ART.append((f'tower.{tid}.{PL}{lv}', '装置变种', f'{nm}「{pn}」主路线 {lv} 级起的造型（{PL}{lv}；没有 {PL}4、{PL}5 时沿用 {PL}3）', 'P2' if lv == 3 else 'P3', 44 if lv == 3 else 48, 54 if lv == 3 else 58, .5, .92, 1, 0, 0))
 ART += [
  ('pad.empty', '空位', '可放置装置的空位（石台 + 加号）', 'P2', 36, 22, .5, 1, 1, 0, 0),
  ('pad.base', '空位', '装置脚下的底座', 'P2', 36, 22, .5, 1, 1, 0, 0),
@@ -236,15 +216,10 @@ _BOSSN = {'yawn':'Nox（黑猫，九命）','gilg':'Aurum','king':'Slimo','lucas
 for bid, nm in _BOSSN.items():
     ART.append((f'boss.{bid}', 'Boss', f'{nm}，侧面向右跑；真人原型需本人同意', 'P1 样板关' if bid == 'yawn' else 'P2', 64 if bid != 'yawn' else 72, 80 if bid != 'yawn' else 56, .5, 1, 6, 8, 0))
 ART += [
- ('proj.dart', '投射物', '飞行中的易拉罐（游戏会旋转它）', 'P2', 10, 12, .5, .5, 1, 0, 0),
- ('proj.bomb', '投射物', '飞行中的香蕉皮', 'P2', 14, 12, .5, .5, 1, 0, 0),
- ('proj.drop', '投射物', '无人机空投的鞋盒', 'P2', 16, 12, .5, 1, 1, 0, 0),
- ('proj.gem.ruby', '投射物', '红宝石弹', 'P2', 12, 12, .5, .5, 1, 0, 0),
- ('proj.gem.topaz', '投射物', '黄宝石弹', 'P2', 12, 12, .5, .5, 1, 0, 0),
- ('proj.gem.sapphire', '投射物', '蓝宝石弹', 'P2', 12, 12, .5, .5, 1, 0, 0),
- ('proj.dropGold', '投射物', '金色神秘鞋盒（暴击空投）', 'P3', 16, 12, .5, 1, 1, 0, 0),
+ ('shot.dart', '子弹', '易拉罐：fly 飞行循环（画朝右，游戏沿弹道旋转）+ hit 命中', 'P2', 10, 12, .5, .5, 1, 0, 0),
+ ('shot.bomb', '子弹', '飞行中的香蕉皮：fly + hit（落地）', 'P2', 14, 12, .5, .5, 1, 0, 0),
+ ('shot.sniper', '子弹', '无人机空投的鞋盒：fly（下落）+ hit（砸地）', 'P2', 16, 12, .5, 1, 1, 0, 0),
  ('fx.peel', '地面效果', '落在跑道上的香蕉皮', 'P2', 18, 18, .5, .5, 1, 0, 0),
- ('fx.chili', '地面效果', '辣椒油香蕉皮', 'P3', 18, 18, .5, .5, 1, 0, 0),
  ('icon.wave', '界面图标', '顶栏「波次」图标', 'P2', 38, 38, .5, .5, 1, 0, 0),
  ('icon.lives', '界面图标', '顶栏「生命」图标（心形）', 'P2', 38, 38, .5, .5, 1, 0, 0),
  ('icon.gst', '界面图标', '顶栏「GST」图标', 'P2', 38, 38, .5, .5, 1, 0, 0),
@@ -255,10 +230,10 @@ entity_zh = set()
 cfg = {'global': {k: v for k, v, _ in G}, 'globalDesc': {k: d for k, _, d in G},
        'towers': [], 'paths': [], 'enemies': [], 'waves': waves(), 'bosses': [], 'bossParams': BOSS_PARAMS,
        'affixes': [], 'cards': [], 'maps': [], 'texts': [],
-       'art': [{'key': k, 'kind': kd, 'desc': d, 'prio': pr, 'src': '', 'w': w, 'h': h, 'ax': ax, 'ay': ay, 'frames': fr, 'fps': fps, 'cover': cv} for (k, kd, d, pr, w, h, ax, ay, fr, fps, cv) in ART]}
-for (i, n, sh, d, cost, dmg, rate, rng, rad, slow, chain, armor, col) in TOWERS:
+       'art': [{'key': k, 'kind': kd, 'desc': d, 'prio': pr, 'src': '', 'json': '', 'w': w, 'h': h, 'ax': ax, 'ay': ay, 'frames': fr, 'fps': fps, 'cover': cv} for (k, kd, d, pr, w, h, ax, ay, fr, fps, cv) in ART]}
+for (i, n, sh, d, cost, dmg, rate, rng, rad, slow, chain, armor, col, extra) in TOWERS:
     cfg['towers'].append({'id': i, 'name': L(n), 'short': L(sh), 'desc': L(d), 'cost': cost, 'dmg': dmg, 'rate': rate, 'range': rng, 'rad': rad, 'slow': slow,
-                          'slowDur': 1.5 if i == 'frost' else 0, 'chain': chain, 'decay': .85 if i == 'tesla' else 1, 'armor': armor, 'bossMul': .6 if i == 'dart' else 1, 'color': col})
+                          'slowDur': 1.5 if i == 'frost' else 0, 'chain': chain, 'decay': .85 if i == 'tesla' else 1, 'armor': armor, 'bossMul': .6 if i == 'dart' else 1, 'color': col, 'extra': extra})
     entity_zh |= {n, sh, d}
 for (t, p, pn, tiers) in PATHS:
     cfg['paths'].append({'tower': t, 'path': p, 'name': L(pn), 'tiers': [{'tier': k + 1, 'name': L(a), 'cost': c, 'desc': L(d), 'effect': e} for k, (a, c, d, e) in enumerate(tiers)]})
@@ -274,8 +249,11 @@ for (i, tag, rar, stack, n, d, v1, v2, note) in CARDS:
     if n: entity_zh |= {n, d}
 for m in MAPS:
     cfg['maps'].append({'id': m['id'], 'enabled': 1, 'name': L(m['name']), 'desc': L(m['desc']), 'spdMult': SPEED[m['id']], 'hpMult': 1, 'routes': m['routes'], 'pads': m['pads']}); entity_zh |= {m['name'], m['desc']}
+cfg['shots'] = [{'key': k, 'desc': d, 'traj': tj, 'speed': sp, 'arc': h, 'spin': spin, 'track': tk} for (k, d, tj, sp, h, spin, tk) in SHOTS]
+_SRC = '\n'.join(l for l in open('script.js').read().split('\n') if not l.startswith('const I18N') and not l.startswith('const DEFAULT_CFG')) + open('head.html').read()
 for zh, (en, fr) in T.items():
     if zh in entity_zh: continue
+    if zh not in _SRC: continue
     cfg['texts'].append({'key': zh, 'zh': zh, 'en': en, 'fr': fr})
 json.dump(cfg, open('cfg_default.json', 'w'), ensure_ascii=False, indent=1)
 print(len(cfg['texts']), 'ui texts;', sum(len(p['tiers']) for p in cfg['paths']), 'tiers')

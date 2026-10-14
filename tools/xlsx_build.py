@@ -58,9 +58,9 @@ lines = [
  ('', False),
  ('工作表一览', True),
  ('全局：经济、抽卡权重、出怪节奏、各种机制倍率等全局参数', False),
- ('装置：6 种装置的名称、价格和基础数值', False),
+ ('装置：6 个装置家族 + 矿机的名称、价格、基础数值和「基础附加效果」', False),
  ('升级路线：每种装置 3 条路线的名称', False),
- ('升级：75 个升级的名称、价格、说明和效果', False),
+ ('升级：每条路线 6 级（矿机 5 级）的名称、价格、说明和效果', False),
  ('敌人：慢跑者、耐力跑者、Boss，以及雨衣、弹簧鞋、降噪耳机、巨鲸 4 种克制型跑者的基础数值', False),
  ('波次：每一波的人数、体力、是否有 Boss、词缀数量、4 种克制型跑者的人数', False),
  ('Boss：6 位 Boss 的名称、能力说明和能力参数 p1–p4', False),
@@ -68,7 +68,8 @@ lines = [
  ('卡牌：神秘箱里的全部卡牌', False),
  ('跑道列表：6 种跑道（单进单出、双进双出、单进双出、双进单出、十字交叉、三进单出）的名称、启用开关和难度倍率', False),
  ('地图：每种跑道的路线点和装置空位坐标', False),
- ('美术资源：每张美术图的编号、图片地址、游戏内尺寸和锚点；留空就用游戏里的矢量占位图', False),
+ ('美术资源：每张美术图的编号、图片地址、动画 JSON、游戏内尺寸和锚点；留空就用游戏里的矢量占位图', False),
+ ('弹道：每种子弹的弹道类型、速度、抛物线高度和是否追踪', False),
  ('界面文字：按钮、提示等界面文字的三语翻译', False),
  ('效果语法：「升级」表 effect 列的写法', False),
  ('数值体检·波次：用公式估算每一波的压力系数（需要的输出 ÷ 可用输出），改了波次、敌人、全局表会自动重算', False),
@@ -88,9 +89,9 @@ ws = wb.create_sheet('装置')
 cols = [('id', 'id', 'id')] + L3('name', '名称') + L3('short', '简称') + L3('desc', '说明') + [
  ('放置价格', 'cost', 'num'), ('效果', 'dmg', 'num'), ('出手间隔（秒）', 'rate', 'num'), ('射程（999=全图）', 'range', 'num'),
  ('范围半径', 'rad', 'num'), ('减速比例', 'slow', 'num'), ('湿滑持续（秒）', 'slowDur', 'num'), ('传播人数', 'chain', 'num'),
- ('传播衰减', 'decay', 'num'), ('对耐力跑者效果', 'armor', 'num'), ('对 Boss 效果', 'bossMul', 'num'), ('颜色', 'color', 'text')]
-rows = [[t['id']] + V3(t['name']) + V3(t['short']) + V3(t['desc']) + [t[k] for k in ['cost','dmg','rate','range','rad','slow','slowDur','chain','decay','armor','bossMul','color']] for t in cfg['towers']]
-table(ws, cols, rows, [9, 14, 16, 18, 10, 10, 12, 40, 40, 40] + [11] * 11 + [10])
+ ('传播衰减', 'decay', 'num'), ('对耐力跑者效果', 'armor', 'num'), ('对 Boss 效果', 'bossMul', 'num'), ('颜色', 'color', 'text'), ('基础附加效果（写法同「升级」的 effect）', 'extra', 'num')]
+rows = [[t['id']] + V3(t['name']) + V3(t['short']) + V3(t['desc']) + [t[k] for k in ['cost','dmg','rate','range','rad','slow','slowDur','chain','decay','armor','bossMul','color','extra']] for t in cfg['towers']]
+table(ws, cols, rows, [9, 14, 16, 18, 10, 10, 12, 40, 40, 40] + [11] * 11 + [10, 46])
 
 # ---------- 升级路线 ----------
 ws = wb.create_sheet('升级路线')
@@ -179,24 +180,36 @@ ws.cell(3 + len(rows) + 1, 1, '※ 画布 360 × 600，左上角是 (0, 0)。同
 
 # ---------- 美术资源 ----------
 ws = wb.create_sheet('美术资源')
-cols = [('资源编号（勿改）', 'key', 'id'), ('类别', '', 'calc'), ('说明', '', 'calc'), ('优先级', '', 'calc'), ('图片地址（https:// 链接，留空 = 用占位图）', 'src', 'text'),
+cols = [('资源编号（勿改）', 'key', 'id'), ('类别', '', 'calc'), ('说明', '', 'calc'), ('优先级', '', 'calc'), ('图片地址（https:// 链接，留空 = 用占位图）', 'src', 'text'), ('动画 JSON 地址（可选）', 'json', 'text'),
         ('游戏内宽', 'w', 'num'), ('游戏内高', 'h', 'num'), ('锚点 X（0–1）', 'ax', 'num'), ('锚点 Y（0–1）', 'ay', 'num'), ('帧数', 'frames', 'num'), ('帧率', 'fps', 'num'), ('盖住跑道（1/0，仅地图）', 'cover', 'num'),
         ('建议出图尺寸（3 倍，px）', '', 'calc')]
-rows = [[a['key'], a['kind'], a['desc'], a['prio'], a['src'], a['w'], a['h'], a['ax'], a['ay'], a['frames'], a['fps'], a['cover'], None] for a in cfg['art']]
-table(ws, cols, rows, [20, 10, 52, 11, 46, 9, 9, 11, 11, 7, 7, 12, 22], 'B3')
+rows = [[a['key'], a['kind'], a['desc'], a['prio'], a['src'], a.get('json', ''), a['w'], a['h'], a['ax'], a['ay'], a['frames'], a['fps'], a['cover'], None] for a in cfg['art']]
+table(ws, cols, rows, [20, 10, 52, 11, 46, 30, 9, 9, 11, 11, 7, 7, 12, 22], 'B3')
 for i in range(3, 3 + len(rows)):
-    c = ws.cell(i, 13, f'=IF(J{i}>1,J{i}*F{i}*3&" × "&G{i}*3&"（"&J{i}&" 帧横排）",F{i}*3&" × "&G{i}*3)'); c.font = CALC; c.border = BD
-dv = DataValidation(type='list', formula1='"0,1"'); ws.add_data_validation(dv); dv.add(f'L3:L{2 + len(rows)}')
+    c = ws.cell(i, 14, f'=IF(K{i}>1,K{i}*G{i}*3&" × "&H{i}*3&"（"&K{i}&" 帧横排）",G{i}*3&" × "&H{i}*3)'); c.font = CALC; c.border = BD
+dv = DataValidation(type='list', formula1='"0,1"'); ws.add_data_validation(dv); dv.add(f'M3:M{2 + len(rows)}')
 notes = [
  '※ 图片地址填公开可访问的 https:// 链接（PNG / WebP，透明背景）；也可以不填，直接在游戏页面点「导入美术图片」，把文件名改成资源编号（如 tower.dart.png）一次选多张。',
  '※ 游戏内宽高以 360 × 600 的画布为单位；出图按 3 倍像素（见最后一列），游戏会缩放到这里填的尺寸。',
  '※ 锚点是图片里对齐游戏坐标的那一点：0,0 = 左上角，0.5,1 = 底边中点（跑者、装置用脚底中点）。',
  '※ 帧数 > 1 时，图片是横向排开的序列帧（每帧等宽），按帧率循环播放。跑者、Boss 统一画成「侧面向右跑」，向左时游戏自动水平翻转。',
- '※ 装置进化图（tower.xxx.p1–p3）在该路线升到 3 级以上并成为主路线时替换基础图；没给就继续用基础图。',
+ '※ 装置变种图 tower.xxx.A3 / A6（B、C 同理）：该路线成为主路线并升到 3 级 / 6 级时替换基础图；没给就往下找，最后用基础图。导入时文件名里的装置也可以写 can / banana / sprinkler / drone / speaker / chill。',
+ '※ 动画：PNG 精灵图 + 同名 JSON（Aseprite「导出精灵图」勾选 JSON Data，或 TexturePacker JSON）。动画段用 Tag：idle 待机、fire 发射、build 放置、fly 子弹飞行、hit 命中；再用 1 帧的 release Tag 标出子弹离手的那一帧。用 Slice 标点：pivot 脚底 / 中心，muzzle 子弹出手点。导入时把 PNG 和 JSON 一起选上即可，或在「动画 JSON 地址」填链接。',
+ '※ 子弹只画外观：fly 画朝右，游戏沿弹道自动旋转；弹道类型、速度、抛物线高度在「弹道」表里调。',
  '※ 优先级：P1 样板关（先画这些就能完整玩一张图）→ P2 → P3。',
 ]
 for k, t in enumerate(notes):
     ws.cell(3 + len(rows) + 1 + k, 1, t).font = Font(name=F, italic=True, color='5A6478')
+
+# ---------- 弹道 ----------
+ws = wb.create_sheet('弹道')
+table(ws, [('子弹编号（勿改）', 'key', 'id'), ('说明', '', 'calc'), ('弹道（line 直线 / arc 抛物线 / drop 天降 / beam 水柱 / chain 链式）', 'traj', 'text'), ('速度（像素/秒）', 'speed', 'num'),
+           ('抛物线高度 / 下落高度', 'arc', 'num'), ('自转（圈/秒，0 = 沿弹道朝向）', 'spin', 'num'), ('追踪移动目标（1/0）', 'track', 'num')],
+      [[x['key'], x['desc'], x['traj'], x['speed'], x['arc'], x['spin'], x['track']] for x in cfg['shots']], [16, 16, 40, 14, 18, 20, 16], 'B3')
+dv = DataValidation(type='list', formula1='"line,arc,drop,beam,chain"'); ws.add_data_validation(dv); dv.add(f'C3:C{2 + len(cfg["shots"])}')
+for k, t in enumerate(['※ 游戏按这里的弹道移动子弹，并预判跑者位置；美术只需要画子弹外观（fly）和命中效果（hit）。',
+                       '※ beam、chain 是水柱和音符链，由游戏直接画线，速度和高度不起作用。追踪 = 1 时子弹一路跟着目标，必中；= 0 时落在预判点，跑者变速可能躲开。']):
+    ws.cell(4 + len(cfg['shots']) + k, 1, t).font = Font(name=F, italic=True, color='5A6478')
 
 # ---------- 界面文字 ----------
 ws = wb.create_sheet('界面文字')
@@ -288,7 +301,7 @@ if os.path.exists('balance_sim.json'):
             if 'path' in x: sim[(r['kind'], x['path'], x['tier'])] = (x['frac'], eq(x['cost']))
 rows = []
 for r in BM.table(cfg):
-    if r['tower'] == 'miner': continue
+    if r['tower'] in ('miner', 'lure'): continue
     s = sim.get((r['tower'], r['path'], r['tier']))
     rows.append([r['tower'], r['path'], r['tier'], r['name'], r['cost'], r['cum'], round(r['eff'], 2), None, None, None,
                  s[0] if s else None, round(s[1], 3) if s else None, None, r['func'], None])
@@ -300,9 +313,9 @@ last = 2 + len(rows)
 for i in range(3, last + 1):
     ws.cell(i, 8, f'=G{i}/F{i}*100').number_format = '0.00'
     ws.cell(i, 9, f'=IFERROR((G{i}/F{i})/(SUMIFS($G$3:$G${last},$A$3:$A${last},A{i},$B$3:$B${last},0)/SUMIFS($F$3:$F${last},$A$3:$A${last},A{i},$B$3:$B${last},0)),"")').number_format = '0.00'
-    ws.cell(i, 10, f'=IF(B{i}=0,1,IF(C{i}<=1,G{i}-SUMIFS($G$3:$G${last},$A$3:$A${last},A{i},$B$3:$B${last},0),G{i}-G{i-1})/E{i}/(SUMIFS($G$3:$G${last},$A$3:$A${last},A{i},$B$3:$B${last},0)/SUMIFS($F$3:$F${last},$A$3:$A${last},A{i},$B$3:$B${last},0)))').number_format = '0.00'
+    ws.cell(i, 10, f'=IFERROR(IF(B{i}=0,1,IF(C{i}<=1,G{i}-SUMIFS($G$3:$G${last},$A$3:$A${last},A{i},$B$3:$B${last},0),G{i}-G{i-1})/E{i}/(SUMIFS($G$3:$G${last},$A$3:$A${last},A{i},$B$3:$B${last},0)/SUMIFS($F$3:$F${last},$A$3:$A${last},A{i},$B$3:$B${last},0))),"")').number_format = '0.00'
     ws.cell(i, 13, f'=IF(OR(K{i}="",L{i}="",L{i}=0),"",K{i}/L{i})').number_format = '0.00'
-    ws.cell(i, 15, f'=IF(B{i}=0,"基准",IF(AND(N{i}<>"",I{i}<0.85),"功能型：单看输出偏低属正常",IF(I{i}>=0.85,"划算",IF(I{i}>=0.65,"略亏：空位紧张时仍值得","偏亏：建议降价或加强"))))')
+    ws.cell(i, 15, f'=IF(B{i}=0,"基准",IF(C{i}=6,"6 级专精：空位用完后的出路，看后期实测，不和多放基础塔比",IF(AND(N{i}<>"",I{i}<0.85),"功能型：单看输出偏低属正常",IF(I{i}>=0.85,"划算",IF(I{i}>=0.65,"略亏：空位紧张时仍值得","偏亏：建议降价或加强")))))')
     for col in (8, 9, 10, 13, 15): ws.cell(i, col).font = CALC; ws.cell(i, col).border = BD
 for rng in (f'I3:I{last}', f'M3:M{last}'):
     ws.conditional_formatting.add(rng, CellIsRule(operator='greaterThanOrEqual', formula=['0.85'], fill=GRN))
@@ -311,6 +324,7 @@ for rng in (f'I3:I{last}', f'M3:M{last}'):
 notes = ['怎么看：「比同价多买基础塔」= 这套升级每 GST 的输出 ÷ 基础装置每 GST 的输出。1.0 表示和把钱拿去多放几座基础装置一样划算；装置空位有限，所以 0.85 以上就算合格。',
          f'估算假设：跑者间距 {BM.ASSUME["spacing"]} 像素，射程内覆盖跑道 ≈ {BM.ASSUME["cover"]} × 射程，射程内最多 {BM.ASSUME["maxTargets"]} 人。减速、冻结、眩晕、经济、光环等功能型效果不计入输出。',
          '实测：在经典跑道上用同一波 30 人测试，比较「一座升级装置」和「花同样 GST 放几座基础装置」各清掉多少体力（脚本 tools/sim_duel.mjs）。实测只覆盖 1–4 级。',
+         '休闲诱惑站和矿机不造成直接伤害（让跑者停下、挖矿），不放进本表比较。连击、音符、投递区类的 3–4 级是给 5、6 级攒能力，单看这一级会偏亏。',
          '本表的估算列和实测列是生成时的快照：改了「装置」「升级」表的数值后，需要维护者重新运行 build.sh 才会更新；比值和结论列是公式，会随快照自动重算。']
 for j, t in enumerate(notes):
     ws.cell(last + 2 + j, 1, t).font = NOTE
