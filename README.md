@@ -22,6 +22,8 @@ FSL 公会塔防原型：STEPN 跑者冲过你的领地，你用易拉罐、香�
 | `index.html` | 游戏本体，单文件，直接用浏览器打开也能玩 |
 | `config/blast-track-config.xlsx` | 配置表：装置、升级、敌人、波次、Boss、卡牌、地图、三语文字、美术资源，全部可改 |
 | `tools/` | 生成 `index.html` 和配置表的源文件，只有改代码时才需要 |
+| `art/tower.dart.*`、`art/shot.dart.*` | 易拉罐投手和飞行罐子的动画精灵图 + JSON，游戏默认自带 |
+| `art/can-tosser/` | 易拉罐投手的部件图（底座、投臂、罐子、轴盖）和动画脚本。改 `gen_can_anim.py` 里的 `FIRE` / `IDLE` 表再运行 `python3 gen_can_anim.py`（需要 Pillow、numpy），就能重新生成上面的精灵图 |
 
 ## 发布到网页（GitHub Pages）
 
