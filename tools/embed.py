@@ -8,6 +8,11 @@ s = open('script.js').read()
 s = re.sub(r'const DEFAULT_CFG = .*?;\n', lambda m: 'const DEFAULT_CFG = ' + json.dumps(cfg, ensure_ascii=False) + ';\n', s, count=1, flags=re.S)
 en = {k: v[0] for k, v in T.items()}; fr = {k: v[1] for k, v in T.items()}
 s = re.sub(r'const I18N = .*?;\n', lambda m: 'const I18N = ' + json.dumps({'zh': {}, 'en': en, 'fr': fr}, ensure_ascii=False) + ';\n', s, count=1, flags=re.S)
+
+import base64, os
+if os.path.exists('map_park.jpg'):
+    uri = 'data:image/jpeg;base64,' + base64.b64encode(open('map_park.jpg', 'rb').read()).decode()
+    s = re.sub(r"const PARK_IMG = '.*?';\n", lambda m: "const PARK_IMG = '" + uri + "';\n", s, count=1, flags=re.S)
 open('script.js', 'w').write(s)
 # coverage check: every tr()/tf() literal must have en+fr
 keys = set(re.findall(r"\btr\('([^']+)'\)", s)) | set(re.findall(r"\btf\('([^']+)'", s))
