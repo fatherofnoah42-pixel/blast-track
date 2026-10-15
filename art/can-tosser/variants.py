@@ -74,8 +74,9 @@ def steel(img, tint=(0.80, 0.86, 1.0), lift=0.06):
     return recolor(img, f)
 
 # --- geometry helpers for add-ons that ride on the arm ---
+HOLE_DY = 0
 def arm_frame(arm_deg, arm_sc):
-    hole = rig.BASE_PIVOT_HOLE
+    hole = (rig.BASE_PIVOT_HOLE[0], rig.BASE_PIVOT_HOLE[1] + HOLE_DY)
     th = math.radians(arm_deg)
     def at(local):  # arm-crop coords -> world
         return rig.world_of(local, rig.ARM_HOLE, hole, arm_deg, arm_sc)

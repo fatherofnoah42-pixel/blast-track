@@ -20,6 +20,7 @@ CAP_SC = 0.41
 
 # The can STANDS in the cup: its axis is the scoop's mouth direction (arm-local "up"), lid outward, bottom behind the near rim.
 CAN_CENTER = (455, 48)            # arm-crop coords: centre of the can when it sits in the cup
+CAN_ANCHOR = (141, 215)          # can-image px placed at CAN_CENTER (the can's middle)
 CAN_LOCAL_ROT = 0                 # can image already has its lid "up" = the mouth direction
 CAN_SQUASH = 1.0                 # reference can is short and fat; the part sheet's can is tall
 MUZZLE_PUSH = 100                  # arm-crop px along the mouth direction: where the can is when it leaves the cup
@@ -131,7 +132,7 @@ def draw_arm(cv, hole_w, arm_deg, can=True, can_slide=0, can_dy=0):
         cx, cy = CAN_CENTER[0], CAN_CENTER[1] + can_slide
         can_w = world_of((cx, cy), ARM_HOLE, hole_w, arm_deg, ARM_SC)
         cl = Image.new('RGBA', cv.size, (0, 0, 0, 0))
-        place(cl, 'can', (141, 215), (can_w[0], can_w[1] + can_dy), arm_deg + CAN_LOCAL_ROT, CAN_SC, 1.0, CAN_SQUASH)
+        place(cl, 'can', CAN_ANCHOR, (can_w[0], can_w[1] + can_dy), arm_deg + CAN_LOCAL_ROT, CAN_SC, 1.0, CAN_SQUASH)
         # the bowl's end wall and near rim hide the part of the can that stands inside the bowl
         ml = Image.new('RGBA', cv.size, (0, 0, 0, 0))
         place(ml, None, ARM_HOLE, hole_w, arm_deg, ARM_SC, img=_front_mask())
@@ -140,10 +141,11 @@ def draw_arm(cv, hole_w, arm_deg, can=True, can_slide=0, can_dy=0):
         cv.alpha_composite(Image.fromarray(a))
 
 def render(arm_deg=REST_DEG, base_dx=0, base_dy=0, base_sx=1, base_sy=1, can=True, can_slide=0, can_dy=0,
-           extra=None, wobble=0.0, under=None):
+           extra=None, wobble=0.0, under=None, pre=None):
     """can_slide: arm-crop px the can is displaced along the mouth direction (negative = out of the cup, positive = down into it)."""
     cv = Image.new('RGBA', (FW * SS, FH * SS), (0, 0, 0, 0))
     foot_w = (BASE_FOOT[0] + base_dx, BASE_FOOT[1] + base_dy)          # base squashes about its feet
+    if pre: pre(cv)
     place(cv, 'base', BASE_FOOT, foot_w, 0, 1, base_sx, base_sy)
     hole_w = world_of(BASE_PIVOT_HOLE, BASE_FOOT, foot_w, 0, 1, base_sx, base_sy)   # axle follows the squashed base
     if under: under(cv, hole_w, lambda deg, c=True, sl=0: draw_arm(cv, hole_w, deg, c, sl, 0))
