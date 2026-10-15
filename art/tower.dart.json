@@ -108,7 +108,7 @@
     "w": 365,
     "h": 375
    },
-   "duration": 50
+   "duration": 45
   },
   {
    "filename": "tower.dart 5.aseprite",
@@ -130,7 +130,7 @@
     "w": 365,
     "h": 375
    },
-   "duration": 55
+   "duration": 45
   },
   {
    "filename": "tower.dart 6.aseprite",
@@ -152,7 +152,7 @@
     "w": 365,
     "h": 375
    },
-   "duration": 70
+   "duration": 55
   },
   {
    "filename": "tower.dart 7.aseprite",
@@ -196,7 +196,7 @@
     "w": 365,
     "h": 375
    },
-   "duration": 35
+   "duration": 30
   },
   {
    "filename": "tower.dart 9.aseprite",
@@ -218,7 +218,7 @@
     "w": 365,
     "h": 375
    },
-   "duration": 45
+   "duration": 35
   },
   {
    "filename": "tower.dart 10.aseprite",
@@ -240,7 +240,7 @@
     "w": 365,
     "h": 375
    },
-   "duration": 50
+   "duration": 40
   },
   {
    "filename": "tower.dart 11.aseprite",
@@ -262,7 +262,7 @@
     "w": 365,
     "h": 375
    },
-   "duration": 55
+   "duration": 40
   },
   {
    "filename": "tower.dart 12.aseprite",
@@ -284,7 +284,7 @@
     "w": 365,
     "h": 375
    },
-   "duration": 55
+   "duration": 45
   },
   {
    "filename": "tower.dart 13.aseprite",
@@ -307,6 +307,28 @@
     "h": 375
    },
    "duration": 45
+  },
+  {
+   "filename": "tower.dart 14.aseprite",
+   "frame": {
+    "x": 1460,
+    "y": 750,
+    "w": 365,
+    "h": 375
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 365,
+    "h": 375
+   },
+   "sourceSize": {
+    "w": 365,
+    "h": 375
+   },
+   "duration": 50
   }
  ],
  "meta": {
@@ -329,13 +351,13 @@
    {
     "name": "fire",
     "from": 4,
-    "to": 13,
+    "to": 14,
     "direction": "forward"
    },
    {
     "name": "release",
-    "from": 7,
-    "to": 7,
+    "from": 8,
+    "to": 8,
     "direction": "forward"
    }
   ],
@@ -347,7 +369,7 @@
      {
       "frame": 0,
       "bounds": {
-       "x": 156,
+       "x": 201,
        "y": 362,
        "w": 8,
        "h": 8
@@ -362,8 +384,8 @@
      {
       "frame": 0,
       "bounds": {
-       "x": 268,
-       "y": 122,
+       "x": 123,
+       "y": 86,
        "w": 8,
        "h": 8
       }
@@ -371,8 +393,8 @@
      {
       "frame": 1,
       "bounds": {
-       "x": 265,
-       "y": 119,
+       "x": 125,
+       "y": 84,
        "w": 8,
        "h": 8
       }
@@ -380,8 +402,8 @@
      {
       "frame": 2,
       "bounds": {
-       "x": 268,
-       "y": 122,
+       "x": 123,
+       "y": 86,
        "w": 8,
        "h": 8
       }
@@ -389,8 +411,8 @@
      {
       "frame": 3,
       "bounds": {
-       "x": 270,
-       "y": 125,
+       "x": 120,
+       "y": 88,
        "w": 8,
        "h": 8
       }
@@ -398,8 +420,8 @@
      {
       "frame": 4,
       "bounds": {
-       "x": 224,
-       "y": 91,
+       "x": 103,
+       "y": 100,
        "w": 8,
        "h": 8
       }
@@ -407,8 +429,8 @@
      {
       "frame": 5,
       "bounds": {
-       "x": 142,
-       "y": 80,
+       "x": 88,
+       "y": 113,
        "w": 8,
        "h": 8
       }
@@ -416,8 +438,8 @@
      {
       "frame": 6,
       "bounds": {
-       "x": 71,
-       "y": 115,
+       "x": 86,
+       "y": 116,
        "w": 8,
        "h": 8
       }
@@ -425,8 +447,8 @@
      {
       "frame": 7,
       "bounds": {
-       "x": 222,
-       "y": 85,
+       "x": 88,
+       "y": 114,
        "w": 8,
        "h": 8
       }
@@ -434,8 +456,8 @@
      {
       "frame": 8,
       "bounds": {
-       "x": 284,
-       "y": 146,
+       "x": 163,
+       "y": 66,
        "w": 8,
        "h": 8
       }
@@ -443,8 +465,8 @@
      {
       "frame": 9,
       "bounds": {
-       "x": 297,
-       "y": 177,
+       "x": 238,
+       "y": 67,
        "w": 8,
        "h": 8
       }
@@ -452,8 +474,8 @@
      {
       "frame": 10,
       "bounds": {
-       "x": 253,
-       "y": 108,
+       "x": 264,
+       "y": 80,
        "w": 8,
        "h": 8
       }
@@ -461,8 +483,8 @@
      {
       "frame": 11,
       "bounds": {
-       "x": 272,
-       "y": 128,
+       "x": 230,
+       "y": 70,
        "w": 8,
        "h": 8
       }
@@ -470,8 +492,8 @@
      {
       "frame": 12,
       "bounds": {
-       "x": 264,
-       "y": 119,
+       "x": 177,
+       "y": 68,
        "w": 8,
        "h": 8
       }
@@ -479,8 +501,17 @@
      {
       "frame": 13,
       "bounds": {
-       "x": 268,
-       "y": 122,
+       "x": 142,
+       "y": 77,
+       "w": 8,
+       "h": 8
+      }
+     },
+     {
+      "frame": 14,
+      "bounds": {
+       "x": 123,
+       "y": 86,
        "w": 8,
        "h": 8
       }

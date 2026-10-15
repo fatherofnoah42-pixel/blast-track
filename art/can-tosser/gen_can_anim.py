@@ -3,32 +3,33 @@
 # Needs Pillow + numpy.  Tweak the FIRE / IDLE tables below to change the motion, then re-run and rebuild.
 import sys, json, math, os
 import numpy as np
-from PIL import Image, ImageDraw, ImageFilter
+from PIL import Image, ImageDraw, ImageFilter, ImageOps
 import rig
 from rig import FW, FH
 
 OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 
-# Motion (sprite faces RIGHT = the way the can is thrown).  The can lies along the arm and slides out of the scoop's far
-# end, so the arm has to swing FORWARD (clockwise) toward the target: first it is pulled back over the pivot, which
-# stretches the black rubber band (hooked to the back of the hub), then the band snaps it forward and the can leaves
-# along the arm.  Rubber band: tension 0 = slack and sagging, 1 = taut and thin; wobble = ripple after the snap.
-# IDLE : (arm_deg, can_dy, base_sy, band_tension)
-IDLE = [(-40.0, 0, 1.000, .42), (-41.4, -2, 1.004, .40), (-40.0, 0, 1.000, .42), (-38.6, 1, 0.996, .44)]
-# FIRE : ms, arm_deg, base_dx, base_sx, base_sy, can_in_scoop, can_scale, smear_from_deg, band_tension, band_wobble
+# Motion.  The machine is built facing LEFT (rig.py) and every frame is mirrored at the end, because the game wants sprites
+# that face RIGHT.  Angles are native (screen degrees, clockwise positive).  Sequence = the reference GIF:
+#   pull the arm back (cords stretch, thin and taut) -> release: the cords snap the arm forward and the standing can leaves
+#   along the scoop's mouth -> arm overshoots, cords go slack and ripple -> returns, a new can rises into the cup.
+# IDLE : (arm_deg, can_dy, base_sy)
+IDLE = [(-42.0, 0, 1.000), (-43.2, -1, 1.004), (-42.0, 0, 1.000), (-40.8, 1, 0.996)]
+# FIRE : ms, arm_deg, base_dx, base_sx, base_sy, can_in_cup, can_slide, smear_from_deg, cord_wobble
 FIRE = [
-  (50,  -62,  0, 1.010, 0.990, True, 1.0, None, .62, 0.0),   # start pulling the arm back
-  (55,  -96,  2, 1.020, 0.975, True, 1.0, None, .85, 0.0),
-  (70, -128,  4, 1.035, 0.955, True, 1.0, None, 1.0, 0.0),   # fully cocked: band taut and thin
-  (30,  -62, -3, 0.985, 1.030, False, 1.0, -128, .45, .5),   # RELEASE: band snaps the arm forward, can leaves along it
-  (35,  -26, -6, 0.980, 1.035, False, 1.0, -62, .10, -.8),
-  (45,  -14, -3, 0.995, 1.010, False, 1.0, None, .00, .9),   # overshoot forward, band slack and rippling
-  (50,  -48,  0, 1.000, 1.000, False, 1.0, None, .15, -.5),
-  (55,  -37,  0, 1.000, 1.000, True, 0.55, None, .35, .25),  # next can pops into the scoop
-  (55,  -42,  0, 1.000, 1.000, True, 1.12, None, .42, -.1),
-  (45,  -40,  0, 1.000, 1.000, True, 1.0, None, .42, 0.0),
+  (45,  -33,  0, 1.006, 0.994, True,   0, None, 0.0),    # pull back, cords stretch
+  (45,  -26,  1, 1.012, 0.986, True,   0, None, 0.0),
+  (55,  -25,  2, 1.016, 0.980, True,   0, None, 0.0),    # fully drawn, cords taut and thin
+  (30,  -26,  2, 1.014, 0.982, True,   0, None, 0.0),    # hold
+  (30,  -58, -3, 0.985, 1.030, False,  0, -30, 0.4),     # RELEASE: cords snap the arm, can leaves along the mouth
+  (35,  -86, -5, 0.980, 1.034, False,  0, -58, 0.7),
+  (40,  -97, -3, 0.992, 1.012, False,  0, None, 1.0),    # overshoot, cords slack and rippling
+  (40,  -84,  0, 1.000, 1.000, False,  0, None, -0.7),
+  (45,  -64,  0, 1.000, 1.000, True,  90, None, 0.5),    # new can rises into the cup at constant size
+  (45,  -50,  0, 1.000, 1.000, True,  35, None, -0.25),
+  (50,  -42,  0, 1.000, 1.000, True,   0, None, 0.0),
 ]
-RELEASE = 3
+RELEASE = 4
 
 def smear(a0, a1):
     def f(cv):
@@ -38,7 +39,7 @@ def smear(a0, a1):
         lay = Image.new('RGBA', cv.size, (0, 0, 0, 0)); ld = ImageDraw.Draw(lay)
         r0, r1 = 200 * K, 410 * K
         n = 12
-        for i in range(n):   # trailing wedge: faint at the start angle, stronger near the scoop
+        for i in range(n):   # trailing wedge: faint at the start angle, stronger at the arm
             t0, t1 = i / n, (i + 1) / n
             A0 = math.radians(a0 + (a1 - a0) * t0); A1 = math.radians(a0 + (a1 - a0) * t1)
             pts = [(cx + r1 * math.cos(A0), cy + r1 * math.sin(A0)), (cx + r1 * math.cos(A1), cy + r1 * math.sin(A1)),
@@ -48,17 +49,20 @@ def smear(a0, a1):
         cv.alpha_composite(lay)
     return f
 
-def pose(arm, dx=0, sx=1, sy=1, can=True, can_sc=1.0, sm=None, can_dy=0, band=(.42, 0)):
+def pose(arm, dx=0, sx=1, sy=1, can=True, slide=0, sm=None, can_dy=0, wob=0.0):
     ex = smear(sm, arm) if sm is not None else None
-    return rig.render(arm_deg=arm, base_dx=dx, base_sx=sx, base_sy=sy, can=can, can_sc=can_sc, can_dy=can_dy, extra=ex, band=band)
+    fr, info = rig.render(arm_deg=arm, base_dx=dx, base_sx=sx, base_sy=sy, can=can, can_slide=slide, can_dy=can_dy, extra=ex, wobble=wob)
+    fr = ImageOps.mirror(fr)                                   # native left-facing -> game's right-facing
+    mz = (FW - info['muzzle'][0], info['muzzle'][1])
+    return fr, mz
 
 frames, durs, muz, names = [], [], [], []
-for arm, cdy, sy, tn in IDLE:
-    fr, info = pose(arm, sy=sy, can_dy=cdy, band=(tn, 0)); frames.append(fr); durs.append(170); muz.append(info['scoop']); names.append('idle')
-for ms, arm, dx, sx, sy, can, csc, sm, tn, wb in FIRE:
-    fr, info = pose(arm, dx, sx, sy, can, csc, sm, band=(tn, wb)); frames.append(fr); durs.append(ms); muz.append(info['scoop']); names.append('fire')
-foot = info['foot']  # fixed ground point (unsquashed foot)
-foot = rig.to_px(rig.BASE_FOOT)
+for arm, cdy, sy in IDLE:
+    fr, mz = pose(arm, sy=sy, can_dy=cdy); frames.append(fr); durs.append(170); muz.append(mz); names.append('idle')
+for ms, arm, dx, sx, sy, can, sl, sm, wb in FIRE:
+    fr, mz = pose(arm, dx, sx, sy, can, sl, sm, wob=wb); frames.append(fr); durs.append(ms); muz.append(mz); names.append('fire')
+ft = rig.to_px(rig.BASE_FOOT)
+foot = (FW - ft[0], ft[1])
 
 # ---- sheet (grid) ----
 COLS = 5
