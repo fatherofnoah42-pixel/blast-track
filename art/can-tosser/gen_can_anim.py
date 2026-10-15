@@ -3,28 +3,33 @@
 # Needs Pillow + numpy.  Tweak the FIRE / IDLE tables below to change the motion, then re-run and rebuild.
 import sys, json, math, os
 import numpy as np
-from PIL import Image, ImageDraw, ImageFilter
+from PIL import Image, ImageDraw, ImageFilter, ImageOps
 import rig
 from rig import FW, FH
 
 OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 
-# (name, ms, arm_deg, base_dx, base_sx, base_sy, can_in_scoop, can_scale, can_dy, smear_from)
-IDLE = [(-40.0, 0, 1.000), (-41.4, -2, 1.004), (-40.0, 0, 1.000), (-38.6, 1, 0.996)]
+# Motion.  The machine is built facing LEFT (rig.py) and every frame is mirrored at the end, because the game wants sprites
+# that face RIGHT.  Angles are native (screen degrees, clockwise positive).  Sequence = the reference GIF:
+#   pull the arm back (cords stretch, thin and taut) -> release: the cords snap the arm forward and the standing can leaves
+#   along the scoop's mouth -> arm overshoots, cords go slack and ripple -> returns, a new can rises into the cup.
+# IDLE : (arm_deg, can_dy, base_sy)
+IDLE = [(-42.0, 0, 1.000), (-43.2, -1, 1.004), (-42.0, 0, 1.000), (-40.8, 1, 0.996)]
+# FIRE : ms, arm_deg, base_dx, base_sx, base_sy, can_in_cup, can_slide, smear_from_deg, cord_wobble
 FIRE = [
-  # ms,  arm,  dx,  sx,   sy,   can, can_sc, smear_from
-  (40,  -28,   0, 1.010, 0.985, True, 1.0, None),    # tiny pull-back
-  (45,   -8,   3, 1.030, 0.960, True, 1.0, None),    # crouch / wind-up
-  (35,  -50,  -6, 0.990, 1.020, True, 1.0, -8),      # snap
-  (35,  -76, -11, 0.975, 1.045, False, 1.0, -50),    # RELEASE: can leaves the scoop
-  (45,  -97,  -7, 0.990, 1.015, False, 1.0, -76),    # overshoot
-  (55,  -78,  -3, 1.000, 0.995, False, 1.0, None),
-  (60,  -50,   0, 1.000, 1.000, False, 1.0, None),
-  (60,  -33,   0, 1.000, 1.000, True, 0.55, None),   # next can pops in
-  (55,  -44,   0, 1.000, 1.000, True, 1.12, None),
-  (45,  -40,   0, 1.000, 1.000, True, 1.0, None),
+  (45,  -33,  0, 1.006, 0.994, True,   0, None, 0.0),    # pull back, cords stretch
+  (45,  -26,  1, 1.012, 0.986, True,   0, None, 0.0),
+  (55,  -25,  2, 1.016, 0.980, True,   0, None, 0.0),    # fully drawn, cords taut and thin
+  (30,  -26,  2, 1.014, 0.982, True,   0, None, 0.0),    # hold
+  (30,  -58, -3, 0.985, 1.030, False,  0, -30, 0.4),     # RELEASE: cords snap the arm, can leaves along the mouth
+  (35,  -86, -5, 0.980, 1.034, False,  0, -58, 0.7),
+  (40,  -97, -3, 0.992, 1.012, False,  0, None, 1.0),    # overshoot, cords slack and rippling
+  (40,  -84,  0, 1.000, 1.000, False,  0, None, -0.7),
+  (45,  -64,  0, 1.000, 1.000, True, 215, None, 0.5),    # new can rises into the cup at constant size
+  (45,  -50,  0, 1.000, 1.000, True,  75, None, -0.25),
+  (50,  -42,  0, 1.000, 1.000, True,   0, None, 0.0),
 ]
-RELEASE = 3
+RELEASE = 4
 
 def smear(a0, a1):
     def f(cv):
@@ -34,7 +39,7 @@ def smear(a0, a1):
         lay = Image.new('RGBA', cv.size, (0, 0, 0, 0)); ld = ImageDraw.Draw(lay)
         r0, r1 = 200 * K, 410 * K
         n = 12
-        for i in range(n):   # trailing wedge: faint at the start angle, stronger near the scoop
+        for i in range(n):   # trailing wedge: faint at the start angle, stronger at the arm
             t0, t1 = i / n, (i + 1) / n
             A0 = math.radians(a0 + (a1 - a0) * t0); A1 = math.radians(a0 + (a1 - a0) * t1)
             pts = [(cx + r1 * math.cos(A0), cy + r1 * math.sin(A0)), (cx + r1 * math.cos(A1), cy + r1 * math.sin(A1)),
@@ -44,17 +49,20 @@ def smear(a0, a1):
         cv.alpha_composite(lay)
     return f
 
-def pose(arm, dx=0, sx=1, sy=1, can=True, can_sc=1.0, sm=None, can_dy=0):
+def pose(arm, dx=0, sx=1, sy=1, can=True, slide=0, sm=None, can_dy=0, wob=0.0):
     ex = smear(sm, arm) if sm is not None else None
-    return rig.render(arm_deg=arm, base_dx=dx, base_sx=sx, base_sy=sy, can=can, can_sc=can_sc, can_dy=can_dy, extra=ex)
+    fr, info = rig.render(arm_deg=arm, base_dx=dx, base_sx=sx, base_sy=sy, can=can, can_slide=slide, can_dy=can_dy, extra=ex, wobble=wob)
+    fr = ImageOps.mirror(fr)                                   # native left-facing -> game's right-facing
+    mz = (FW - info['muzzle'][0], info['muzzle'][1])
+    return fr, mz
 
 frames, durs, muz, names = [], [], [], []
 for arm, cdy, sy in IDLE:
-    fr, info = pose(arm, sy=sy, can_dy=cdy); frames.append(fr); durs.append(170); muz.append(info['scoop']); names.append('idle')
-for ms, arm, dx, sx, sy, can, csc, sm in FIRE:
-    fr, info = pose(arm, dx, sx, sy, can, csc, sm); frames.append(fr); durs.append(ms); muz.append(info['scoop']); names.append('fire')
-foot = info['foot']  # fixed ground point (unsquashed foot)
-foot = rig.to_px(rig.BASE_FOOT)
+    fr, mz = pose(arm, sy=sy, can_dy=cdy); frames.append(fr); durs.append(170); muz.append(mz); names.append('idle')
+for ms, arm, dx, sx, sy, can, sl, sm, wb in FIRE:
+    fr, mz = pose(arm, dx, sx, sy, can, sl, sm, wob=wb); frames.append(fr); durs.append(ms); muz.append(mz); names.append('fire')
+ft = rig.to_px(rig.BASE_FOOT)
+foot = (FW - ft[0], ft[1])
 
 # ---- sheet (grid) ----
 COLS = 5
@@ -80,8 +88,11 @@ json.dump({'frames': jf, 'meta': meta}, open(os.path.join(OUT, 'tower.dart.json'
 # ---- shot: flying can + hit splat ----
 SW = 120
 can = rig.P['can']
-cs = rig.CAN_SC * rig.S  # same px scale as in the tower frames
-can_s = can.resize((round(can.width * cs), round(can.height * cs)), Image.LANCZOS).rotate(-90, expand=True, resample=Image.BICUBIC)  # lid points right (+x)
+# Same on-screen size as the can sitting in the cup: the tower sheet is drawn at 46/365 px per px, this sheet at 13/SW.
+FLY_K = (46 / FW) / (13 / SW)
+FLY_SQUASH = 1.0   # a can is taller than wide; only a hint of the cartoon squash so it never looks flattened in flight
+cs = rig.CAN_SC * rig.S * FLY_K
+can_s = can.resize((round(can.width * cs), round(can.height * cs * FLY_SQUASH)), Image.LANCZOS).rotate(-90, expand=True, resample=Image.BICUBIC)  # lid points right (+x)
 
 def on_canvas(img, rot=0, sx=1, sy=1, alpha=1.0, dx=0, dy=0, size=SW):
     c = Image.new('RGBA', (size, size), (0, 0, 0, 0))
@@ -109,7 +120,7 @@ def star(size, r_out, r_in, pts, col, ink, alpha=1.0, rot=0):
 
 INK = (43, 30, 24)
 shot_frames, shot_dur, shot_tag = [], [], []
-for rot, sx, sy in [(0, 1, 1), (5, .98, 1.03), (0, 1, 1), (-5, .98, 1.03)]:
+for rot, sx, sy in [(0, 1, 1), (2, 1, 1), (0, 1, 1), (-2, 1, 1)]:
     shot_frames.append(on_canvas(can_s, rot, sx, sy)); shot_dur.append(90); shot_tag.append('fly')
 hit = [  # (star r_out, alpha, can sx, sy, can alpha)
     (24, 1.0, 1.0, 1.0, 1.0), (40, 1.0, 1.15, .75, 1.0), (50, .85, 1.3, .55, .9), (54, .55, 1.4, .45, .55), (56, .25, 1.45, .4, .25)]
