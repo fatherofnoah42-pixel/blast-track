@@ -125,13 +125,7 @@ def _rest_lengths():
     return out
 REST_LEN = _rest_lengths()
 
-def render(arm_deg=REST_DEG, base_dx=0, base_dy=0, base_sx=1, base_sy=1, can=True, can_slide=0, can_dy=0,
-           extra=None, wobble=0.0):
-    """can_slide: arm-crop px the can is displaced along the mouth direction (negative = out of the cup, positive = down into it)."""
-    cv = Image.new('RGBA', (FW * SS, FH * SS), (0, 0, 0, 0))
-    foot_w = (BASE_FOOT[0] + base_dx, BASE_FOOT[1] + base_dy)          # base squashes about its feet
-    place(cv, 'base', BASE_FOOT, foot_w, 0, 1, base_sx, base_sy)
-    hole_w = world_of(BASE_PIVOT_HOLE, BASE_FOOT, foot_w, 0, 1, base_sx, base_sy)   # axle follows the squashed base
+def draw_arm(cv, hole_w, arm_deg, can=True, can_slide=0, can_dy=0):
     place(cv, 'arm', ARM_HOLE, hole_w, arm_deg, ARM_SC)
     if can:
         cx, cy = CAN_CENTER[0], CAN_CENTER[1] + can_slide
@@ -144,6 +138,16 @@ def render(arm_deg=REST_DEG, base_dx=0, base_dy=0, base_sx=1, base_sy=1, can=Tru
         a = np.array(cl); m = np.array(ml)[..., 3].astype(np.float32) / 255
         a[..., 3] = (a[..., 3] * (1 - m)).astype(np.uint8)
         cv.alpha_composite(Image.fromarray(a))
+
+def render(arm_deg=REST_DEG, base_dx=0, base_dy=0, base_sx=1, base_sy=1, can=True, can_slide=0, can_dy=0,
+           extra=None, wobble=0.0, under=None):
+    """can_slide: arm-crop px the can is displaced along the mouth direction (negative = out of the cup, positive = down into it)."""
+    cv = Image.new('RGBA', (FW * SS, FH * SS), (0, 0, 0, 0))
+    foot_w = (BASE_FOOT[0] + base_dx, BASE_FOOT[1] + base_dy)          # base squashes about its feet
+    place(cv, 'base', BASE_FOOT, foot_w, 0, 1, base_sx, base_sy)
+    hole_w = world_of(BASE_PIVOT_HOLE, BASE_FOOT, foot_w, 0, 1, base_sx, base_sy)   # axle follows the squashed base
+    if under: under(cv, hole_w, lambda deg, c=True, sl=0: draw_arm(cv, hole_w, deg, c, sl, 0))
+    draw_arm(cv, hole_w, arm_deg, can, can_slide, can_dy)
     place(cv, 'cap', (136, 137), hole_w, 0, CAP_SC)
     # the two cords sit on top of everything: post knob -> arm rivet, post knob -> pivot hub
     for c, rl in zip((CORD_UP, CORD_LO), REST_LEN):
