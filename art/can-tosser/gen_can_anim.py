@@ -88,8 +88,11 @@ json.dump({'frames': jf, 'meta': meta}, open(os.path.join(OUT, 'tower.dart.json'
 # ---- shot: flying can + hit splat ----
 SW = 120
 can = rig.P['can']
-cs = rig.CAN_SC * rig.S  # same px scale as in the tower frames
-can_s = can.resize((round(can.width * cs), round(can.height * cs * rig.CAN_SQUASH)), Image.LANCZOS).rotate(-90, expand=True, resample=Image.BICUBIC)  # lid points right (+x)
+# Same on-screen size as the can sitting in the cup: the tower sheet is drawn at 46/365 px per px, this sheet at 13/SW.
+FLY_K = (46 / FW) / (13 / SW)
+FLY_SQUASH = 0.92   # a can is taller than wide; only a hint of the cartoon squash so it never looks flattened in flight
+cs = rig.CAN_SC * rig.S * FLY_K
+can_s = can.resize((round(can.width * cs), round(can.height * cs * FLY_SQUASH)), Image.LANCZOS).rotate(-90, expand=True, resample=Image.BICUBIC)  # lid points right (+x)
 
 def on_canvas(img, rot=0, sx=1, sy=1, alpha=1.0, dx=0, dy=0, size=SW):
     c = Image.new('RGBA', (size, size), (0, 0, 0, 0))
@@ -117,7 +120,7 @@ def star(size, r_out, r_in, pts, col, ink, alpha=1.0, rot=0):
 
 INK = (43, 30, 24)
 shot_frames, shot_dur, shot_tag = [], [], []
-for rot, sx, sy in [(0, 1, 1), (5, .98, 1.03), (0, 1, 1), (-5, .98, 1.03)]:
+for rot, sx, sy in [(0, 1, 1), (2, 1, 1), (0, 1, 1), (-2, 1, 1)]:
     shot_frames.append(on_canvas(can_s, rot, sx, sy)); shot_dur.append(90); shot_tag.append('fly')
 hit = [  # (star r_out, alpha, can sx, sy, can alpha)
     (24, 1.0, 1.0, 1.0, 1.0), (40, 1.0, 1.15, .75, 1.0), (50, .85, 1.3, .55, .9), (54, .55, 1.4, .45, .55), (56, .25, 1.45, .4, .25)]
