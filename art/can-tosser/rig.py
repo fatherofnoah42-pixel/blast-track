@@ -15,14 +15,14 @@ BASE_PIVOT_HOLE = (320, 134)      # axle hole on the base bracket
 BASE_FOOT = (310, 421)            # bottom-centre of the base (stands on the pad here)
 ARM_HOLE = (68, 85)               # axle hole at the arm's round end
 ARM_SC = 0.74
-CAN_SC = 0.47
+CAN_SC = 0.52
 CAP_SC = 0.41
 
 # The can STANDS in the cup: its axis is the scoop's mouth direction (arm-local "up"), lid outward, bottom behind the near rim.
-CAN_CENTER = (455, 22)            # arm-crop coords: centre of the can when it sits in the cup
+CAN_CENTER = (455, 48)            # arm-crop coords: centre of the can when it sits in the cup
 CAN_LOCAL_ROT = 0                 # can image already has its lid "up" = the mouth direction
-CAN_SQUASH = 0.78                 # reference can is short and fat; the part sheet's can is tall
-MUZZLE_PUSH = 70                  # arm-crop px along the mouth direction: where the can is when it leaves the cup
+CAN_SQUASH = 1.0                 # reference can is short and fat; the part sheet's can is tall
+MUZZLE_PUSH = 100                  # arm-crop px along the mouth direction: where the can is when it leaves the cup
 # outline of everything that stands IN FRONT of the can (bowl's end wall + the near rim and shell), arm-crop coords
 FRONT_POLY = [(280, 0), (344, 0), (346, 55), (361, 66), (367, 90), (380, 94), (410, 101), (450, 102), (490, 94), (530, 82),
               (552, 58), (566, 32), (580, 8), (600, 8), (600, 200), (280, 200)]

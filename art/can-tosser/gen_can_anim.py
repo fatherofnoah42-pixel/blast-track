@@ -25,8 +25,8 @@ FIRE = [
   (35,  -86, -5, 0.980, 1.034, False,  0, -58, 0.7),
   (40,  -97, -3, 0.992, 1.012, False,  0, None, 1.0),    # overshoot, cords slack and rippling
   (40,  -84,  0, 1.000, 1.000, False,  0, None, -0.7),
-  (45,  -64,  0, 1.000, 1.000, True,  90, None, 0.5),    # new can rises into the cup at constant size
-  (45,  -50,  0, 1.000, 1.000, True,  35, None, -0.25),
+  (45,  -64,  0, 1.000, 1.000, True, 215, None, 0.5),    # new can rises into the cup at constant size
+  (45,  -50,  0, 1.000, 1.000, True,  75, None, -0.25),
   (50,  -42,  0, 1.000, 1.000, True,   0, None, 0.0),
 ]
 RELEASE = 4
@@ -90,7 +90,7 @@ SW = 120
 can = rig.P['can']
 # Same on-screen size as the can sitting in the cup: the tower sheet is drawn at 46/365 px per px, this sheet at 13/SW.
 FLY_K = (46 / FW) / (13 / SW)
-FLY_SQUASH = 0.92   # a can is taller than wide; only a hint of the cartoon squash so it never looks flattened in flight
+FLY_SQUASH = 1.0   # a can is taller than wide; only a hint of the cartoon squash so it never looks flattened in flight
 cs = rig.CAN_SC * rig.S * FLY_K
 can_s = can.resize((round(can.width * cs), round(can.height * cs * FLY_SQUASH)), Image.LANCZOS).rotate(-90, expand=True, resample=Image.BICUBIC)  # lid points right (+x)
 
