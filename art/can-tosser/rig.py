@@ -71,8 +71,18 @@ def _front_mask():
     if _FRONT is None:
         arm = P['arm']; poly = Image.new('L', arm.size, 0)
         ImageDraw.Draw(poly).polygon(FRONT_POLY, fill=255)
-        a = np.minimum(np.array(poly), np.array(arm)[..., 3])     # only where the arm part is actually opaque
-        out = np.zeros((arm.height, arm.width, 4), np.uint8); out[..., :3] = 255; out[..., 3] = a
+        aa = np.array(arm)[..., 3]
+        a = np.minimum(np.array(poly), aa)                          # only where the arm part is actually opaque
+        # the can must never show outside the bowl's outer shell: hide everything below the shell's lowest opaque pixel per column
+        H, W = aa.shape; below = np.zeros((H, W), np.uint8)
+        for x in range(280, W):
+            ys = np.nonzero(aa[:, x] > 40)[0]
+            below[(ys.max() if len(ys) else 0):, x] = 255
+        a = np.maximum(a, below)
+        PADX, PADY = 500, 400                                       # beyond the arm crop's right/bottom edge everything hides the can too
+        full = np.zeros((H + PADY, W + PADX), np.uint8); full[:H, :W] = a; full[:, W:] = 255; full[H:, :] = 255
+        a = full
+        out = np.zeros(a.shape + (4,), np.uint8); out[..., :3] = 255; out[..., 3] = a
         _FRONT = Image.fromarray(out)
     return _FRONT
 
