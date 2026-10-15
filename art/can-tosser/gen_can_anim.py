@@ -85,7 +85,7 @@ json.dump({'frames': jf, 'meta': meta}, open(os.path.join(OUT, 'tower.dart.json'
 SW = 120
 can = rig.P['can']
 cs = rig.CAN_SC * rig.S  # same px scale as in the tower frames
-can_s = can.resize((round(can.width * cs), round(can.height * cs)), Image.LANCZOS).rotate(-90, expand=True, resample=Image.BICUBIC)  # lid points right (+x)
+can_s = can.resize((round(can.width * cs), round(can.height * cs * rig.CAN_SQUASH)), Image.LANCZOS).rotate(-90, expand=True, resample=Image.BICUBIC)  # lid points right (+x)
 
 def on_canvas(img, rot=0, sx=1, sy=1, alpha=1.0, dx=0, dy=0, size=SW):
     c = Image.new('RGBA', (size, size), (0, 0, 0, 0))

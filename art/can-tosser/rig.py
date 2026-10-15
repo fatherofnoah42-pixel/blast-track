@@ -11,10 +11,14 @@ BASE_PIVOT_HOLE = (320, 134)      # axle hole on the base bracket
 BASE_FOOT = (310, 421)            # bottom-centre of the base (stands on the pad here)
 ARM_HOLE = (68, 85)               # axle hole at the arm's round end
 ARM_SC = 0.74
-CAN_SC = 0.49
+CAN_SC = 0.47
 CAP_SC = 0.41
-SCOOP_LOCAL = (440, 62)           # bowl centre in arm-crop coords
-CAN_LOCAL_ROT = 70                # can axis relative to the arm (deg, + = clockwise on screen)
+SCOOP_LOCAL = (455, 72)           # middle of the bowl's cavity in arm-crop coords: the can sits here and the throw starts here
+CAN_LOCAL_ROT = 82                # can axis relative to the arm (deg, + = clockwise on screen): lid points out along the arm, a touch up
+CAN_SQUASH = 0.72                 # the can is squashed along its axis: the reference can is short and fat, the part sheet's is tall
+# outline of everything that stands IN FRONT of the can (bowl's end wall + the near rim and shell), arm-crop coords
+FRONT_POLY = [(280, 0), (344, 0), (346, 55), (361, 66), (367, 90), (380, 94), (410, 101), (450, 102), (490, 94), (530, 82),
+              (552, 58), (566, 32), (580, 8), (600, 8), (600, 200), (280, 200)]
 
 POST_ANCHOR = (150, 108)          # where the rubber band wraps round the rear post (base coords)
 POST_STRAP = (92, 94, 162, 120)   # strap drawn across the post: x0, y0, x1, y1
@@ -109,44 +113,30 @@ def render(arm_deg=-38, base_dx=0, base_dy=0, base_sx=1, base_sy=1, can=True, ca
     if can:
         can_w = (scoop_w[0], scoop_w[1] + can_dy)
         cl = Image.new('RGBA', cv.size, (0, 0, 0, 0))
-        place(cl, 'can', (141, 215), can_w, arm_deg + CAN_LOCAL_ROT, CAN_SC * can_sc)
-        # the can may stick out of the bowl's open side, but never through its outer shell
+        place(cl, 'can', (141, 215), can_w, arm_deg + CAN_LOCAL_ROT, CAN_SC * can_sc, 1.0, CAN_SQUASH)
+        # the bowl's end wall and near rim hide the part of the can that sits inside the bowl
         ml = Image.new('RGBA', cv.size, (0, 0, 0, 0))
-        place(ml, None, ARM_HOLE, hole_w, arm_deg, ARM_SC, img=_arm_mask())
+        place(ml, None, ARM_HOLE, hole_w, arm_deg, ARM_SC, img=_front_mask())
         a = np.array(cl); m = np.array(ml)[..., 3].astype(np.float32) / 255
-        a[..., 3] = (a[..., 3] * m).astype(np.uint8); a[..., :3] = (a[..., :3] * m[..., None]).astype(np.uint8) if False else a[..., :3]
+        a[..., 3] = (a[..., 3] * (1 - m)).astype(np.uint8)
         cv.alpha_composite(Image.fromarray(a))
-        # bowl's near wall hides the can's lower part: redraw the arm's outer scoop on top
-        mask_arm_front(cv, hole_w, arm_deg)
     place(cv, 'cap', (136, 137), hole_w, arm_deg * 0.0 + cap_extra, CAP_SC)
     if extra: extra(cv)
     fr = cv.resize((FW, FH), Image.LANCZOS)
     info = dict(foot=to_px(foot_w), scoop=to_px(scoop_w), hole=to_px(hole_w))
     return fr, info
 
-_ARM_MASK = None
-def _arm_mask():
-    global _ARM_MASK
-    if _ARM_MASK is None:
-        a = np.array(P['arm']); h, w = a.shape[:2]
-        yy = np.mgrid[0:h, 0:w][0]
-        xx = np.mgrid[0:h, 0:w][1]; m = np.where((a[..., 3] > 8) | (yy < 76) | ((xx > 565) & (yy < 125)), 255, 0).astype(np.uint8)
-        out = np.zeros((h, w, 4), np.uint8); out[..., :3] = 255; out[..., 3] = m
-        _ARM_MASK = Image.fromarray(out)
-    return _ARM_MASK
-
-_ARM_FRONT = None
-def mask_arm_front(cv, hole_w, arm_deg):
-    global _ARM_FRONT
-    if _ARM_FRONT is None:
-        a = np.array(P['arm']).copy()
-        h, w = a.shape[:2]
-        yy, xx = np.mgrid[0:h, 0:w]
-        # outer (lower) shell of the scoop: below a curve running along the bowl's near rim
-        keep = (xx > 300) & (yy > 92 - (xx - 300) * 0.02)
-        a[..., 3] = np.where(keep, a[..., 3], 0)
-        _ARM_FRONT = Image.fromarray(a)
-    place(cv, None, ARM_HOLE, hole_w, arm_deg, ARM_SC, img=_ARM_FRONT)
+_FRONT = None
+def _front_mask():
+    """Arm-crop-sized image whose alpha is 255 where something in front of the can is (bowl end wall, near rim, shell)."""
+    global _FRONT
+    if _FRONT is None:
+        arm = P['arm']; poly = Image.new('L', arm.size, 0)
+        ImageDraw.Draw(poly).polygon(FRONT_POLY, fill=255)
+        a = np.minimum(np.array(poly), np.array(arm)[..., 3])     # only where the arm part is actually opaque
+        out = np.zeros((arm.height, arm.width, 4), np.uint8); out[..., :3] = 255; out[..., 3] = a
+        _FRONT = Image.fromarray(out)
+    return _FRONT
 
 if __name__ == '__main__':
     fr, info = render()
