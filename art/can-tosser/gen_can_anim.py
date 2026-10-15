@@ -9,20 +9,24 @@ from rig import FW, FH
 
 OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 
-# (name, ms, arm_deg, base_dx, base_sx, base_sy, can_in_scoop, can_scale, can_dy, smear_from)
-IDLE = [(-40.0, 0, 1.000), (-41.4, -2, 1.004), (-40.0, 0, 1.000), (-38.6, 1, 0.996)]
+# Motion (sprite faces RIGHT = the way the can is thrown).  The can lies along the arm and slides out of the scoop's far
+# end, so the arm has to swing FORWARD (clockwise) toward the target: first it is pulled back over the pivot, which
+# stretches the black rubber band (hooked to the back of the hub), then the band snaps it forward and the can leaves
+# along the arm.  Rubber band: tension 0 = slack and sagging, 1 = taut and thin; wobble = ripple after the snap.
+# IDLE : (arm_deg, can_dy, base_sy, band_tension)
+IDLE = [(-40.0, 0, 1.000, .42), (-41.4, -2, 1.004, .40), (-40.0, 0, 1.000, .42), (-38.6, 1, 0.996, .44)]
+# FIRE : ms, arm_deg, base_dx, base_sx, base_sy, can_in_scoop, can_scale, smear_from_deg, band_tension, band_wobble
 FIRE = [
-  # ms,  arm,  dx,  sx,   sy,   can, can_sc, smear_from
-  (40,  -28,   0, 1.010, 0.985, True, 1.0, None),    # tiny pull-back
-  (45,   -8,   3, 1.030, 0.960, True, 1.0, None),    # crouch / wind-up
-  (35,  -50,  -6, 0.990, 1.020, True, 1.0, -8),      # snap
-  (35,  -76, -11, 0.975, 1.045, False, 1.0, -50),    # RELEASE: can leaves the scoop
-  (45,  -97,  -7, 0.990, 1.015, False, 1.0, -76),    # overshoot
-  (55,  -78,  -3, 1.000, 0.995, False, 1.0, None),
-  (60,  -50,   0, 1.000, 1.000, False, 1.0, None),
-  (60,  -33,   0, 1.000, 1.000, True, 0.55, None),   # next can pops in
-  (55,  -44,   0, 1.000, 1.000, True, 1.12, None),
-  (45,  -40,   0, 1.000, 1.000, True, 1.0, None),
+  (50,  -62,  0, 1.010, 0.990, True, 1.0, None, .62, 0.0),   # start pulling the arm back
+  (55,  -96,  2, 1.020, 0.975, True, 1.0, None, .85, 0.0),
+  (70, -128,  4, 1.035, 0.955, True, 1.0, None, 1.0, 0.0),   # fully cocked: band taut and thin
+  (30,  -62, -3, 0.985, 1.030, False, 1.0, -128, .45, .5),   # RELEASE: band snaps the arm forward, can leaves along it
+  (35,  -26, -6, 0.980, 1.035, False, 1.0, -62, .10, -.8),
+  (45,  -14, -3, 0.995, 1.010, False, 1.0, None, .00, .9),   # overshoot forward, band slack and rippling
+  (50,  -48,  0, 1.000, 1.000, False, 1.0, None, .15, -.5),
+  (55,  -37,  0, 1.000, 1.000, True, 0.55, None, .35, .25),  # next can pops into the scoop
+  (55,  -42,  0, 1.000, 1.000, True, 1.12, None, .42, -.1),
+  (45,  -40,  0, 1.000, 1.000, True, 1.0, None, .42, 0.0),
 ]
 RELEASE = 3
 
@@ -44,15 +48,15 @@ def smear(a0, a1):
         cv.alpha_composite(lay)
     return f
 
-def pose(arm, dx=0, sx=1, sy=1, can=True, can_sc=1.0, sm=None, can_dy=0):
+def pose(arm, dx=0, sx=1, sy=1, can=True, can_sc=1.0, sm=None, can_dy=0, band=(.42, 0)):
     ex = smear(sm, arm) if sm is not None else None
-    return rig.render(arm_deg=arm, base_dx=dx, base_sx=sx, base_sy=sy, can=can, can_sc=can_sc, can_dy=can_dy, extra=ex)
+    return rig.render(arm_deg=arm, base_dx=dx, base_sx=sx, base_sy=sy, can=can, can_sc=can_sc, can_dy=can_dy, extra=ex, band=band)
 
 frames, durs, muz, names = [], [], [], []
-for arm, cdy, sy in IDLE:
-    fr, info = pose(arm, sy=sy, can_dy=cdy); frames.append(fr); durs.append(170); muz.append(info['scoop']); names.append('idle')
-for ms, arm, dx, sx, sy, can, csc, sm in FIRE:
-    fr, info = pose(arm, dx, sx, sy, can, csc, sm); frames.append(fr); durs.append(ms); muz.append(info['scoop']); names.append('fire')
+for arm, cdy, sy, tn in IDLE:
+    fr, info = pose(arm, sy=sy, can_dy=cdy, band=(tn, 0)); frames.append(fr); durs.append(170); muz.append(info['scoop']); names.append('idle')
+for ms, arm, dx, sx, sy, can, csc, sm, tn, wb in FIRE:
+    fr, info = pose(arm, dx, sx, sy, can, csc, sm, band=(tn, wb)); frames.append(fr); durs.append(ms); muz.append(info['scoop']); names.append('fire')
 foot = info['foot']  # fixed ground point (unsquashed foot)
 foot = rig.to_px(rig.BASE_FOOT)
 
