@@ -1,0 +1,244 @@
+{
+ "frames": [
+  {
+   "filename": "shot.dart.A5 0.aseprite",
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 108,
+    "h": 108
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 108,
+    "h": 108
+   },
+   "sourceSize": {
+    "w": 108,
+    "h": 108
+   },
+   "duration": 90
+  },
+  {
+   "filename": "shot.dart.A5 1.aseprite",
+   "frame": {
+    "x": 108,
+    "y": 0,
+    "w": 108,
+    "h": 108
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 108,
+    "h": 108
+   },
+   "sourceSize": {
+    "w": 108,
+    "h": 108
+   },
+   "duration": 90
+  },
+  {
+   "filename": "shot.dart.A5 2.aseprite",
+   "frame": {
+    "x": 216,
+    "y": 0,
+    "w": 108,
+    "h": 108
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 108,
+    "h": 108
+   },
+   "sourceSize": {
+    "w": 108,
+    "h": 108
+   },
+   "duration": 90
+  },
+  {
+   "filename": "shot.dart.A5 3.aseprite",
+   "frame": {
+    "x": 324,
+    "y": 0,
+    "w": 108,
+    "h": 108
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 108,
+    "h": 108
+   },
+   "sourceSize": {
+    "w": 108,
+    "h": 108
+   },
+   "duration": 90
+  },
+  {
+   "filename": "shot.dart.A5 4.aseprite",
+   "frame": {
+    "x": 432,
+    "y": 0,
+    "w": 108,
+    "h": 108
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 108,
+    "h": 108
+   },
+   "sourceSize": {
+    "w": 108,
+    "h": 108
+   },
+   "duration": 55
+  },
+  {
+   "filename": "shot.dart.A5 5.aseprite",
+   "frame": {
+    "x": 540,
+    "y": 0,
+    "w": 108,
+    "h": 108
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 108,
+    "h": 108
+   },
+   "sourceSize": {
+    "w": 108,
+    "h": 108
+   },
+   "duration": 55
+  },
+  {
+   "filename": "shot.dart.A5 6.aseprite",
+   "frame": {
+    "x": 648,
+    "y": 0,
+    "w": 108,
+    "h": 108
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 108,
+    "h": 108
+   },
+   "sourceSize": {
+    "w": 108,
+    "h": 108
+   },
+   "duration": 55
+  },
+  {
+   "filename": "shot.dart.A5 7.aseprite",
+   "frame": {
+    "x": 756,
+    "y": 0,
+    "w": 108,
+    "h": 108
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 108,
+    "h": 108
+   },
+   "sourceSize": {
+    "w": 108,
+    "h": 108
+   },
+   "duration": 55
+  },
+  {
+   "filename": "shot.dart.A5 8.aseprite",
+   "frame": {
+    "x": 864,
+    "y": 0,
+    "w": 108,
+    "h": 108
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 108,
+    "h": 108
+   },
+   "sourceSize": {
+    "w": 108,
+    "h": 108
+   },
+   "duration": 55
+  }
+ ],
+ "meta": {
+  "app": "gen_can_anim.py",
+  "version": "2",
+  "image": "shot.dart.A5.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 972,
+   "h": 108
+  },
+  "scale": "1",
+  "frameTags": [
+   {
+    "name": "fly",
+    "from": 0,
+    "to": 3,
+    "direction": "forward"
+   },
+   {
+    "name": "hit",
+    "from": 4,
+    "to": 8,
+    "direction": "forward"
+   }
+  ],
+  "slices": [
+   {
+    "name": "pivot",
+    "color": "#0000ffff",
+    "keys": [
+     {
+      "frame": 0,
+      "bounds": {
+       "x": 50,
+       "y": 50,
+       "w": 8,
+       "h": 8
+      }
+     }
+    ]
+   }
+  ]
+ }
+}

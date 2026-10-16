@@ -1,0 +1,523 @@
+{
+ "frames": [
+  {
+   "filename": "tower.dart.A1 0.aseprite",
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 177,
+    "h": 184
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 177,
+    "h": 184
+   },
+   "sourceSize": {
+    "w": 177,
+    "h": 184
+   },
+   "duration": 170
+  },
+  {
+   "filename": "tower.dart.A1 1.aseprite",
+   "frame": {
+    "x": 177,
+    "y": 0,
+    "w": 177,
+    "h": 184
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 177,
+    "h": 184
+   },
+   "sourceSize": {
+    "w": 177,
+    "h": 184
+   },
+   "duration": 170
+  },
+  {
+   "filename": "tower.dart.A1 2.aseprite",
+   "frame": {
+    "x": 354,
+    "y": 0,
+    "w": 177,
+    "h": 184
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 177,
+    "h": 184
+   },
+   "sourceSize": {
+    "w": 177,
+    "h": 184
+   },
+   "duration": 170
+  },
+  {
+   "filename": "tower.dart.A1 3.aseprite",
+   "frame": {
+    "x": 531,
+    "y": 0,
+    "w": 177,
+    "h": 184
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 177,
+    "h": 184
+   },
+   "sourceSize": {
+    "w": 177,
+    "h": 184
+   },
+   "duration": 170
+  },
+  {
+   "filename": "tower.dart.A1 4.aseprite",
+   "frame": {
+    "x": 708,
+    "y": 0,
+    "w": 177,
+    "h": 184
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 177,
+    "h": 184
+   },
+   "sourceSize": {
+    "w": 177,
+    "h": 184
+   },
+   "duration": 45
+  },
+  {
+   "filename": "tower.dart.A1 5.aseprite",
+   "frame": {
+    "x": 0,
+    "y": 184,
+    "w": 177,
+    "h": 184
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 177,
+    "h": 184
+   },
+   "sourceSize": {
+    "w": 177,
+    "h": 184
+   },
+   "duration": 45
+  },
+  {
+   "filename": "tower.dart.A1 6.aseprite",
+   "frame": {
+    "x": 177,
+    "y": 184,
+    "w": 177,
+    "h": 184
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 177,
+    "h": 184
+   },
+   "sourceSize": {
+    "w": 177,
+    "h": 184
+   },
+   "duration": 55
+  },
+  {
+   "filename": "tower.dart.A1 7.aseprite",
+   "frame": {
+    "x": 354,
+    "y": 184,
+    "w": 177,
+    "h": 184
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 177,
+    "h": 184
+   },
+   "sourceSize": {
+    "w": 177,
+    "h": 184
+   },
+   "duration": 30
+  },
+  {
+   "filename": "tower.dart.A1 8.aseprite",
+   "frame": {
+    "x": 531,
+    "y": 184,
+    "w": 177,
+    "h": 184
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 177,
+    "h": 184
+   },
+   "sourceSize": {
+    "w": 177,
+    "h": 184
+   },
+   "duration": 30
+  },
+  {
+   "filename": "tower.dart.A1 9.aseprite",
+   "frame": {
+    "x": 708,
+    "y": 184,
+    "w": 177,
+    "h": 184
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 177,
+    "h": 184
+   },
+   "sourceSize": {
+    "w": 177,
+    "h": 184
+   },
+   "duration": 35
+  },
+  {
+   "filename": "tower.dart.A1 10.aseprite",
+   "frame": {
+    "x": 0,
+    "y": 368,
+    "w": 177,
+    "h": 184
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 177,
+    "h": 184
+   },
+   "sourceSize": {
+    "w": 177,
+    "h": 184
+   },
+   "duration": 40
+  },
+  {
+   "filename": "tower.dart.A1 11.aseprite",
+   "frame": {
+    "x": 177,
+    "y": 368,
+    "w": 177,
+    "h": 184
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 177,
+    "h": 184
+   },
+   "sourceSize": {
+    "w": 177,
+    "h": 184
+   },
+   "duration": 40
+  },
+  {
+   "filename": "tower.dart.A1 12.aseprite",
+   "frame": {
+    "x": 354,
+    "y": 368,
+    "w": 177,
+    "h": 184
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 177,
+    "h": 184
+   },
+   "sourceSize": {
+    "w": 177,
+    "h": 184
+   },
+   "duration": 45
+  },
+  {
+   "filename": "tower.dart.A1 13.aseprite",
+   "frame": {
+    "x": 531,
+    "y": 368,
+    "w": 177,
+    "h": 184
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 177,
+    "h": 184
+   },
+   "sourceSize": {
+    "w": 177,
+    "h": 184
+   },
+   "duration": 45
+  },
+  {
+   "filename": "tower.dart.A1 14.aseprite",
+   "frame": {
+    "x": 708,
+    "y": 368,
+    "w": 177,
+    "h": 184
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 177,
+    "h": 184
+   },
+   "sourceSize": {
+    "w": 177,
+    "h": 184
+   },
+   "duration": 50
+  }
+ ],
+ "meta": {
+  "app": "gen_can_anim.py",
+  "version": "2",
+  "image": "tower.dart.A1.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 885,
+   "h": 552
+  },
+  "scale": "1",
+  "frameTags": [
+   {
+    "name": "idle",
+    "from": 0,
+    "to": 3,
+    "direction": "forward"
+   },
+   {
+    "name": "fire",
+    "from": 4,
+    "to": 14,
+    "direction": "forward"
+   },
+   {
+    "name": "release",
+    "from": 8,
+    "to": 8,
+    "direction": "forward"
+   }
+  ],
+  "slices": [
+   {
+    "name": "pivot",
+    "color": "#0000ffff",
+    "keys": [
+     {
+      "frame": 0,
+      "bounds": {
+       "x": 92,
+       "y": 176,
+       "w": 8,
+       "h": 8
+      }
+     }
+    ]
+   },
+   {
+    "name": "muzzle",
+    "color": "#ff0000ff",
+    "keys": [
+     {
+      "frame": 0,
+      "bounds": {
+       "x": 53,
+       "y": 38,
+       "w": 8,
+       "h": 8
+      }
+     },
+     {
+      "frame": 1,
+      "bounds": {
+       "x": 54,
+       "y": 37,
+       "w": 8,
+       "h": 8
+      }
+     },
+     {
+      "frame": 2,
+      "bounds": {
+       "x": 53,
+       "y": 38,
+       "w": 8,
+       "h": 8
+      }
+     },
+     {
+      "frame": 3,
+      "bounds": {
+       "x": 51,
+       "y": 39,
+       "w": 8,
+       "h": 8
+      }
+     },
+     {
+      "frame": 4,
+      "bounds": {
+       "x": 43,
+       "y": 45,
+       "w": 8,
+       "h": 8
+      }
+     },
+     {
+      "frame": 5,
+      "bounds": {
+       "x": 35,
+       "y": 51,
+       "w": 8,
+       "h": 8
+      }
+     },
+     {
+      "frame": 6,
+      "bounds": {
+       "x": 34,
+       "y": 53,
+       "w": 8,
+       "h": 8
+      }
+     },
+     {
+      "frame": 7,
+      "bounds": {
+       "x": 35,
+       "y": 51,
+       "w": 8,
+       "h": 8
+      }
+     },
+     {
+      "frame": 8,
+      "bounds": {
+       "x": 73,
+       "y": 28,
+       "w": 8,
+       "h": 8
+      }
+     },
+     {
+      "frame": 9,
+      "bounds": {
+       "x": 111,
+       "y": 29,
+       "w": 8,
+       "h": 8
+      }
+     },
+     {
+      "frame": 10,
+      "bounds": {
+       "x": 124,
+       "y": 36,
+       "w": 8,
+       "h": 8
+      }
+     },
+     {
+      "frame": 11,
+      "bounds": {
+       "x": 107,
+       "y": 31,
+       "w": 8,
+       "h": 8
+      }
+     },
+     {
+      "frame": 12,
+      "bounds": {
+       "x": 80,
+       "y": 29,
+       "w": 8,
+       "h": 8
+      }
+     },
+     {
+      "frame": 13,
+      "bounds": {
+       "x": 62,
+       "y": 33,
+       "w": 8,
+       "h": 8
+      }
+     },
+     {
+      "frame": 14,
+      "bounds": {
+       "x": 53,
+       "y": 38,
+       "w": 8,
+       "h": 8
+      }
+     }
+    ]
+   }
+  ]
+ }
+}
