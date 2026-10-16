@@ -5,208 +5,208 @@
    "frame": {
     "x": 0,
     "y": 0,
-    "w": 120,
-    "h": 120
+    "w": 88,
+    "h": 88
    },
    "rotated": false,
    "trimmed": false,
    "spriteSourceSize": {
     "x": 0,
     "y": 0,
-    "w": 120,
-    "h": 120
+    "w": 88,
+    "h": 88
    },
    "sourceSize": {
-    "w": 120,
-    "h": 120
+    "w": 88,
+    "h": 88
    },
    "duration": 90
   },
   {
    "filename": "shot.dart 1.aseprite",
    "frame": {
-    "x": 120,
+    "x": 88,
     "y": 0,
-    "w": 120,
-    "h": 120
+    "w": 88,
+    "h": 88
    },
    "rotated": false,
    "trimmed": false,
    "spriteSourceSize": {
     "x": 0,
     "y": 0,
-    "w": 120,
-    "h": 120
+    "w": 88,
+    "h": 88
    },
    "sourceSize": {
-    "w": 120,
-    "h": 120
+    "w": 88,
+    "h": 88
    },
    "duration": 90
   },
   {
    "filename": "shot.dart 2.aseprite",
    "frame": {
-    "x": 240,
+    "x": 176,
     "y": 0,
-    "w": 120,
-    "h": 120
+    "w": 88,
+    "h": 88
    },
    "rotated": false,
    "trimmed": false,
    "spriteSourceSize": {
     "x": 0,
     "y": 0,
-    "w": 120,
-    "h": 120
+    "w": 88,
+    "h": 88
    },
    "sourceSize": {
-    "w": 120,
-    "h": 120
+    "w": 88,
+    "h": 88
    },
    "duration": 90
   },
   {
    "filename": "shot.dart 3.aseprite",
    "frame": {
-    "x": 360,
+    "x": 264,
     "y": 0,
-    "w": 120,
-    "h": 120
+    "w": 88,
+    "h": 88
    },
    "rotated": false,
    "trimmed": false,
    "spriteSourceSize": {
     "x": 0,
     "y": 0,
-    "w": 120,
-    "h": 120
+    "w": 88,
+    "h": 88
    },
    "sourceSize": {
-    "w": 120,
-    "h": 120
+    "w": 88,
+    "h": 88
    },
    "duration": 90
   },
   {
    "filename": "shot.dart 4.aseprite",
    "frame": {
-    "x": 480,
+    "x": 352,
     "y": 0,
-    "w": 120,
-    "h": 120
+    "w": 88,
+    "h": 88
    },
    "rotated": false,
    "trimmed": false,
    "spriteSourceSize": {
     "x": 0,
     "y": 0,
-    "w": 120,
-    "h": 120
+    "w": 88,
+    "h": 88
    },
    "sourceSize": {
-    "w": 120,
-    "h": 120
+    "w": 88,
+    "h": 88
    },
    "duration": 55
   },
   {
    "filename": "shot.dart 5.aseprite",
    "frame": {
-    "x": 600,
+    "x": 440,
     "y": 0,
-    "w": 120,
-    "h": 120
+    "w": 88,
+    "h": 88
    },
    "rotated": false,
    "trimmed": false,
    "spriteSourceSize": {
     "x": 0,
     "y": 0,
-    "w": 120,
-    "h": 120
+    "w": 88,
+    "h": 88
    },
    "sourceSize": {
-    "w": 120,
-    "h": 120
+    "w": 88,
+    "h": 88
    },
    "duration": 55
   },
   {
    "filename": "shot.dart 6.aseprite",
    "frame": {
-    "x": 720,
+    "x": 528,
     "y": 0,
-    "w": 120,
-    "h": 120
+    "w": 88,
+    "h": 88
    },
    "rotated": false,
    "trimmed": false,
    "spriteSourceSize": {
     "x": 0,
     "y": 0,
-    "w": 120,
-    "h": 120
+    "w": 88,
+    "h": 88
    },
    "sourceSize": {
-    "w": 120,
-    "h": 120
+    "w": 88,
+    "h": 88
    },
    "duration": 55
   },
   {
    "filename": "shot.dart 7.aseprite",
    "frame": {
-    "x": 840,
+    "x": 616,
     "y": 0,
-    "w": 120,
-    "h": 120
+    "w": 88,
+    "h": 88
    },
    "rotated": false,
    "trimmed": false,
    "spriteSourceSize": {
     "x": 0,
     "y": 0,
-    "w": 120,
-    "h": 120
+    "w": 88,
+    "h": 88
    },
    "sourceSize": {
-    "w": 120,
-    "h": 120
+    "w": 88,
+    "h": 88
    },
    "duration": 55
   },
   {
    "filename": "shot.dart 8.aseprite",
    "frame": {
-    "x": 960,
+    "x": 704,
     "y": 0,
-    "w": 120,
-    "h": 120
+    "w": 88,
+    "h": 88
    },
    "rotated": false,
    "trimmed": false,
    "spriteSourceSize": {
     "x": 0,
     "y": 0,
-    "w": 120,
-    "h": 120
+    "w": 88,
+    "h": 88
    },
    "sourceSize": {
-    "w": 120,
-    "h": 120
+    "w": 88,
+    "h": 88
    },
    "duration": 55
   }
  ],
  "meta": {
   "app": "gen_can_anim.py",
-  "version": "1",
+  "version": "2",
   "image": "shot.dart.png",
   "format": "RGBA8888",
   "size": {
-   "w": 1080,
-   "h": 120
+   "w": 792,
+   "h": 88
   },
   "scale": "1",
   "frameTags": [
@@ -231,8 +231,8 @@
      {
       "frame": 0,
       "bounds": {
-       "x": 56,
-       "y": 56,
+       "x": 40,
+       "y": 40,
        "w": 8,
        "h": 8
       }

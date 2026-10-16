@@ -5,108 +5,108 @@
    "frame": {
     "x": 0,
     "y": 0,
-    "w": 365,
-    "h": 375
+    "w": 177,
+    "h": 184
    },
    "rotated": false,
    "trimmed": false,
    "spriteSourceSize": {
     "x": 0,
     "y": 0,
-    "w": 365,
-    "h": 375
+    "w": 177,
+    "h": 184
    },
    "sourceSize": {
-    "w": 365,
-    "h": 375
+    "w": 177,
+    "h": 184
    },
    "duration": 170
   },
   {
    "filename": "tower.dart 1.aseprite",
    "frame": {
-    "x": 365,
+    "x": 177,
     "y": 0,
-    "w": 365,
-    "h": 375
+    "w": 177,
+    "h": 184
    },
    "rotated": false,
    "trimmed": false,
    "spriteSourceSize": {
     "x": 0,
     "y": 0,
-    "w": 365,
-    "h": 375
+    "w": 177,
+    "h": 184
    },
    "sourceSize": {
-    "w": 365,
-    "h": 375
+    "w": 177,
+    "h": 184
    },
    "duration": 170
   },
   {
    "filename": "tower.dart 2.aseprite",
    "frame": {
-    "x": 730,
+    "x": 354,
     "y": 0,
-    "w": 365,
-    "h": 375
+    "w": 177,
+    "h": 184
    },
    "rotated": false,
    "trimmed": false,
    "spriteSourceSize": {
     "x": 0,
     "y": 0,
-    "w": 365,
-    "h": 375
+    "w": 177,
+    "h": 184
    },
    "sourceSize": {
-    "w": 365,
-    "h": 375
+    "w": 177,
+    "h": 184
    },
    "duration": 170
   },
   {
    "filename": "tower.dart 3.aseprite",
    "frame": {
-    "x": 1095,
+    "x": 531,
     "y": 0,
-    "w": 365,
-    "h": 375
+    "w": 177,
+    "h": 184
    },
    "rotated": false,
    "trimmed": false,
    "spriteSourceSize": {
     "x": 0,
     "y": 0,
-    "w": 365,
-    "h": 375
+    "w": 177,
+    "h": 184
    },
    "sourceSize": {
-    "w": 365,
-    "h": 375
+    "w": 177,
+    "h": 184
    },
    "duration": 170
   },
   {
    "filename": "tower.dart 4.aseprite",
    "frame": {
-    "x": 1460,
+    "x": 708,
     "y": 0,
-    "w": 365,
-    "h": 375
+    "w": 177,
+    "h": 184
    },
    "rotated": false,
    "trimmed": false,
    "spriteSourceSize": {
     "x": 0,
     "y": 0,
-    "w": 365,
-    "h": 375
+    "w": 177,
+    "h": 184
    },
    "sourceSize": {
-    "w": 365,
-    "h": 375
+    "w": 177,
+    "h": 184
    },
    "duration": 45
   },
@@ -114,109 +114,109 @@
    "filename": "tower.dart 5.aseprite",
    "frame": {
     "x": 0,
-    "y": 375,
-    "w": 365,
-    "h": 375
+    "y": 184,
+    "w": 177,
+    "h": 184
    },
    "rotated": false,
    "trimmed": false,
    "spriteSourceSize": {
     "x": 0,
     "y": 0,
-    "w": 365,
-    "h": 375
+    "w": 177,
+    "h": 184
    },
    "sourceSize": {
-    "w": 365,
-    "h": 375
+    "w": 177,
+    "h": 184
    },
    "duration": 45
   },
   {
    "filename": "tower.dart 6.aseprite",
    "frame": {
-    "x": 365,
-    "y": 375,
-    "w": 365,
-    "h": 375
+    "x": 177,
+    "y": 184,
+    "w": 177,
+    "h": 184
    },
    "rotated": false,
    "trimmed": false,
    "spriteSourceSize": {
     "x": 0,
     "y": 0,
-    "w": 365,
-    "h": 375
+    "w": 177,
+    "h": 184
    },
    "sourceSize": {
-    "w": 365,
-    "h": 375
+    "w": 177,
+    "h": 184
    },
    "duration": 55
   },
   {
    "filename": "tower.dart 7.aseprite",
    "frame": {
-    "x": 730,
-    "y": 375,
-    "w": 365,
-    "h": 375
+    "x": 354,
+    "y": 184,
+    "w": 177,
+    "h": 184
    },
    "rotated": false,
    "trimmed": false,
    "spriteSourceSize": {
     "x": 0,
     "y": 0,
-    "w": 365,
-    "h": 375
+    "w": 177,
+    "h": 184
    },
    "sourceSize": {
-    "w": 365,
-    "h": 375
+    "w": 177,
+    "h": 184
    },
    "duration": 30
   },
   {
    "filename": "tower.dart 8.aseprite",
    "frame": {
-    "x": 1095,
-    "y": 375,
-    "w": 365,
-    "h": 375
+    "x": 531,
+    "y": 184,
+    "w": 177,
+    "h": 184
    },
    "rotated": false,
    "trimmed": false,
    "spriteSourceSize": {
     "x": 0,
     "y": 0,
-    "w": 365,
-    "h": 375
+    "w": 177,
+    "h": 184
    },
    "sourceSize": {
-    "w": 365,
-    "h": 375
+    "w": 177,
+    "h": 184
    },
    "duration": 30
   },
   {
    "filename": "tower.dart 9.aseprite",
    "frame": {
-    "x": 1460,
-    "y": 375,
-    "w": 365,
-    "h": 375
+    "x": 708,
+    "y": 184,
+    "w": 177,
+    "h": 184
    },
    "rotated": false,
    "trimmed": false,
    "spriteSourceSize": {
     "x": 0,
     "y": 0,
-    "w": 365,
-    "h": 375
+    "w": 177,
+    "h": 184
    },
    "sourceSize": {
-    "w": 365,
-    "h": 375
+    "w": 177,
+    "h": 184
    },
    "duration": 35
   },
@@ -224,121 +224,121 @@
    "filename": "tower.dart 10.aseprite",
    "frame": {
     "x": 0,
-    "y": 750,
-    "w": 365,
-    "h": 375
+    "y": 368,
+    "w": 177,
+    "h": 184
    },
    "rotated": false,
    "trimmed": false,
    "spriteSourceSize": {
     "x": 0,
     "y": 0,
-    "w": 365,
-    "h": 375
+    "w": 177,
+    "h": 184
    },
    "sourceSize": {
-    "w": 365,
-    "h": 375
+    "w": 177,
+    "h": 184
    },
    "duration": 40
   },
   {
    "filename": "tower.dart 11.aseprite",
    "frame": {
-    "x": 365,
-    "y": 750,
-    "w": 365,
-    "h": 375
+    "x": 177,
+    "y": 368,
+    "w": 177,
+    "h": 184
    },
    "rotated": false,
    "trimmed": false,
    "spriteSourceSize": {
     "x": 0,
     "y": 0,
-    "w": 365,
-    "h": 375
+    "w": 177,
+    "h": 184
    },
    "sourceSize": {
-    "w": 365,
-    "h": 375
+    "w": 177,
+    "h": 184
    },
    "duration": 40
   },
   {
    "filename": "tower.dart 12.aseprite",
    "frame": {
-    "x": 730,
-    "y": 750,
-    "w": 365,
-    "h": 375
+    "x": 354,
+    "y": 368,
+    "w": 177,
+    "h": 184
    },
    "rotated": false,
    "trimmed": false,
    "spriteSourceSize": {
     "x": 0,
     "y": 0,
-    "w": 365,
-    "h": 375
+    "w": 177,
+    "h": 184
    },
    "sourceSize": {
-    "w": 365,
-    "h": 375
+    "w": 177,
+    "h": 184
    },
    "duration": 45
   },
   {
    "filename": "tower.dart 13.aseprite",
    "frame": {
-    "x": 1095,
-    "y": 750,
-    "w": 365,
-    "h": 375
+    "x": 531,
+    "y": 368,
+    "w": 177,
+    "h": 184
    },
    "rotated": false,
    "trimmed": false,
    "spriteSourceSize": {
     "x": 0,
     "y": 0,
-    "w": 365,
-    "h": 375
+    "w": 177,
+    "h": 184
    },
    "sourceSize": {
-    "w": 365,
-    "h": 375
+    "w": 177,
+    "h": 184
    },
    "duration": 45
   },
   {
    "filename": "tower.dart 14.aseprite",
    "frame": {
-    "x": 1460,
-    "y": 750,
-    "w": 365,
-    "h": 375
+    "x": 708,
+    "y": 368,
+    "w": 177,
+    "h": 184
    },
    "rotated": false,
    "trimmed": false,
    "spriteSourceSize": {
     "x": 0,
     "y": 0,
-    "w": 365,
-    "h": 375
+    "w": 177,
+    "h": 184
    },
    "sourceSize": {
-    "w": 365,
-    "h": 375
+    "w": 177,
+    "h": 184
    },
    "duration": 50
   }
  ],
  "meta": {
   "app": "gen_can_anim.py",
-  "version": "1",
+  "version": "2",
   "image": "tower.dart.png",
   "format": "RGBA8888",
   "size": {
-   "w": 1825,
-   "h": 1125
+   "w": 885,
+   "h": 552
   },
   "scale": "1",
   "frameTags": [
@@ -369,8 +369,8 @@
      {
       "frame": 0,
       "bounds": {
-       "x": 201,
-       "y": 362,
+       "x": 92,
+       "y": 176,
        "w": 8,
        "h": 8
       }
@@ -384,8 +384,8 @@
      {
       "frame": 0,
       "bounds": {
-       "x": 124,
-       "y": 85,
+       "x": 53,
+       "y": 38,
        "w": 8,
        "h": 8
       }
@@ -393,8 +393,8 @@
      {
       "frame": 1,
       "bounds": {
-       "x": 126,
-       "y": 82,
+       "x": 54,
+       "y": 37,
        "w": 8,
        "h": 8
       }
@@ -402,8 +402,8 @@
      {
       "frame": 2,
       "bounds": {
-       "x": 124,
-       "y": 85,
+       "x": 53,
+       "y": 38,
        "w": 8,
        "h": 8
       }
@@ -411,8 +411,8 @@
      {
       "frame": 3,
       "bounds": {
-       "x": 121,
-       "y": 87,
+       "x": 51,
+       "y": 39,
        "w": 8,
        "h": 8
       }
@@ -420,8 +420,8 @@
      {
       "frame": 4,
       "bounds": {
-       "x": 103,
-       "y": 98,
+       "x": 43,
+       "y": 45,
        "w": 8,
        "h": 8
       }
@@ -429,8 +429,8 @@
      {
       "frame": 5,
       "bounds": {
-       "x": 89,
-       "y": 112,
+       "x": 35,
+       "y": 51,
        "w": 8,
        "h": 8
       }
@@ -438,8 +438,8 @@
      {
       "frame": 6,
       "bounds": {
-       "x": 87,
-       "y": 114,
+       "x": 34,
+       "y": 53,
        "w": 8,
        "h": 8
       }
@@ -447,8 +447,8 @@
      {
       "frame": 7,
       "bounds": {
-       "x": 88,
-       "y": 112,
+       "x": 35,
+       "y": 51,
        "w": 8,
        "h": 8
       }
@@ -456,8 +456,8 @@
      {
       "frame": 8,
       "bounds": {
-       "x": 165,
-       "y": 65,
+       "x": 73,
+       "y": 28,
        "w": 8,
        "h": 8
       }
@@ -465,8 +465,8 @@
      {
       "frame": 9,
       "bounds": {
-       "x": 239,
-       "y": 67,
+       "x": 111,
+       "y": 29,
        "w": 8,
        "h": 8
       }
@@ -474,8 +474,8 @@
      {
       "frame": 10,
       "bounds": {
-       "x": 265,
-       "y": 80,
+       "x": 124,
+       "y": 36,
        "w": 8,
        "h": 8
       }
@@ -483,8 +483,8 @@
      {
       "frame": 11,
       "bounds": {
-       "x": 231,
-       "y": 70,
+       "x": 107,
+       "y": 31,
        "w": 8,
        "h": 8
       }
@@ -492,8 +492,8 @@
      {
       "frame": 12,
       "bounds": {
-       "x": 179,
-       "y": 67,
+       "x": 80,
+       "y": 29,
        "w": 8,
        "h": 8
       }
@@ -501,8 +501,8 @@
      {
       "frame": 13,
       "bounds": {
-       "x": 143,
-       "y": 76,
+       "x": 62,
+       "y": 33,
        "w": 8,
        "h": 8
       }
@@ -510,8 +510,8 @@
      {
       "frame": 14,
       "bounds": {
-       "x": 124,
-       "y": 85,
+       "x": 53,
+       "y": 38,
        "w": 8,
        "h": 8
       }

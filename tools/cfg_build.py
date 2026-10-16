@@ -227,6 +227,20 @@ ART += [
  ('icon.score', '界面图标', '顶栏「分数」图标', 'P2', 38, 38, .5, .5, 1, 0, 0),
 ]
 
+# ---------- generated sprite sheets (art/can-tosser/gen_can_anim.py writes sizes.json: in-game w/h of every sheet) ----------
+import json as _json, os as _os
+_SZ = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', 'art', 'can-tosser', 'sizes.json')
+if _os.path.exists(_SZ):
+    _DESC = {'A1': '「重罐点名」1 级挂件：挂一个秤砣', 'A2': '「重罐点名」2 级挂件：两侧各挂一个秤砣', 'A3': '「重罐点名」3 级：蓄力铜罐', 'A4': '「重罐点名」4 级：破防刺罐',
+             'A5': '「重罐点名」5 级：手雷', 'A6': '「重罐点名」6 级：双层底座 + 陨石'}
+    for _k, _v in _json.load(open(_SZ)).items():
+        ART_SRC[_k] = (f'art/{_k}.png', f'art/{_k}.json')
+        _i = next((i for i, a in enumerate(ART) if a[0] == _k), None)
+        if _i is not None: ART[_i] = (ART[_i][0], ART[_i][1], ART[_i][2], ART[_i][3], _v['w'], _v['h']) + ART[_i][6:]
+        else:
+            _lv = _k.rsplit('.', 1)[-1]
+            ART.append((_k, '装置变种' if _k.startswith('tower') else '子弹', ('易拉罐投手' if _k.startswith('tower') else '投掷物') + _DESC.get(_lv, ''), 'P2', _v['w'], _v['h'], .5, .5 if _k.startswith('shot') else .92, 1, 0, 0))
+
 entity_zh = set()
 cfg = {'global': {k: v for k, v, _ in G}, 'globalDesc': {k: d for k, _, d in G},
        'towers': [], 'paths': [], 'enemies': [], 'waves': waves(), 'bosses': [], 'bossParams': BOSS_PARAMS,
