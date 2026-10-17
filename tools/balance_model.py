@@ -15,7 +15,7 @@ FUNC = {  # stats that do not add raw damage; shown as "功能" so the ratio is 
     'globalDmg': '全局增伤', 'shieldMul': '破盾', 'bossMul': '对 Boss', 'armor': '破甲', 'heavyMul': '对重型', 'knock': '击退', 'slideBack': '击退',
     'peelLife': '布阵', 'peelMax': '布阵', 'autoPeel': '布阵', 'stock': '布阵', 'aimR': '投递区', 'homing': '必中', 'segment': '布阵',
     'supply': '补给', 'supplyN': '补给', 'hq': '补给', 'hop': '传播', 'dizzyDur': '发懵', 'wormCap': '耳虫', 'wormLock': '耳虫',
-    'cap': '停留', 'stay': '停留', 'seats': '停留', 'cleanse': '净化', 'lureHeavy': '停留', 'launch': '净化', 'noSwift': '净化', 'heat': None}
+    'cap': '停留', 'stay': '停留', 'seats': '停留', 'cleanse': '净化', 'lureHeavy': '停留', 'launch': '净化', 'noSwift': '净化', 'heat': None, 'patrol': '活动范围', 'drive': '车速'}
 
 def parse(src):
     ops = []
@@ -37,7 +37,7 @@ def base_stats(t, g):
     s = {'dmg': t['dmg'], 'rate': t['rate'], 'range': t['range'], 'rad': t.get('rad') or 0, 'slow': t.get('slow') or 0, 'slowDur': t.get('slowDur'),
          'chain': t.get('chain') or 0, 'decay': t.get('decay'), 'multi': 1, 'crit': 0, 'critMul': g['critMul'], 'armor': t['armor'], 'bossMul': t['bossMul'],
          'starts': 1, 'shieldMul': 1, 'bombs': 1, 'hash': 1 if t['id'] == 'miner' else 0, 'shots': 1, 'hitCap': 3, 'slip': .5, 'peelMax': 3, 'peelLife': 8,
-         'spread': 14, 'frostNeed': 4, 'freezeCap': 99, 'aimR': 46, 'load': 1, 'hop': g.get('teslaHop', 70), 'dizzyDur': 1.6, 'cap': 2, 'stay': 1}
+         'spread': 14, 'frostNeed': 4, 'freezeCap': 99, 'aimR': 46, 'load': 1, 'hop': g.get('teslaHop', 70), 'dizzyDur': 1.6, 'cap': 2, 'stay': 1, 'patrol': 0, 'drive': 0}
     apply(s, parse(t.get('extra', '')))
     return s
 
@@ -58,6 +58,8 @@ def eff(kind, s, g):
         n = s.get('carpet') or s.get('bombs', 1)
         return per * n / rate
     if kind == 'frost':
+        # the truck drives to the runners: its spray covers about range + half its patrol of track
+        rng = min(s['range'] + .5 * s.get('patrol', 0), 400); N = max(1, min(A['maxTargets'], A['cover'] * rng / A['spacing']))
         n = min(6, rng / A['spacing']) if s.get('beam') else N
         return s['dmg'] * crit * n / rate
     if kind == 'tesla':

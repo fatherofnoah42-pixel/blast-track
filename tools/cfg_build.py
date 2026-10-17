@@ -155,7 +155,7 @@ BOSS_PARAMS = {
 AFFIXES = [('swift', '冲刺', '移速 +40%'), ('regen', '补给', '1 秒没被干扰就回体力'), ('shield', '能量盾', '额外 35% 能量护盾'), ('split', '跑团', '退赛时 2 名跟跑者接力')]
 CARDS = [  # id, tag, rarity, stack, name, desc, v1, v2, note
  ('u_bomb', '装置', 'C', 0, '香蕉皮投手', '解锁香蕉皮投手：往跑道扔香蕉皮陷阱，踩中的几个人一起滑倒', 0, 0, ''),
- ('u_frost', '装置', 'C', 0, '洒水器', '解锁洒水器：持续喷水，范围减速', 0, 0, ''),
+ ('u_frost', '装置', 'C', 0, '洒水车', '解锁洒水车：持续喷水，范围减速', 0, 0, ''),
  ('u_sniper', '装置', 'R', 0, '鞋盒无人机', '解锁鞋盒无人机：指定投递区，全图空投鞋盒', 0, 0, ''),
  ('u_tesla', '装置', 'R', 0, '广场舞音响', '解锁广场舞音响：洗脑神曲在跑者之间传播', 0, 0, ''),
  ('u_miner', '装置', 'R', 0, '矿机', '解锁矿机：挖区块得聪，并触发区块奖励三选一', 0, 0, ''),
@@ -195,7 +195,7 @@ ART = []
 _MAPN = {'classic':'蛇形跑道','twin':'双子跑道','fork':'分岔路口','merge':'汇流跑道','cross':'十字路口','trident':'三路汇聚'}
 for mid, nm in _MAPN.items():
     ART.append((f'map.{mid}', '地图', f'{nm}整张底图（草地、装饰；cover=1 时连跑道一起画，游戏就不再画跑道）', 'P1 样板关' if mid == 'classic' else 'P2', 360, 600, 0, 0, 1, 0, 0))
-_TOWN = {'dart':'易拉罐投手','bomb':'香蕉皮投手','frost':'洒水器','sniper':'鞋盒无人机','tesla':'广场舞音响','lure':'休闲诱惑站','miner':'矿机'}
+_TOWN = {'dart':'易拉罐投手','bomb':'香蕉皮投手','frost':'洒水车取水站','sniper':'鞋盒无人机','tesla':'广场舞音响','lure':'休闲诱惑站','miner':'矿机'}
 for tid, nm in _TOWN.items():
     ART.append((f'tower.{tid}', '装置', f'{nm}：基础造型，面朝右（朝左时游戏自动翻转）。可做动画：idle 待机 + fire 发射（JSON 标出 release 出手帧和 muzzle 出手点）', 'P1 样板关' if tid in ('dart', 'bomb') else 'P2', 46 if tid == 'dart' else 40, 50, .5, .92, 1, 0, 0))
 for tid, nm in _TOWN.items():
@@ -204,8 +204,9 @@ for tid, nm in _TOWN.items():
         pn = next(p[2][0] for p in PATHS6 if p[0] == tid and p[1] == i)
         for lv in (3, 6):
             ART.append((f'tower.{tid}.{PL}{lv}', '装置变种', f'{nm}「{pn}」主路线 {lv} 级起的造型（{PL}{lv}；没有 {PL}4、{PL}5 时沿用 {PL}3）', 'P2' if lv == 3 else 'P3', 44 if lv == 3 else 48, 54 if lv == 3 else 58, .5, .92, 1, 0, 0))
-ART_SRC = {'tower.dart': ('art/tower.dart.png', 'art/tower.dart.json'), 'shot.dart': ('art/shot.dart.png', 'art/shot.dart.json')}
+ART_SRC = {'tower.dart': ('art/tower.dart.png', 'art/tower.dart.json'), 'shot.dart': ('art/shot.dart.png', 'art/shot.dart.json'), 'truck.frost': ('art/truck.frost.png', '')}
 ART += [
+ ('truck.frost', '装置', '洒水车：会开的车，车头朝右（朝左时游戏自动翻转），地面点在车轮下；静态图即可，行驶时游戏会让它颠簸，喷水从车头喷口出；tower.frost（洒水器）画在它的停车位上当取水站', 'P1 样板关', 52, 46, .5, .9, 1, 0, 0),
  ('pad.empty', '空位', '可放置装置的空位（石台 + 加号）', 'P2', 36, 22, .5, 1, 1, 0, 0),
  ('pad.base', '空位', '装置脚下的底座', 'P2', 36, 22, .5, 1, 1, 0, 0),
  ('runner.norm', '跑者', '慢跑者，侧面向右跑；横向序列帧', 'P1 样板关', 30, 36, .5, 1, 6, 10, 0),

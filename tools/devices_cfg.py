@@ -10,9 +10,9 @@ DEVICES = [
  ('bomb', ('香蕉皮投手', 'Banana Peeler', 'Lance-peaux'), ('香蕉皮', 'Banana', 'Banane'),
   ('往跑道上扔香蕉皮陷阱，踩到的几个人一起滑倒；触发一次就失效', 'Tosses banana-peel traps onto the track; the runners who step on one slip together, then the peel is spent', 'Lance des pièges en peau de banane sur la piste ; ceux qui marchent dessus glissent ensemble, puis la peau disparaît'),
   160, 3, 1.2, 90, 20, 0, 0, 1, '#ffd84a', 'hitCap=4; slip=0.6; peelMax=4; peelLife=8; bombs=1; spread=14'),
- ('frost', ('洒水器', 'Sprinkler', 'Arroseur'), ('洒水器', 'Sprinkler', 'Arroseur'),
-  ('持续喷水：范围内的跑者被淋湿、减速', 'Keeps spraying: runners in range get wet and slowed', 'Arrose en continu : les coureurs à portée sont mouillés et ralentis'),
-  120, .5, 1.1, 72, 0, .3, 0, .5, '#6fc3ff', 'frostNeed=4; freezeCap=99'),
+ ('frost', ('洒水车', 'Sprinkler Truck', 'Camion arroseur'), ('洒水车', 'Truck', 'Camion'),
+  ('会自己开的洒水车：在消防栓周围一圈里追着跑者开，喷到的跑者被淋湿、减速', 'Drives itself around its hydrant, chasing runners; everyone it sprays gets wet and slowed', 'Roule tout seul autour de sa borne à la poursuite des coureurs ; tous ceux qu’il arrose sont trempés et ralentis'),
+  120, .5, 1.1, 58, 0, .3, 0, .5, '#6fc3ff', 'frostNeed=4; freezeCap=99; patrol=60; drive=65'),
  ('sniper', ('鞋盒无人机', 'Shoebox Drone', 'Drone à boîtes'), ('无人机', 'Drone', 'Drone'),
   ('全图支援：点它再点地图，指定投递区；飞过去、投箱、返航都要时间', 'Map-wide support: tap it, then tap the map to set a drop zone; flying out, dropping and returning take time', 'Soutien sur toute la carte : touche-le puis la carte pour choisir une zone de largage ; aller, larguer et revenir prend du temps'),
   180, 6, 2.4, 999, 16, 0, 0, 1, '#ff9d7a', 'aimR=46; load=1'),
@@ -72,7 +72,7 @@ PATHS6 = [
   ('香蕉皮仓库', 'Peel Warehouse', 'Entrepôt à peaux', 3200, '每波 90 片库存，可提前布阵，扔得飞快，每片多放倒 2 人；用完等下一波', '90 peels per wave to lay out in advance, thrown very fast, each trips 2 more; restocks next wave', '90 peaux par vague à poser d’avance, lancées très vite, chacune fait tomber 2 de plus ; réassort à la vague suivante', 'stock=90; rate*=0.3; peelMax+=30; hitCap+=2'))),
 
  ('frost', 1, ('喷淋湿地', 'Soak Zone', 'Zone détrempée'), T6(
-  ('喷头加长', 'Longer Reach', 'Portée accrue', 60, '射程 +15', 'Range +15', 'Portée +15', 'range+=15'),
+  ('加长水管', 'Longer Hose', 'Tuyau rallongé', 60, '活动范围 +25，射程 +5', 'Patrol +25, range +5', 'Patrouille +25, portée +5', 'patrol+=25; range+=5'),
   ('湿地持久', 'Lasting Puddles', 'Flaques durables', 80, '湿滑持续 +1 秒', 'Wet lasts 1 s longer', 'Mouillé 1 s de plus', 'slowDur+=1'),
   ('持续喷淋', 'Steady Spray', 'Arrosage continu', 280, '喷水间隔 −40%', 'Spray interval −40%', 'Intervalle −40 %', 'rate*=0.6'),
   ('不间断', 'Nonstop', 'Non-stop', 600, '间隔再 −30%，减速 +5%', 'Interval −30% more, slow +5%', 'Intervalle encore −30 %, ralentissement +5 %', 'rate*=0.7; slow+=0.05'),
@@ -87,7 +87,7 @@ PATHS6 = [
   ('极寒喷淋站', 'Deep-Freeze Station', 'Station de grand froid', 3400, '每 5 秒冻住范围内所有非 Boss 跑者 2 秒，被冻住的受到效果 +60%，喷水效果 +2；期间不再积霜冻结', 'Every 5 s freezes every non-boss in range for 2 s; frozen runners take +60%, spray effect +2; no stack freezes in between', 'Toutes les 5 s, gèle 2 s tous les non-boss à portée ; les gelés subissent +60 %, effet du jet +2 ; pas de gel par cumul entre-temps', 'iceNova=5; vulnFreeze=0.6; dmg+=2'))),
  ('frost', 3, ('高压水柱', 'Power Jet', 'Jet puissant'), T6(
   ('加压', 'Pressure Up', 'Pression', 60, '射程 +20', 'Range +20', 'Portée +20', 'range+=20'),
-  ('宽喷束', 'Wide Jet', 'Jet large', 110, '效果 +0.5', 'Effect +0.5', 'Effet +0,5', 'dmg+=0.5'),
+  ('宽喷束', 'Wide Jet', 'Jet large', 110, '效果 +0.5，车速 +30%', 'Effect +0.5, drives 30% faster', 'Effet +0,5, roule 30 % plus vite', 'dmg+=0.5; drive*=1.3'),
   ('击退', 'Push Back', 'Recul', 300, '把非 Boss 跑者往回冲 12', 'Pushes non-boss runners back 12', 'Repousse les non-boss de 12', 'knock=12'),
   ('穿透水柱', 'Piercing Jet', 'Jet perçant', 550, '改成直线水柱，穿过整排跑者，射程 +30，效果 +1.5', 'Becomes a straight jet that pierces the whole line, range +30, effect +1.5', 'Devient un jet droit qui traverse toute la file, portée +30, effet +1,5', 'beam=1; dmg+=1.5; range+=30'),
   ('强力冲洗', 'Power Wash', 'Lavage haute pression', 1400, '效果 ×2，击退 +10', 'Effect ×2, push +10', 'Effet ×2, recul +10', 'dmg*=2; knock+=10'),

@@ -9,9 +9,9 @@ T = {
 '3 个 Boss 波每局从 6 位传奇跑者里随机抽：Nox（九命复活）、Aurum（召唤金甲跑者）、Slimo（黏液加速）、Rocco（铁头冲刺）、Chuckles（大笑让装置停工）、Datto（对常用装置产生抗性）。':
   ('Each run draws 3 bosses from 6 legendary runners: Nox (nine lives), Aurum (summons golden runners), Slimo (slime boost), Rocco (headstrong dash), Chuckles (laughter jams devices), Datto (adapts to your most-used device).',
    'Chaque partie tire 3 boss parmi 6 coureurs légendaires : Nox (neuf vies), Aurum (invoque des coureurs dorés), Slimo (bave accélérante), Rocco (charge tête baissée), Chuckles (son rire bloque les dispositifs), Datto (s’adapte à ton dispositif favori).'),
-'6 种装置：易拉罐投手（单体）、香蕉皮投手（范围滑倒）、洒水器（减速、冻结）、鞋盒无人机（全图空投）、广场舞音响（神曲连锁传播）、宝石发射器（红黄蓝三种宝石）。每种 3 条路线、每条 5 级；主路线可升满，次路线最多 2 级。':
-  ('6 devices: Can Thrower (single target), Banana Peeler (area slip), Sprinkler (slow, freeze), Shoebox Drone (map-wide drop), Dance Speaker (chain earworm), Gem Launcher (ruby, topaz, sapphire). Each has 3 paths of 5 tiers; the main path can max out, the secondary stops at tier 2.',
-   '6 dispositifs : Lanceur de canettes (cible unique), Lanceur de peaux de banane (glissade de zone), Arroseur (ralentit, gèle), Drone à boîtes (largage sur toute la carte), Enceinte de danse (tube viral en chaîne), Lance-gemmes (rubis, topaze, saphir). Chacun a 3 voies de 5 niveaux ; la voie principale peut être maximisée, la secondaire s’arrête au niveau 2.'),
+'6 种装置 + 矿机：易拉罐投手（单体）、香蕉皮投手（跑道陷阱、滑倒）、洒水车（会自己开，减速、冻结）、鞋盒无人机（全图空投）、广场舞音响（神曲连锁传播）、休闲诱惑站（把跑者留住）；矿机负责挣钱。每种 3 条路线，最多点 2 条；先到 3 级的成为主路线，可一直升到 6 级。':
+  ('6 devices plus the miner: Can Thrower (single target), Banana Peeler (track traps, slips), Sprinkler Truck (drives itself; slows, freezes), Shoebox Drone (map-wide drops), Dance Speaker (chain earworm), Chill Spot (holds runners up); the miner earns money. Each has 3 paths and you can take 2; the first to tier 3 becomes the main path and goes up to tier 6.',
+   '6 dispositifs plus le Mineur : Lanceur de canettes (cible unique), Lanceur de peaux de banane (pièges sur la piste, glissades), Camion arroseur (roule tout seul ; ralentit, gèle), Drone à boîtes (largages sur toute la carte), Enceinte de danse (tube viral en chaîne), Coin détente (retient les coureurs) ; le Mineur rapporte de l’argent. Chacun a 3 voies, on peut en prendre 2 ; la première au niveau 3 devient la voie principale et monte jusqu’au niveau 6.'),
 'Boss 波': ('Boss wave', 'Vague de boss'),
 'Boss：{n}（{t}）': ('Boss: {n} ({t})', 'Boss : {n} ({t})'),
 'GMT 质押': ('GMT Staking', 'Staking GMT'),
@@ -218,7 +218,8 @@ T = {
 '沾到的跑者辣到跳脚 2 秒': ('Runners hop from the heat for 2 s', 'Les coureurs sautillent de piment 2 s'),
 '泡水鞋': ('Soggy Shoes', 'Chaussures trempées'),
 '波次': ('Wave', 'Vague'),
-'洒水器': ('Sprinkler', 'Arroseur'),
+'洒水车': ('Sprinkler Truck', 'Camion arroseur'),
+'活动范围': ('Patrol', 'Patrouille'),
 '洒水让跑道湿滑，范围减速': ('Wets the track to slow an area', 'Mouille la piste pour ralentir une zone'),
 '洗脑神曲': ('Earworm', 'Tube entêtant'),
 '洗脑神曲在跑者之间传播，一次影响好几个': ('An earworm hops between runners, hitting several at once', 'Un tube entêtant passe d’un coureur à l’autre'),
@@ -298,7 +299,7 @@ T = {
 '装置': ('Device', 'Dispositif'),
 '装置效果 {s}{n}%': ('Device effect {s}{n}%', 'Effet des dispositifs {s}{n} %'),
 '解锁广场舞音响：洗脑神曲在跑者之间传播': ('Unlock Dance Speaker: an earworm hops between runners', 'Débloque l’Enceinte de danse : un tube passe de coureur en coureur'),
-'解锁洒水器：跑道湿滑，范围减速': ('Unlock Sprinkler: wet track, area slow', 'Débloque l’Arroseur : piste glissante, ralentit une zone'),
+'解锁洒水车：跑道湿滑，范围减速': ('Unlock Sprinkler Truck: wet track, area slow', 'Débloque le Camion arroseur : piste glissante, ralentit une zone'),
 '解锁鞋盒无人机：全图空投鞋盒，无视耐力': ('Unlock Shoebox Drone: map-wide drops, ignores endurance', 'Débloque le Drone à boîtes : largages partout, ignore l’endurance'),
 '解锁香蕉皮投手：一片跑者一起滑倒，专克耐力跑者': ('Unlock Banana Peeler: trips whole groups, counters endurance runners', 'Débloque le Lanceur de peaux : fait glisser des groupes, contre les endurants'),
 '起点': ('Start', 'Départ'),
@@ -619,7 +620,7 @@ T.update({
 '解锁休闲诱惑站：美食、沙发和限量球鞋让跑者停下来': ('Unlock the Chill Spot: food, sofas and limited sneakers make runners stop', 'Débloque le Coin détente : bouffe, canapés et baskets limitées arrêtent les coureurs'),
 '6 级专精升级费用 −30%': ('Tier-6 specialisation upgrades −30%', 'Spécialisations de niveau 6 −30 %'),
 '解锁香蕉皮投手：往跑道扔香蕉皮陷阱，踩中的几个人一起滑倒': ('Unlock the Banana Peeler: peel traps on the track trip several runners at once', 'Débloque le Lance-peaux : des pièges sur la piste font tomber plusieurs coureurs'),
-'解锁洒水器：持续喷水，范围减速': ('Unlock the Sprinkler: keeps spraying, slows an area', 'Débloque l’Arroseur : arrose en continu et ralentit une zone'),
+'解锁洒水车：持续喷水，范围减速': ('Unlock the Sprinkler Truck: drives around spraying, slows an area', 'Débloque le Camion arroseur : il roule en arrosant et ralentit une zone'),
 '解锁鞋盒无人机：指定投递区，全图空投鞋盒': ('Unlock the Shoebox Drone: pick a drop zone anywhere on the map', 'Débloque le Drone à boîtes : choisis une zone de largage n’importe où'),
 })
 
