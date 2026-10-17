@@ -5,264 +5,396 @@
    "frame": {
     "x": 0,
     "y": 0,
-    "w": 344,
-    "h": 189
+    "w": 325,
+    "h": 222
    },
    "rotated": false,
    "trimmed": false,
    "spriteSourceSize": {
     "x": 0,
     "y": 0,
-    "w": 344,
-    "h": 189
+    "w": 325,
+    "h": 222
    },
    "sourceSize": {
-    "w": 344,
-    "h": 189
+    "w": 325,
+    "h": 222
    },
-   "duration": 140
+   "duration": 120
   },
   {
    "filename": "tower.frost 1.aseprite",
    "frame": {
-    "x": 344,
+    "x": 325,
     "y": 0,
-    "w": 344,
-    "h": 189
+    "w": 325,
+    "h": 222
    },
    "rotated": false,
    "trimmed": false,
    "spriteSourceSize": {
     "x": 0,
     "y": 0,
-    "w": 344,
-    "h": 189
+    "w": 325,
+    "h": 222
    },
    "sourceSize": {
-    "w": 344,
-    "h": 189
+    "w": 325,
+    "h": 222
    },
-   "duration": 140
+   "duration": 120
   },
   {
    "filename": "tower.frost 2.aseprite",
    "frame": {
-    "x": 688,
+    "x": 650,
     "y": 0,
-    "w": 344,
-    "h": 189
+    "w": 325,
+    "h": 222
    },
    "rotated": false,
    "trimmed": false,
    "spriteSourceSize": {
     "x": 0,
     "y": 0,
-    "w": 344,
-    "h": 189
+    "w": 325,
+    "h": 222
    },
    "sourceSize": {
-    "w": 344,
-    "h": 189
+    "w": 325,
+    "h": 222
    },
-   "duration": 140
+   "duration": 120
   },
   {
    "filename": "tower.frost 3.aseprite",
    "frame": {
-    "x": 1032,
+    "x": 975,
     "y": 0,
-    "w": 344,
-    "h": 189
+    "w": 325,
+    "h": 222
    },
    "rotated": false,
    "trimmed": false,
    "spriteSourceSize": {
     "x": 0,
     "y": 0,
-    "w": 344,
-    "h": 189
+    "w": 325,
+    "h": 222
    },
    "sourceSize": {
-    "w": 344,
-    "h": 189
+    "w": 325,
+    "h": 222
    },
-   "duration": 140
+   "duration": 120
   },
   {
    "filename": "tower.frost 4.aseprite",
    "frame": {
-    "x": 1376,
+    "x": 1300,
     "y": 0,
-    "w": 344,
-    "h": 189
+    "w": 325,
+    "h": 222
    },
    "rotated": false,
    "trimmed": false,
    "spriteSourceSize": {
     "x": 0,
     "y": 0,
-    "w": 344,
-    "h": 189
+    "w": 325,
+    "h": 222
    },
    "sourceSize": {
-    "w": 344,
-    "h": 189
+    "w": 325,
+    "h": 222
    },
-   "duration": 140
+   "duration": 120
   },
   {
    "filename": "tower.frost 5.aseprite",
    "frame": {
     "x": 0,
-    "y": 189,
-    "w": 344,
-    "h": 189
+    "y": 222,
+    "w": 325,
+    "h": 222
    },
    "rotated": false,
    "trimmed": false,
    "spriteSourceSize": {
     "x": 0,
     "y": 0,
-    "w": 344,
-    "h": 189
+    "w": 325,
+    "h": 222
    },
    "sourceSize": {
-    "w": 344,
-    "h": 189
+    "w": 325,
+    "h": 222
    },
-   "duration": 140
+   "duration": 120
   },
   {
    "filename": "tower.frost 6.aseprite",
    "frame": {
-    "x": 344,
-    "y": 189,
-    "w": 344,
-    "h": 189
+    "x": 325,
+    "y": 222,
+    "w": 325,
+    "h": 222
    },
    "rotated": false,
    "trimmed": false,
    "spriteSourceSize": {
     "x": 0,
     "y": 0,
-    "w": 344,
-    "h": 189
+    "w": 325,
+    "h": 222
    },
    "sourceSize": {
-    "w": 344,
-    "h": 189
+    "w": 325,
+    "h": 222
    },
-   "duration": 40
+   "duration": 120
   },
   {
    "filename": "tower.frost 7.aseprite",
    "frame": {
-    "x": 688,
-    "y": 189,
-    "w": 344,
-    "h": 189
+    "x": 650,
+    "y": 222,
+    "w": 325,
+    "h": 222
    },
    "rotated": false,
    "trimmed": false,
    "spriteSourceSize": {
     "x": 0,
     "y": 0,
-    "w": 344,
-    "h": 189
+    "w": 325,
+    "h": 222
    },
    "sourceSize": {
-    "w": 344,
-    "h": 189
+    "w": 325,
+    "h": 222
    },
-   "duration": 40
+   "duration": 120
   },
   {
    "filename": "tower.frost 8.aseprite",
    "frame": {
-    "x": 1032,
-    "y": 189,
-    "w": 344,
-    "h": 189
+    "x": 975,
+    "y": 222,
+    "w": 325,
+    "h": 222
    },
    "rotated": false,
    "trimmed": false,
    "spriteSourceSize": {
     "x": 0,
     "y": 0,
-    "w": 344,
-    "h": 189
+    "w": 325,
+    "h": 222
    },
    "sourceSize": {
-    "w": 344,
-    "h": 189
+    "w": 325,
+    "h": 222
    },
    "duration": 45
   },
   {
    "filename": "tower.frost 9.aseprite",
    "frame": {
-    "x": 1376,
-    "y": 189,
-    "w": 344,
-    "h": 189
+    "x": 1300,
+    "y": 222,
+    "w": 325,
+    "h": 222
    },
    "rotated": false,
    "trimmed": false,
    "spriteSourceSize": {
     "x": 0,
     "y": 0,
-    "w": 344,
-    "h": 189
+    "w": 325,
+    "h": 222
    },
    "sourceSize": {
-    "w": 344,
-    "h": 189
+    "w": 325,
+    "h": 222
    },
-   "duration": 50
+   "duration": 45
   },
   {
    "filename": "tower.frost 10.aseprite",
    "frame": {
     "x": 0,
-    "y": 378,
-    "w": 344,
-    "h": 189
+    "y": 444,
+    "w": 325,
+    "h": 222
    },
    "rotated": false,
    "trimmed": false,
    "spriteSourceSize": {
     "x": 0,
     "y": 0,
-    "w": 344,
-    "h": 189
+    "w": 325,
+    "h": 222
    },
    "sourceSize": {
-    "w": 344,
-    "h": 189
+    "w": 325,
+    "h": 222
    },
-   "duration": 55
+   "duration": 45
   },
   {
    "filename": "tower.frost 11.aseprite",
    "frame": {
-    "x": 344,
-    "y": 378,
-    "w": 344,
-    "h": 189
+    "x": 325,
+    "y": 444,
+    "w": 325,
+    "h": 222
    },
    "rotated": false,
    "trimmed": false,
    "spriteSourceSize": {
     "x": 0,
     "y": 0,
-    "w": 344,
-    "h": 189
+    "w": 325,
+    "h": 222
    },
    "sourceSize": {
-    "w": 344,
-    "h": 189
+    "w": 325,
+    "h": 222
    },
-   "duration": 60
+   "duration": 45
+  },
+  {
+   "filename": "tower.frost 12.aseprite",
+   "frame": {
+    "x": 650,
+    "y": 444,
+    "w": 325,
+    "h": 222
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 325,
+    "h": 222
+   },
+   "sourceSize": {
+    "w": 325,
+    "h": 222
+   },
+   "duration": 45
+  },
+  {
+   "filename": "tower.frost 13.aseprite",
+   "frame": {
+    "x": 975,
+    "y": 444,
+    "w": 325,
+    "h": 222
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 325,
+    "h": 222
+   },
+   "sourceSize": {
+    "w": 325,
+    "h": 222
+   },
+   "duration": 45
+  },
+  {
+   "filename": "tower.frost 14.aseprite",
+   "frame": {
+    "x": 1300,
+    "y": 444,
+    "w": 325,
+    "h": 222
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 325,
+    "h": 222
+   },
+   "sourceSize": {
+    "w": 325,
+    "h": 222
+   },
+   "duration": 45
+  },
+  {
+   "filename": "tower.frost 15.aseprite",
+   "frame": {
+    "x": 0,
+    "y": 666,
+    "w": 325,
+    "h": 222
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 325,
+    "h": 222
+   },
+   "sourceSize": {
+    "w": 325,
+    "h": 222
+   },
+   "duration": 45
+  },
+  {
+   "filename": "tower.frost 16.aseprite",
+   "frame": {
+    "x": 325,
+    "y": 666,
+    "w": 325,
+    "h": 222
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 325,
+    "h": 222
+   },
+   "sourceSize": {
+    "w": 325,
+    "h": 222
+   },
+   "duration": 45
+  },
+  {
+   "filename": "tower.frost 17.aseprite",
+   "frame": {
+    "x": 650,
+    "y": 666,
+    "w": 325,
+    "h": 222
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 325,
+    "h": 222
+   },
+   "sourceSize": {
+    "w": 325,
+    "h": 222
+   },
+   "duration": 45
   }
  ],
  "meta": {
@@ -271,27 +403,27 @@
   "image": "tower.frost.png",
   "format": "RGBA8888",
   "size": {
-   "w": 1720,
-   "h": 567
+   "w": 1625,
+   "h": 888
   },
   "scale": "1",
   "frameTags": [
    {
     "name": "idle",
     "from": 0,
-    "to": 5,
+    "to": 7,
     "direction": "forward"
    },
    {
     "name": "fire",
-    "from": 6,
-    "to": 11,
+    "from": 8,
+    "to": 17,
     "direction": "forward"
    },
    {
     "name": "release",
-    "from": 7,
-    "to": 7,
+    "from": 9,
+    "to": 9,
     "direction": "forward"
    }
   ],
@@ -303,8 +435,8 @@
      {
       "frame": 0,
       "bounds": {
-       "x": 172,
-       "y": 171,
+       "x": 163,
+       "y": 201,
        "w": 8,
        "h": 8
       }
@@ -318,8 +450,8 @@
      {
       "frame": 0,
       "bounds": {
-       "x": 241,
-       "y": 64,
+       "x": 179,
+       "y": 85,
        "w": 8,
        "h": 8
       }
@@ -327,8 +459,8 @@
      {
       "frame": 1,
       "bounds": {
-       "x": 241,
-       "y": 64,
+       "x": 179,
+       "y": 85,
        "w": 8,
        "h": 8
       }
@@ -336,8 +468,8 @@
      {
       "frame": 2,
       "bounds": {
-       "x": 241,
-       "y": 64,
+       "x": 179,
+       "y": 85,
        "w": 8,
        "h": 8
       }
@@ -345,8 +477,8 @@
      {
       "frame": 3,
       "bounds": {
-       "x": 241,
-       "y": 64,
+       "x": 179,
+       "y": 85,
        "w": 8,
        "h": 8
       }
@@ -354,8 +486,8 @@
      {
       "frame": 4,
       "bounds": {
-       "x": 241,
-       "y": 64,
+       "x": 179,
+       "y": 85,
        "w": 8,
        "h": 8
       }
@@ -363,8 +495,8 @@
      {
       "frame": 5,
       "bounds": {
-       "x": 241,
-       "y": 64,
+       "x": 179,
+       "y": 85,
        "w": 8,
        "h": 8
       }
@@ -372,8 +504,8 @@
      {
       "frame": 6,
       "bounds": {
-       "x": 241,
-       "y": 64,
+       "x": 179,
+       "y": 85,
        "w": 8,
        "h": 8
       }
@@ -381,8 +513,8 @@
      {
       "frame": 7,
       "bounds": {
-       "x": 241,
-       "y": 64,
+       "x": 179,
+       "y": 85,
        "w": 8,
        "h": 8
       }
@@ -390,8 +522,8 @@
      {
       "frame": 8,
       "bounds": {
-       "x": 241,
-       "y": 64,
+       "x": 179,
+       "y": 85,
        "w": 8,
        "h": 8
       }
@@ -399,8 +531,8 @@
      {
       "frame": 9,
       "bounds": {
-       "x": 241,
-       "y": 64,
+       "x": 179,
+       "y": 85,
        "w": 8,
        "h": 8
       }
@@ -408,8 +540,8 @@
      {
       "frame": 10,
       "bounds": {
-       "x": 241,
-       "y": 64,
+       "x": 179,
+       "y": 85,
        "w": 8,
        "h": 8
       }
@@ -417,8 +549,62 @@
      {
       "frame": 11,
       "bounds": {
-       "x": 241,
-       "y": 64,
+       "x": 179,
+       "y": 85,
+       "w": 8,
+       "h": 8
+      }
+     },
+     {
+      "frame": 12,
+      "bounds": {
+       "x": 179,
+       "y": 85,
+       "w": 8,
+       "h": 8
+      }
+     },
+     {
+      "frame": 13,
+      "bounds": {
+       "x": 179,
+       "y": 85,
+       "w": 8,
+       "h": 8
+      }
+     },
+     {
+      "frame": 14,
+      "bounds": {
+       "x": 179,
+       "y": 85,
+       "w": 8,
+       "h": 8
+      }
+     },
+     {
+      "frame": 15,
+      "bounds": {
+       "x": 179,
+       "y": 85,
+       "w": 8,
+       "h": 8
+      }
+     },
+     {
+      "frame": 16,
+      "bounds": {
+       "x": 179,
+       "y": 85,
+       "w": 8,
+       "h": 8
+      }
+     },
+     {
+      "frame": 17,
+      "bounds": {
+       "x": 179,
+       "y": 85,
        "w": 8,
        "h": 8
       }
