@@ -1,0 +1,430 @@
+{
+ "frames": [
+  {
+   "filename": "tower.tesla 0.aseprite",
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 274,
+    "h": 244
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 274,
+    "h": 244
+   },
+   "sourceSize": {
+    "w": 274,
+    "h": 244
+   },
+   "duration": 120
+  },
+  {
+   "filename": "tower.tesla 1.aseprite",
+   "frame": {
+    "x": 274,
+    "y": 0,
+    "w": 274,
+    "h": 244
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 274,
+    "h": 244
+   },
+   "sourceSize": {
+    "w": 274,
+    "h": 244
+   },
+   "duration": 120
+  },
+  {
+   "filename": "tower.tesla 2.aseprite",
+   "frame": {
+    "x": 548,
+    "y": 0,
+    "w": 274,
+    "h": 244
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 274,
+    "h": 244
+   },
+   "sourceSize": {
+    "w": 274,
+    "h": 244
+   },
+   "duration": 120
+  },
+  {
+   "filename": "tower.tesla 3.aseprite",
+   "frame": {
+    "x": 822,
+    "y": 0,
+    "w": 274,
+    "h": 244
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 274,
+    "h": 244
+   },
+   "sourceSize": {
+    "w": 274,
+    "h": 244
+   },
+   "duration": 120
+  },
+  {
+   "filename": "tower.tesla 4.aseprite",
+   "frame": {
+    "x": 1096,
+    "y": 0,
+    "w": 274,
+    "h": 244
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 274,
+    "h": 244
+   },
+   "sourceSize": {
+    "w": 274,
+    "h": 244
+   },
+   "duration": 120
+  },
+  {
+   "filename": "tower.tesla 5.aseprite",
+   "frame": {
+    "x": 0,
+    "y": 244,
+    "w": 274,
+    "h": 244
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 274,
+    "h": 244
+   },
+   "sourceSize": {
+    "w": 274,
+    "h": 244
+   },
+   "duration": 120
+  },
+  {
+   "filename": "tower.tesla 6.aseprite",
+   "frame": {
+    "x": 274,
+    "y": 244,
+    "w": 274,
+    "h": 244
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 274,
+    "h": 244
+   },
+   "sourceSize": {
+    "w": 274,
+    "h": 244
+   },
+   "duration": 45
+  },
+  {
+   "filename": "tower.tesla 7.aseprite",
+   "frame": {
+    "x": 548,
+    "y": 244,
+    "w": 274,
+    "h": 244
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 274,
+    "h": 244
+   },
+   "sourceSize": {
+    "w": 274,
+    "h": 244
+   },
+   "duration": 40
+  },
+  {
+   "filename": "tower.tesla 8.aseprite",
+   "frame": {
+    "x": 822,
+    "y": 244,
+    "w": 274,
+    "h": 244
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 274,
+    "h": 244
+   },
+   "sourceSize": {
+    "w": 274,
+    "h": 244
+   },
+   "duration": 45
+  },
+  {
+   "filename": "tower.tesla 9.aseprite",
+   "frame": {
+    "x": 1096,
+    "y": 244,
+    "w": 274,
+    "h": 244
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 274,
+    "h": 244
+   },
+   "sourceSize": {
+    "w": 274,
+    "h": 244
+   },
+   "duration": 50
+  },
+  {
+   "filename": "tower.tesla 10.aseprite",
+   "frame": {
+    "x": 0,
+    "y": 488,
+    "w": 274,
+    "h": 244
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 274,
+    "h": 244
+   },
+   "sourceSize": {
+    "w": 274,
+    "h": 244
+   },
+   "duration": 55
+  },
+  {
+   "filename": "tower.tesla 11.aseprite",
+   "frame": {
+    "x": 274,
+    "y": 488,
+    "w": 274,
+    "h": 244
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 274,
+    "h": 244
+   },
+   "sourceSize": {
+    "w": 274,
+    "h": 244
+   },
+   "duration": 60
+  }
+ ],
+ "meta": {
+  "app": "art/towers",
+  "version": "1",
+  "image": "tower.tesla.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 1370,
+   "h": 732
+  },
+  "scale": "1",
+  "frameTags": [
+   {
+    "name": "idle",
+    "from": 0,
+    "to": 5,
+    "direction": "forward"
+   },
+   {
+    "name": "fire",
+    "from": 6,
+    "to": 11,
+    "direction": "forward"
+   },
+   {
+    "name": "release",
+    "from": 7,
+    "to": 7,
+    "direction": "forward"
+   }
+  ],
+  "slices": [
+   {
+    "name": "pivot",
+    "color": "#0000ffff",
+    "keys": [
+     {
+      "frame": 0,
+      "bounds": {
+       "x": 97,
+       "y": 226,
+       "w": 8,
+       "h": 8
+      }
+     }
+    ]
+   },
+   {
+    "name": "muzzle",
+    "color": "#ff0000ff",
+    "keys": [
+     {
+      "frame": 0,
+      "bounds": {
+       "x": 114,
+       "y": 158,
+       "w": 8,
+       "h": 8
+      }
+     },
+     {
+      "frame": 1,
+      "bounds": {
+       "x": 114,
+       "y": 158,
+       "w": 8,
+       "h": 8
+      }
+     },
+     {
+      "frame": 2,
+      "bounds": {
+       "x": 114,
+       "y": 158,
+       "w": 8,
+       "h": 8
+      }
+     },
+     {
+      "frame": 3,
+      "bounds": {
+       "x": 114,
+       "y": 158,
+       "w": 8,
+       "h": 8
+      }
+     },
+     {
+      "frame": 4,
+      "bounds": {
+       "x": 114,
+       "y": 158,
+       "w": 8,
+       "h": 8
+      }
+     },
+     {
+      "frame": 5,
+      "bounds": {
+       "x": 114,
+       "y": 158,
+       "w": 8,
+       "h": 8
+      }
+     },
+     {
+      "frame": 6,
+      "bounds": {
+       "x": 114,
+       "y": 158,
+       "w": 8,
+       "h": 8
+      }
+     },
+     {
+      "frame": 7,
+      "bounds": {
+       "x": 114,
+       "y": 158,
+       "w": 8,
+       "h": 8
+      }
+     },
+     {
+      "frame": 8,
+      "bounds": {
+       "x": 114,
+       "y": 158,
+       "w": 8,
+       "h": 8
+      }
+     },
+     {
+      "frame": 9,
+      "bounds": {
+       "x": 114,
+       "y": 158,
+       "w": 8,
+       "h": 8
+      }
+     },
+     {
+      "frame": 10,
+      "bounds": {
+       "x": 114,
+       "y": 158,
+       "w": 8,
+       "h": 8
+      }
+     },
+     {
+      "frame": 11,
+      "bounds": {
+       "x": 114,
+       "y": 158,
+       "w": 8,
+       "h": 8
+      }
+     }
+    ]
+   }
+  ]
+ }
+}

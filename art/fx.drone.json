@@ -1,0 +1,216 @@
+{
+ "frames": [
+  {
+   "filename": "fx.drone 0.aseprite",
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 215,
+    "h": 146
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 215,
+    "h": 146
+   },
+   "sourceSize": {
+    "w": 215,
+    "h": 146
+   },
+   "duration": 70
+  },
+  {
+   "filename": "fx.drone 1.aseprite",
+   "frame": {
+    "x": 215,
+    "y": 0,
+    "w": 215,
+    "h": 146
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 215,
+    "h": 146
+   },
+   "sourceSize": {
+    "w": 215,
+    "h": 146
+   },
+   "duration": 70
+  },
+  {
+   "filename": "fx.drone 2.aseprite",
+   "frame": {
+    "x": 430,
+    "y": 0,
+    "w": 215,
+    "h": 146
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 215,
+    "h": 146
+   },
+   "sourceSize": {
+    "w": 215,
+    "h": 146
+   },
+   "duration": 70
+  },
+  {
+   "filename": "fx.drone 3.aseprite",
+   "frame": {
+    "x": 645,
+    "y": 0,
+    "w": 215,
+    "h": 146
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 215,
+    "h": 146
+   },
+   "sourceSize": {
+    "w": 215,
+    "h": 146
+   },
+   "duration": 70
+  },
+  {
+   "filename": "fx.drone 4.aseprite",
+   "frame": {
+    "x": 860,
+    "y": 0,
+    "w": 215,
+    "h": 146
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 215,
+    "h": 146
+   },
+   "sourceSize": {
+    "w": 215,
+    "h": 146
+   },
+   "duration": 70
+  },
+  {
+   "filename": "fx.drone 5.aseprite",
+   "frame": {
+    "x": 0,
+    "y": 146,
+    "w": 215,
+    "h": 146
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 215,
+    "h": 146
+   },
+   "sourceSize": {
+    "w": 215,
+    "h": 146
+   },
+   "duration": 70
+  },
+  {
+   "filename": "fx.drone 6.aseprite",
+   "frame": {
+    "x": 215,
+    "y": 146,
+    "w": 215,
+    "h": 146
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 215,
+    "h": 146
+   },
+   "sourceSize": {
+    "w": 215,
+    "h": 146
+   },
+   "duration": 70
+  },
+  {
+   "filename": "fx.drone 7.aseprite",
+   "frame": {
+    "x": 430,
+    "y": 146,
+    "w": 215,
+    "h": 146
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 215,
+    "h": 146
+   },
+   "sourceSize": {
+    "w": 215,
+    "h": 146
+   },
+   "duration": 70
+  }
+ ],
+ "meta": {
+  "app": "art/towers",
+  "version": "1",
+  "image": "fx.drone.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 1075,
+   "h": 292
+  },
+  "scale": "1",
+  "frameTags": [
+   {
+    "name": "fly",
+    "from": 0,
+    "to": 7,
+    "direction": "forward"
+   }
+  ],
+  "slices": [
+   {
+    "name": "pivot",
+    "color": "#0000ffff",
+    "keys": [
+     {
+      "frame": 0,
+      "bounds": {
+       "x": 104,
+       "y": 76,
+       "w": 8,
+       "h": 8
+      }
+     }
+    ]
+   }
+  ]
+ }
+}

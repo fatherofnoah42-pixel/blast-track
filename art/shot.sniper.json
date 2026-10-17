@@ -1,0 +1,244 @@
+{
+ "frames": [
+  {
+   "filename": "shot.sniper 0.aseprite",
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 84,
+    "h": 84
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 84,
+    "h": 84
+   },
+   "sourceSize": {
+    "w": 84,
+    "h": 84
+   },
+   "duration": 90
+  },
+  {
+   "filename": "shot.sniper 1.aseprite",
+   "frame": {
+    "x": 84,
+    "y": 0,
+    "w": 84,
+    "h": 84
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 84,
+    "h": 84
+   },
+   "sourceSize": {
+    "w": 84,
+    "h": 84
+   },
+   "duration": 90
+  },
+  {
+   "filename": "shot.sniper 2.aseprite",
+   "frame": {
+    "x": 168,
+    "y": 0,
+    "w": 84,
+    "h": 84
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 84,
+    "h": 84
+   },
+   "sourceSize": {
+    "w": 84,
+    "h": 84
+   },
+   "duration": 90
+  },
+  {
+   "filename": "shot.sniper 3.aseprite",
+   "frame": {
+    "x": 252,
+    "y": 0,
+    "w": 84,
+    "h": 84
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 84,
+    "h": 84
+   },
+   "sourceSize": {
+    "w": 84,
+    "h": 84
+   },
+   "duration": 90
+  },
+  {
+   "filename": "shot.sniper 4.aseprite",
+   "frame": {
+    "x": 336,
+    "y": 0,
+    "w": 84,
+    "h": 84
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 84,
+    "h": 84
+   },
+   "sourceSize": {
+    "w": 84,
+    "h": 84
+   },
+   "duration": 60
+  },
+  {
+   "filename": "shot.sniper 5.aseprite",
+   "frame": {
+    "x": 0,
+    "y": 84,
+    "w": 84,
+    "h": 84
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 84,
+    "h": 84
+   },
+   "sourceSize": {
+    "w": 84,
+    "h": 84
+   },
+   "duration": 60
+  },
+  {
+   "filename": "shot.sniper 6.aseprite",
+   "frame": {
+    "x": 84,
+    "y": 84,
+    "w": 84,
+    "h": 84
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 84,
+    "h": 84
+   },
+   "sourceSize": {
+    "w": 84,
+    "h": 84
+   },
+   "duration": 60
+  },
+  {
+   "filename": "shot.sniper 7.aseprite",
+   "frame": {
+    "x": 168,
+    "y": 84,
+    "w": 84,
+    "h": 84
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 84,
+    "h": 84
+   },
+   "sourceSize": {
+    "w": 84,
+    "h": 84
+   },
+   "duration": 60
+  },
+  {
+   "filename": "shot.sniper 8.aseprite",
+   "frame": {
+    "x": 252,
+    "y": 84,
+    "w": 84,
+    "h": 84
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 84,
+    "h": 84
+   },
+   "sourceSize": {
+    "w": 84,
+    "h": 84
+   },
+   "duration": 60
+  }
+ ],
+ "meta": {
+  "app": "art/towers",
+  "version": "1",
+  "image": "shot.sniper.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 420,
+   "h": 168
+  },
+  "scale": "1",
+  "frameTags": [
+   {
+    "name": "fly",
+    "from": 0,
+    "to": 3,
+    "direction": "forward"
+   },
+   {
+    "name": "hit",
+    "from": 4,
+    "to": 8,
+    "direction": "forward"
+   }
+  ],
+  "slices": [
+   {
+    "name": "pivot",
+    "color": "#0000ffff",
+    "keys": [
+     {
+      "frame": 0,
+      "bounds": {
+       "x": 38,
+       "y": 62,
+       "w": 8,
+       "h": 8
+      }
+     }
+    ]
+   }
+  ]
+ }
+}

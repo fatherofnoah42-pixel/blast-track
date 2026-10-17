@@ -1,0 +1,244 @@
+{
+ "frames": [
+  {
+   "filename": "shot.bomb 0.aseprite",
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 69,
+    "h": 69
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 69,
+    "h": 69
+   },
+   "sourceSize": {
+    "w": 69,
+    "h": 69
+   },
+   "duration": 90
+  },
+  {
+   "filename": "shot.bomb 1.aseprite",
+   "frame": {
+    "x": 69,
+    "y": 0,
+    "w": 69,
+    "h": 69
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 69,
+    "h": 69
+   },
+   "sourceSize": {
+    "w": 69,
+    "h": 69
+   },
+   "duration": 90
+  },
+  {
+   "filename": "shot.bomb 2.aseprite",
+   "frame": {
+    "x": 138,
+    "y": 0,
+    "w": 69,
+    "h": 69
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 69,
+    "h": 69
+   },
+   "sourceSize": {
+    "w": 69,
+    "h": 69
+   },
+   "duration": 90
+  },
+  {
+   "filename": "shot.bomb 3.aseprite",
+   "frame": {
+    "x": 207,
+    "y": 0,
+    "w": 69,
+    "h": 69
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 69,
+    "h": 69
+   },
+   "sourceSize": {
+    "w": 69,
+    "h": 69
+   },
+   "duration": 90
+  },
+  {
+   "filename": "shot.bomb 4.aseprite",
+   "frame": {
+    "x": 276,
+    "y": 0,
+    "w": 69,
+    "h": 69
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 69,
+    "h": 69
+   },
+   "sourceSize": {
+    "w": 69,
+    "h": 69
+   },
+   "duration": 55
+  },
+  {
+   "filename": "shot.bomb 5.aseprite",
+   "frame": {
+    "x": 345,
+    "y": 0,
+    "w": 69,
+    "h": 69
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 69,
+    "h": 69
+   },
+   "sourceSize": {
+    "w": 69,
+    "h": 69
+   },
+   "duration": 55
+  },
+  {
+   "filename": "shot.bomb 6.aseprite",
+   "frame": {
+    "x": 414,
+    "y": 0,
+    "w": 69,
+    "h": 69
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 69,
+    "h": 69
+   },
+   "sourceSize": {
+    "w": 69,
+    "h": 69
+   },
+   "duration": 55
+  },
+  {
+   "filename": "shot.bomb 7.aseprite",
+   "frame": {
+    "x": 483,
+    "y": 0,
+    "w": 69,
+    "h": 69
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 69,
+    "h": 69
+   },
+   "sourceSize": {
+    "w": 69,
+    "h": 69
+   },
+   "duration": 55
+  },
+  {
+   "filename": "shot.bomb 8.aseprite",
+   "frame": {
+    "x": 552,
+    "y": 0,
+    "w": 69,
+    "h": 69
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 69,
+    "h": 69
+   },
+   "sourceSize": {
+    "w": 69,
+    "h": 69
+   },
+   "duration": 55
+  }
+ ],
+ "meta": {
+  "app": "gen_can_anim.py",
+  "version": "2",
+  "image": "shot.bomb.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 621,
+   "h": 69
+  },
+  "scale": "1",
+  "frameTags": [
+   {
+    "name": "fly",
+    "from": 0,
+    "to": 3,
+    "direction": "forward"
+   },
+   {
+    "name": "hit",
+    "from": 4,
+    "to": 8,
+    "direction": "forward"
+   }
+  ],
+  "slices": [
+   {
+    "name": "pivot",
+    "color": "#0000ffff",
+    "keys": [
+     {
+      "frame": 0,
+      "bounds": {
+       "x": 30,
+       "y": 30,
+       "w": 8,
+       "h": 8
+      }
+     }
+    ]
+   }
+  ]
+ }
+}
