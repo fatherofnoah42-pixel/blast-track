@@ -189,7 +189,9 @@ details ul{padding-left:18px;margin:8px 0 0}
 .pop-h{display:flex;align-items:center;gap:6px;margin-bottom:6px}
 .pop-h strong{flex:1;font-family:var(--f-display);font-weight:400;font-size:19px;line-height:1.1;color:#fff;-webkit-text-stroke:3.5px var(--ink);paint-order:stroke fill;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pop-x{min-height:34px;width:34px;padding:0;border-radius:50%;font-size:20px;line-height:1}
-.pi{display:inline-flex;width:34px;height:31px}.pi svg{width:100%;height:100%}.pi.sm{width:28px;height:26px}
+.pi{display:inline-flex;width:56px;height:48px}.pi svg,.pi img{width:100%;height:100%;object-fit:contain;-webkit-user-drag:none}.pi.sm{width:34px;height:31px}
+.pb.lock{opacity:1;filter:none}.pb.lock .pi{filter:grayscale(1) brightness(1.05);opacity:.75}.pb.lock .pc{font-size:12px;-webkit-text-stroke:2.5px #0e2a4a;color:#fff}.pb.lock .pc::before{display:none}
+.opt .oh{display:flex;align-items:center;gap:8px;min-width:0}.opt .oi{flex:none;width:40px;height:37px;display:inline-flex}.opt .oi svg,.opt .oi img{width:100%;height:100%;object-fit:contain}
 .pop-build{display:grid;grid-template-columns:repeat(auto-fill,minmax(76px,1fr));gap:7px}
 .pb{display:flex;flex-direction:column;align-items:center;gap:1px;padding:6px 4px 5px;min-height:0;border-radius:12px;color:#fff;
   background:linear-gradient(180deg,var(--blue),var(--blue2));box-shadow:0 0 0 2.5px #0e2a4a,inset 0 2px 0 #d8f2ff,inset 0 -4px 0 var(--blue3),0 3px 0 2.5px rgba(0,0,0,.2)}
@@ -352,6 +354,8 @@ body.land .controls .primary{flex-basis:100%}
 .cm-node.lock .cm-i{background:#9aa3a9}
 .cm-node.soon button{opacity:.6}
 .cm-f{display:flex;gap:8px;flex-wrap:wrap}.cm-f button{flex:1 1 140px}
+.cm-ach{margin:0 0 4px;font-size:12px;font-weight:800;color:var(--text)}
+.lockline{display:inline-block;margin-top:4px;font-size:12px;font-weight:800;color:#8a5a00;background:#fff4d6;border-radius:8px;padding:2px 8px}.lockp{margin:8px 0 0}
 .cm-pts{margin:0;font-size:12px;font-weight:900;color:var(--text)}.cm-pts span{font-weight:700;color:var(--muted)}
 .cx-tabs{display:flex;gap:6px}.cx-tabs button{flex:1;min-height:38px;font-size:13px}
 .cx-tabs button[aria-pressed="true"]{background:linear-gradient(180deg,#ffe46a,#ffb21a)}
@@ -434,7 +438,7 @@ body.land .controls .primary{flex-basis:100%}
     <button id="mapBtn" type="button" hidden>🗺 章节地图</button>
   </div>
 
-  <p class="keys" data-i18n="快捷键：空格 开波 · F 切换速度 · 1–7 建造 · Q/W/E 升级 · X 回收 · Esc 取消">快捷键：空格 开波 · F 切换速度 · 1–7 建造 · Q/W/E 升级 · X 回收 · Esc 取消</p>
+  <p class="keys" data-i18n="快捷键：空格 开波 · F 切换速度 · 1–8 建造 · Q/W/E 升级 · X 回收 · Esc 取消">快捷键：空格 开波 · F 切换速度 · 1–8 建造 · Q/W/E 升级 · X 回收 · Esc 取消</p>
   <div class="build">
     <div class="lab"><span data-i18n="本局构筑">本局构筑</span><span id="buildCount"></span></div>
     <div class="chips" id="buildChips"></div>
@@ -472,7 +476,7 @@ body.land .controls .primary{flex-basis:100%}
     <summary data-i18n="玩法说明">玩法说明</summary>
     <ul>
       <li data-i18n="对手公会的跑者要冲过你的领地。你用「装置」干扰他们，体力耗尽就摔倒退赛。漏过去的跑者会扣你的生命，生命归零即失守。">对手公会的跑者要冲过你的领地。你用「装置」干扰他们，体力耗尽就摔倒退赛。漏过去的跑者会扣你的生命，生命归零即失守。</li>
-      <li data-i18n="6 种装置 + 矿机：易拉罐投手（单体）、香蕉皮投手（跑道陷阱、滑倒）、洒水车（会自己开，减速、冻结）、鞋盒无人机（全图空投）、广场舞音响（神曲连锁传播）、休闲诱惑站（把跑者留住）；矿机负责挣钱。每种 3 条路线，最多点 2 条；先到 3 级的成为主路线，可一直升到 6 级。">6 种装置 + 矿机：易拉罐投手（单体）、香蕉皮投手（跑道陷阱、滑倒）、洒水车（会自己开，减速、冻结）、鞋盒无人机（全图空投）、广场舞音响（神曲连锁传播）、休闲诱惑站（把跑者留住）；矿机负责挣钱。每种 3 条路线，最多点 2 条；先到 3 级的成为主路线，可一直升到 6 级。</li>
+      <li data-i18n="7 种装置 + 矿机：易拉罐投手（单体）、香蕉皮投手（跑道陷阱、滑倒）、洒水器（减速、冻结）、洒水车（会自己开的洒水器，靠成就解锁）、鞋盒无人机（全图空投）、广场舞音响（神曲连锁传播）、休闲诱惑站（把跑者留住）；矿机负责挣钱。每种 3 条路线，最多点 2 条；先到 3 级的成为主路线，可一直升到 6 级。">7 种装置 + 矿机：易拉罐投手（单体）、香蕉皮投手（跑道陷阱、滑倒）、洒水器（减速、冻结）、洒水车（会自己开的洒水器，靠成就解锁）、鞋盒无人机（全图空投）、广场舞音响（神曲连锁传播）、休闲诱惑站（把跑者留住）；矿机负责挣钱。每种 3 条路线，最多点 2 条；先到 3 级的成为主路线，可一直升到 6 级。</li>
       <li data-i18n="3 个 Boss 波每局从 6 位传奇跑者里随机抽：Nox（九命复活）、Aurum（召唤金甲跑者）、Slimo（黏液加速）、Rocco（铁头冲刺）、Chuckles（大笑让装置停工）、Datto（对常用装置产生抗性）。">3 个 Boss 波每局从 6 位传奇跑者里随机抽：Nox（九命复活）、Aurum（召唤金甲跑者）、Slimo（黏液加速）、Rocco（铁头冲刺）、Chuckles（大笑让装置停工）、Datto（对常用装置产生抗性）。</li>
       <li data-i18n="每波结束开启神秘箱三选一：宝石、GST 红包、GMT 质押、MOOAR 折扣、Gas Hero 毒气、升级卷轴、创世鞋等。局内 GST 只是关卡内货币，不和任何真实资产挂钩。">每波结束开启神秘箱三选一：宝石、GST 红包、GMT 质押、MOOAR 折扣、Gas Hero 毒气、升级卷轴、创世鞋等。局内 GST 只是关卡内货币，不和任何真实资产挂钩。</li>
       <li data-i18n="数值没有经过试玩平衡。">数值没有经过试玩平衡。</li>

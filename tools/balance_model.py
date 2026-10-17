@@ -57,9 +57,9 @@ def eff(kind, s, g):
         per = s['dmg'] * crit * hits + (s.get('slideDmg', 0) * hits) + min(s.get('bowl', 0), 6) * (s.get('slideDmg', 0) or s['dmg'] * .5)
         n = s.get('carpet') or s.get('bombs', 1)
         return per * n / rate
-    if kind == 'frost':
+    if kind in ('frost', 'truck'):
         # the truck drives to the runners: its spray covers about range + half its patrol of track
-        rng = min(s['range'] + .5 * s.get('patrol', 0), 400); N = max(1, min(A['maxTargets'], A['cover'] * rng / A['spacing']))
+        if s.get('patrol'): rng = min(s['range'] + .5 * s['patrol'], 400); N = max(1, min(A['maxTargets'], A['cover'] * rng / A['spacing']))
         n = min(6, rng / A['spacing']) if s.get('beam') else N
         return s['dmg'] * crit * n / rate
     if kind == 'tesla':

@@ -98,6 +98,7 @@ G = [  # key, value, description
  ('padTrackGap', 34, '额外放置点：离跑道中心线的最小距离'),
  ('padGap', 32, '额外放置点：离其他空位的最小距离'),
  ('gridTrackGap', 24, '放置格子：格子中心离跑道中心线小于这个距离就算跑道，不能放装置'),
+ ('truckWet', 300, '成就「浇透全场」：用洒水器累计淋湿多少名跑者后解锁洒水车（跨局累计，每名跑者只算一次）'),
  ('scoreKill', 600, '分数：劝退率权重'),
  ('scoreLives', 300, '分数：剩余生命权重'),
  ('scoreClean', 100, '分数：无漏怪波数权重'),
@@ -155,7 +156,7 @@ BOSS_PARAMS = {
 AFFIXES = [('swift', '冲刺', '移速 +40%'), ('regen', '补给', '1 秒没被干扰就回体力'), ('shield', '能量盾', '额外 35% 能量护盾'), ('split', '跑团', '退赛时 2 名跟跑者接力')]
 CARDS = [  # id, tag, rarity, stack, name, desc, v1, v2, note
  ('u_bomb', '装置', 'C', 0, '香蕉皮投手', '解锁香蕉皮投手：往跑道扔香蕉皮陷阱，踩中的几个人一起滑倒', 0, 0, ''),
- ('u_frost', '装置', 'C', 0, '洒水车', '解锁洒水车：持续喷水，范围减速', 0, 0, ''),
+ ('u_frost', '装置', 'C', 0, '洒水器', '解锁洒水器：持续喷水，范围减速', 0, 0, ''),
  ('u_sniper', '装置', 'R', 0, '鞋盒无人机', '解锁鞋盒无人机：指定投递区，全图空投鞋盒', 0, 0, ''),
  ('u_tesla', '装置', 'R', 0, '广场舞音响', '解锁广场舞音响：洗脑神曲在跑者之间传播', 0, 0, ''),
  ('u_miner', '装置', 'R', 0, '矿机', '解锁矿机：挖区块得聪，并触发区块奖励三选一', 0, 0, ''),
@@ -195,7 +196,7 @@ ART = []
 _MAPN = {'classic':'蛇形跑道','twin':'双子跑道','fork':'分岔路口','merge':'汇流跑道','cross':'十字路口','trident':'三路汇聚'}
 for mid, nm in _MAPN.items():
     ART.append((f'map.{mid}', '地图', f'{nm}整张底图（草地、装饰；cover=1 时连跑道一起画，游戏就不再画跑道）', 'P1 样板关' if mid == 'classic' else 'P2', 360, 600, 0, 0, 1, 0, 0))
-_TOWN = {'dart':'易拉罐投手','bomb':'香蕉皮投手','frost':'洒水车取水站','sniper':'鞋盒无人机','tesla':'广场舞音响','lure':'休闲诱惑站','miner':'矿机'}
+_TOWN = {'dart':'易拉罐投手','bomb':'香蕉皮投手','frost':'洒水器','truck':'洒水车','sniper':'鞋盒无人机','tesla':'广场舞音响','lure':'休闲诱惑站','miner':'矿机'}
 for tid, nm in _TOWN.items():
     ART.append((f'tower.{tid}', '装置', f'{nm}：基础造型，面朝右（朝左时游戏自动翻转）。可做动画：idle 待机 + fire 发射（JSON 标出 release 出手帧和 muzzle 出手点）', 'P1 样板关' if tid in ('dart', 'bomb') else 'P2', 46 if tid == 'dart' else 40, 50, .5, .92, 1, 0, 0))
 for tid, nm in _TOWN.items():
@@ -204,9 +205,14 @@ for tid, nm in _TOWN.items():
         pn = next(p[2][0] for p in PATHS6 if p[0] == tid and p[1] == i)
         for lv in (3, 6):
             ART.append((f'tower.{tid}.{PL}{lv}', '装置变种', f'{nm}「{pn}」主路线 {lv} 级起的造型（{PL}{lv}；没有 {PL}4、{PL}5 时沿用 {PL}3）', 'P2' if lv == 3 else 'P3', 44 if lv == 3 else 48, 54 if lv == 3 else 58, .5, .92, 1, 0, 0))
-ART_SRC = {'tower.dart': ('art/tower.dart.png', 'art/tower.dart.json'), 'shot.dart': ('art/shot.dart.png', 'art/shot.dart.json'), 'truck.frost': ('art/truck.frost.png', '')}
+ART_SRC = {'tower.dart': ('art/tower.dart.png', 'art/tower.dart.json'), 'shot.dart': ('art/shot.dart.png', 'art/shot.dart.json'), 'tower.truck': ('art/tower.truck.png', '')}
+# build-menu icons, made from the tower art by art/icons/make_icons.py
+for _k, _nm in _TOWN.items():
+    ART_SRC[f'icon.tower.{_k}'] = (f'art/icon.tower.{_k}.png', '')
+    ART.append((f'icon.tower.{_k}', '图标', f'{_nm}的建造图标（建塔菜单），128 × 128 透明底，贴纸描边；由 art/icons/make_icons.py 从装置美术生成', 'P1 样板关', 64, 64, .5, .5, 1, 0, 0))
+# the sprinkler truck is a vehicle: wider still image, ground point under the wheels (the game bobs it while driving)
+ART = [(a[0], a[1], '洒水车：车头朝右（朝左时游戏自动翻转），地面点在车轮下；静态图即可，行驶时游戏会让它颠簸，喷水从车头喷口出', a[3], 52, 46, .5, .9) + a[8:] if a[0] == 'tower.truck' else a for a in ART]
 ART += [
- ('truck.frost', '装置', '洒水车：会开的车，车头朝右（朝左时游戏自动翻转），地面点在车轮下；静态图即可，行驶时游戏会让它颠簸，喷水从车头喷口出；tower.frost（洒水器）画在它的停车位上当取水站', 'P1 样板关', 52, 46, .5, .9, 1, 0, 0),
  ('pad.empty', '空位', '可放置装置的空位（石台 + 加号）', 'P2', 36, 22, .5, 1, 1, 0, 0),
  ('pad.base', '空位', '装置脚下的底座', 'P2', 36, 22, .5, 1, 1, 0, 0),
  ('runner.norm', '跑者', '慢跑者，侧面向右跑；横向序列帧', 'P1 样板关', 30, 36, .5, 1, 6, 10, 0),
@@ -250,7 +256,7 @@ cfg = {'global': {k: v for k, v, _ in G}, 'globalDesc': {k: d for k, _, d in G},
        'art': [{'key': k, 'kind': kd, 'desc': d, 'prio': pr, 'src': ART_SRC.get(k, ('', ''))[0], 'json': ART_SRC.get(k, ('', ''))[1], 'w': w, 'h': h, 'ax': ax, 'ay': ay, 'frames': fr, 'fps': fps, 'cover': cv} for (k, kd, d, pr, w, h, ax, ay, fr, fps, cv) in ART]}
 for (i, n, sh, d, cost, dmg, rate, rng, rad, slow, chain, armor, col, extra) in TOWERS:
     cfg['towers'].append({'id': i, 'name': L(n), 'short': L(sh), 'desc': L(d), 'cost': cost, 'dmg': dmg, 'rate': rate, 'range': rng, 'rad': rad, 'slow': slow,
-                          'slowDur': 1.5 if i == 'frost' else 0, 'chain': chain, 'decay': .85 if i == 'tesla' else 1, 'armor': armor, 'bossMul': .6 if i == 'dart' else 1, 'color': col, 'extra': extra, 'size': {'lure': 3, 'miner': 3}.get(i, 2)})
+                          'slowDur': 1.5 if i in ('frost', 'truck') else 0, 'chain': chain, 'decay': .85 if i == 'tesla' else 1, 'armor': armor, 'bossMul': .6 if i == 'dart' else 1, 'color': col, 'extra': extra, 'size': {'lure': 3, 'miner': 3}.get(i, 2)})
     entity_zh |= {n, sh, d}
 for (t, p, pn, tiers) in PATHS:
     cfg['paths'].append({'tower': t, 'path': p, 'name': L(pn), 'tiers': [{'tier': k + 1, 'name': L(a), 'cost': c, 'desc': L(d), 'effect': e} for k, (a, c, d, e) in enumerate(tiers)]})
