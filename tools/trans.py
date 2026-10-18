@@ -607,6 +607,7 @@ T.update({
 '还没遇到过。': ('Not met yet.', 'Pas encore croisé.'),
 '新跑者': ('New runner', 'Nouveau coureur'),
 '对{x}无效': ('No effect on {x}', 'Sans effet sur {x}'),
+'闪避': ('Dodge', 'Esquive'),
 })
 
 T.update({
