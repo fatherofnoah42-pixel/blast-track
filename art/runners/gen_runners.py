@@ -1,13 +1,13 @@
-# Runner sprites: 6 runners x 3 skin tones x 3 bibs, cut from the concept sheet ref/runners_ref.png.
-# Writes ../runners.webp (the in-game atlas). With --png also writes the full-size sprites to out/.
+# Runner sprites with a run cycle: 6 runners x 3 skin tones, bent into FRAMES poses by the rig in rig.py / warp.py,
+# plus the bib numbers as separate little images (drawn on the chest at run time, so they stay readable when a runner faces left).
+# Cut from the concept sheet ref/runners_ref.png. Writes ../runners.webp and the matching RUNNER_RIG table into ../../tools/script.js
+# (between the "<runner-rig>" markers), then run tools/build.sh. With --png also dumps the frames to out/.
 # Needs: pip install pillow numpy scipy scikit-image
 #
-# Atlas layout (the game relies on it, see RUNNER_SPRITE in tools/script.js):
-#   cell CELL x CELL px, 18 columns, one row per runner in KINDS order,
-#   column = skin * 3 + bib  (SKINS / BIBS order below) facing right, +9 for the same runner facing left
-#   (mirrored body, bib number still readable),
-#   every sprite is drawn at the same scale SCALE, centred, feet on the cell's bottom edge.
-import os, sys
+# Atlas layout: one row per runner x skin (KINDS order, then SKINS), one column per frame (0 = the painted pose,
+# 1..FRAMES/2 bend further; the game plays 0,1,..,n,..,1 back and forth). Every cell is CW x CH px at the same scale,
+# feet on the bottom edge, the runner's anchor at RUNNER_RIG.k.ax. Below the frames: one row of bibs (KINDS x BIBS).
+import os, sys, json, math, re
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 from skimage import color
@@ -16,7 +16,8 @@ from scipy import ndimage
 HERE = os.path.dirname(os.path.abspath(__file__))
 REF = os.path.join(HERE, 'ref', 'runners_ref.png')
 OUT_ATLAS = os.path.join(HERE, '..', 'runners.webp')
-CELL, SCALE = 200, 0.45
+SCALE = 0.45
+PAD = 60          # room around a cut-out for limbs that swing past its outline (ref px)
 INK = (53, 20, 3)
 FONT_CANDIDATES = ['/usr/share/fonts/opentype/noto/NotoSansCJK-Black.ttc', '/System/Library/Fonts/Supplemental/Arial Black.ttf',
                    'C:/Windows/Fonts/ariblk.ttf', '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf']
@@ -84,7 +85,7 @@ def font(size):
             except Exception: pass
     return ImageFont.load_default()
 
-def bib_sprite(size, fill, ink, num, angle):
+def bib_sprite(size, fill, ink, num, angle=0):
     S = 4; w, h = size; pad = 12
     im = Image.new('RGBA', ((w + pad * 2) * S, (h + pad * 2) * S), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
     x0, y0, x1, y1 = pad * S, pad * S, (pad + w) * S, (pad + h) * S; lw = int(3.6 * S)
@@ -95,10 +96,10 @@ def bib_sprite(size, fill, ink, num, angle):
         d.ellipse([px - r, cy - r, px + r, cy + r], fill=(200, 205, 212, 255), outline=INK + (255,), width=int(1.6 * S))
     f = font(int(h * .62 * S)); tb = d.textbbox((0, 0), num, font=f)
     d.text(((x0 + x1) / 2 - (tb[2] - tb[0]) / 2 - tb[0], (y0 + y1) / 2 - (tb[3] - tb[1]) / 2 - tb[1] + int(1.5 * S)), num, font=f, fill=ink + (255,))
-    im = im.rotate(-angle, resample=Image.BICUBIC, expand=True)
+    if angle: im = im.rotate(-angle, resample=Image.BICUBIC, expand=True)
     return im.resize((im.width // S, im.height // S), Image.LANCZOS)
 
-def cutout(rgb, box):
+def cutout(rgb, box, with_origin=False):
     x0, y0, x1, y1 = box; c = rgb[y0:y1, x0:x1]
     hsv = color.rgb2hsv(c); bgl = (hsv[..., 1] < .2) & (hsv[..., 2] > .72)
     lab, _ = ndimage.label(bgl)
@@ -116,33 +117,76 @@ def cutout(rgb, box):
     a = np.where(fg, np.clip(a * 1.4, 0, 1), np.clip(a - .35, 0, 1))   # slight feather on both sides of the edge
     out = np.dstack([c, a]); ys, xs = np.where(a > .05)
     out = out[ys.min():ys.max() + 1, xs.min():xs.max() + 1]
-    return Image.fromarray((out * 255).round().astype(np.uint8), 'RGBA')
+    img = Image.fromarray((out * 255).round().astype(np.uint8), 'RGBA')
+    return (img, (x0 + xs.min(), y0 + ys.min())) if with_origin else img
 
 def main():
+    sys.path.insert(0, HERE)
+    import rig, warp
     dump = '--png' in sys.argv
     if dump: os.makedirs(os.path.join(HERE, 'out'), exist_ok=True)
     ref = np.asarray(Image.open(REF).convert('RGB')).astype(float) / 255
-    atlas = Image.new('RGBA', (CELL * 18, CELL * len(KINDS)), (0, 0, 0, 0))
-    SW = ref.shape[1]
-    for si, (skin, target, kL) in enumerate(SKINS):
-        base = recolor_shirts(ref if target is None else recolor_skin(ref, target, kL))
-        base_im = Image.fromarray((base * 255).round().astype(np.uint8)).convert('RGBA')
-        for side, sheet in ((0, base_im), (1, base_im.transpose(Image.FLIP_LEFT_RIGHT))):
-          for bi, (bib, fill, ink) in enumerate(BIBS):
-            im = sheet.copy()
-            for key, box, c, size, ang, num in KINDS:
-                cx = SW - 1 - c[0] if side else c[0]
-                b = bib_sprite(size, fill, ink, num, -ang if side else ang); im.alpha_composite(b, (cx - b.width // 2, c[1] - b.height // 2))
-            rgb = np.asarray(im.convert('RGB')).astype(float) / 255
-            for ki, (key, box, *_r) in enumerate(KINDS):
-                bx = (SW - box[2], box[1], SW - box[0], box[3]) if side else box
-                sp = cutout(rgb, bx)
-                if dump: sp.save(os.path.join(HERE, 'out', f'{key}_{skin}_{bib}{"_left" if side else ""}.png'))
-                sm = sp.resize((round(sp.width * SCALE), round(sp.height * SCALE)), Image.LANCZOS)
-                assert sm.width <= CELL and sm.height <= CELL, (key, sm.size)
-                atlas.alpha_composite(sm, ((side * 9 + si * 3 + bi) * CELL + (CELL - sm.width) // 2, ki * CELL + CELL - sm.height))
+    skins = [recolor_shirts(ref if t is None else recolor_skin(ref, t, kL)) for _, t, kL in SKINS]
+    nF = rig.FRAMES // 2 + 1
+    frames, meta = {}, {}
+    for key, box, bc, bsize, bang, num in KINDS:
+        sp, org = cutout(skins[0], box, with_origin=True)          # silhouette from the light skin; every skin uses the same one
+        alpha = np.asarray(sp)[..., 3]; h, w = alpha.shape
+        cfg = rig.RIG[key]
+        H, W = h + 2 * PAD, w + 2 * PAD; o = (org[0] - PAD, org[1] - PAD)
+        R = warp.Rig(cfg, (H, W), o)
+        anchor_x = PAD + w / 2                                       # feet centre of the painted pose, in padded px
+        per = []
+        for si, sk in enumerate(skins):
+            A = np.zeros((H, W, 4), np.uint8)
+            A[PAD:PAD + h, PAD:PAD + w, :3] = (sk[org[1]:org[1] + h, org[0]:org[0] + w] * 255).round().astype(np.uint8)
+            A[PAD:PAD + h, PAD:PAD + w, 3] = alpha
+            fs = [warp.frame(A, R, warp.cycle_angles(i, rig.FRAMES, rig.LEG_SWING, rig.ARM_SWING, cfg.get('arm_k', 1))) for i in range(nF)]
+            per.append(fs)
+            if dump:
+                for i, f in enumerate(fs): Image.fromarray(f).save(os.path.join(HERE, 'out', f'{key}_{SKINS[si][0]}_{i}.png'))
+        # feet stay on the ground: each frame is lifted so its lowest pixel sits on the cell floor
+        bottoms = [int(np.where(f[..., 3].max(1) > 40)[0].max()) for f in per[0]]
+        cols = np.where(np.max([f[..., 3].max(0) for f in per[0]], 0) > 10)[0]; rows = np.where(np.max([f[..., 3].max(1) for f in per[0]], 0) > 10)[0]
+        x0, x1 = int(cols.min()), int(cols.max()) + 1
+        top = int(rows.min())
+        frames[key] = (per, bottoms, x0, x1, top)
+        meta[key] = {'bib': (bc[0] - o[0], bc[1] - o[1]), 'bang': bang, 'anchor_x': anchor_x}
+    # one cell size for everybody (scaled), so sizes stay comparable
+    sc = SCALE
+    CW = max(math.ceil((x1 - x0) * sc) for _, _, x0, x1, _ in frames.values()) + 2
+    CH = max(math.ceil((max(bt) - top) * sc) for _, bt, _, _, top in frames.values()) + 2
+    nrows = len(KINDS) * len(SKINS)
+    # bibs
+    bibs = {}
+    for key, box, bc, bsize, bang, num in KINDS:
+        for bib, fill, ink in BIBS:
+            b = bib_sprite(bsize, fill, ink, num); bibs[(key, bib)] = b.resize((round(b.width * sc), round(b.height * sc)), Image.LANCZOS)
+    BW = max(b.width for b in bibs.values()); BH = max(b.height for b in bibs.values())
+    atlas = Image.new('RGBA', (max(CW * nF, BW * len(bibs)), CH * nrows + BH), (0, 0, 0, 0))
+    out = {'cw': CW, 'ch': CH, 'frames': nF, 'bw': BW, 'bh': BH, 'bibY': CH * nrows, 'skins': len(SKINS), 'bibs': [b[0] for b in BIBS], 'kinds': {}}
+    for ki, (key, *_r) in enumerate(KINDS):
+        per, bottoms, x0, x1, top = frames[key]; m = meta[key]
+        lift = []
+        for si in range(len(SKINS)):
+            for fi, f in enumerate(per[si]):
+                crop = Image.fromarray(f[:, x0:x1])
+                crop = crop.resize((round(crop.width * sc), round(crop.height * sc)), Image.LANCZOS)
+                yb = round(bottoms[fi] * sc)                       # this frame's feet line, scaled
+                atlas.alpha_composite(crop, (fi * CW + 1, (ki * len(SKINS) + si) * CH + CH - 1 - yb))
+        rise = [round((bottoms[0] - b) * sc, 1) for b in bottoms]   # how far the body is lifted in each frame (px)
+        out['kinds'][key] = {'row': ki * len(SKINS), 'ax': round((m['anchor_x'] - x0) * sc + 1, 1),
+                             'bib': [round((m['bib'][0] - m['anchor_x']) * sc, 1), round((m['bib'][1] - bottoms[0]) * sc, 1)], 'bang': m['bang'], 'rise': rise}
+    for i, (key, bib) in enumerate(bibs):
+        b = bibs[(key, bib)]; atlas.alpha_composite(b, (i * BW + (BW - b.width) // 2, CH * nrows + (BH - b.height) // 2))
+    out['bibOrder'] = [f'{k}.{b}' for k, b in bibs]
     atlas.save(OUT_ATLAS, 'WEBP', quality=90, method=6)
-    print('wrote', os.path.normpath(OUT_ATLAS), atlas.size)
+    js = 'const RUNNER_RIG = ' + json.dumps(out, separators=(',', ':')) + ';'
+    sp = os.path.join(HERE, '..', '..', 'tools', 'script.js'); src = open(sp, encoding='utf-8').read()
+    new = re.sub(r'(// <runner-rig>\n).*?(\n// </runner-rig>)', lambda mm: mm.group(1) + js + mm.group(2), src, flags=re.S)
+    if new == src and js not in src: print('!! markers <runner-rig> not found in tools/script.js')
+    open(sp, 'w', encoding='utf-8').write(new)
+    print('wrote', os.path.normpath(OUT_ATLAS), atlas.size, 'cell', CW, CH)
 
 if __name__ == '__main__':
     main()
