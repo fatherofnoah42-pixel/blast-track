@@ -12,6 +12,8 @@ python3 xlsx_build.py ../config/blast-track-config.xlsx
   sed -n '1,/<\/style>/p' head.html
   echo '</head>'; echo '<body>'
   sed -n '/<\/style>/,$p' head.html | tail -n +2
+  echo '<script src="vendor/pixi.min.js"></script>'   # PixiJS 8 (MIT), WebGL renderer; the game falls back to Canvas 2D without it
+  cat fx_pixi.js
   cat script.js
   echo '</body>'; echo '</html>'
 } > ../index.html

@@ -24,12 +24,22 @@ FSL 公会塔防原型：STEPN 跑者冲过你的领地，你用易拉罐、香�
 
 | 路径 | 用途 |
 | --- | --- |
-| `index.html` | 游戏本体，单文件，直接用浏览器打开也能玩 |
+| `index.html` | 游戏本体，直接用浏览器打开也能玩（要和 `vendor/` 文件夹放在一起） |
+| `vendor/pixi.min.js` | PixiJS 8（MIT 开源许可，免费商用），WebGL 渲染。许可证原文在 `vendor/pixi.LICENSE.txt`。缺了它游戏会自动退回 Canvas 2D，照样能玩 |
 | `config/blast-track-config.xlsx` | 配置表：装置、升级、敌人、波次、Boss、卡牌、地图、三语文字、美术资源，全部可改 |
 | `tools/` | 生成 `index.html` 和配置表的源文件，只有改代码时才需要 |
 | `art/tower.dart.*`、`art/shot.dart.*` | 易拉罐投手和飞行罐子的动画精灵图 + JSON，游戏默认自带 |
 | `art/runners.webp` | 跑者精灵图：6 种跑者 × 3 种肤色 × 5 帧跑步动作，加上号码布。由 `art/runners/gen_runners.py` 从原画 `art/runners/ref/runners_ref.png` 生成（需要 Pillow、numpy、scipy、scikit-image），它会同时更新 `tools/script.js` 里的 `RUNNER_RIG`，之后运行 `tools/build.sh`。髋、肩关节点和摆动幅度在 `art/runners/rig.py` |
 | `art/can-tosser/` | 易拉罐投手的部件图（底座、投臂、罐子、轴盖）和动画脚本。改 `gen_can_anim.py` 里的 `FIRE` / `IDLE` 表再运行 `python3 gen_can_anim.py`（需要 Pillow、numpy），就能重新生成上面的精灵图 |
+
+## 渲染：PixiJS（WebGL）
+
+画面由 PixiJS 用 WebGL 合成，分四层：地图 → 地面焦痕 → 跑者、装置和界面文字（仍用 Canvas 2D 画，每帧作为一张贴图交给 WebGL）→ 发光特效（加色混合的闪光、火花、冲击波，以及烟雾）。震屏改成平滑抖动并带轻微推近。
+
+- **自动退回**：浏览器不支持 WebGL、加载失败、或者 WebGL 在这台设备上跑得慢（比赛中前 5 秒低于 38 fps），游戏会自动改用原来的 Canvas 2D 画法，并在这台设备上记住。
+- **手动切换（测试用）**：网址后面加 `#canvas` 强制用 Canvas 2D，加 `#webgl` 强制用 WebGL（都会在这台设备上记住）。
+- **看帧率**：网址后面加 `#fps`，左下角显示当前渲染方式、帧率和每帧耗时。两个可以合起来写，比如 `#fps-canvas`、`#fps-webgl`。
+- 特效代码在 `tools/fx_pixi.js`，游戏里调用它的地方都写作 `FX.xxx(...)`。
 
 ## 发布到网页（GitHub Pages）
 

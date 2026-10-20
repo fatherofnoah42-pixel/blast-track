@@ -1,0 +1,217 @@
+<script>
+// ---------- PixiJS (WebGL) renderer host + effects layer ----------
+// Stage order:  background (map)  →  decals (scorch marks)  →  game canvas (units, UI text)  →  glow FX (additive)
+// The game still draws units/UI with Canvas 2D into #cv; that canvas is uploaded as one texture per frame.
+// If PixiJS is missing, WebGL is unavailable, the context is lost, or the URL has ?r=canvas, the game keeps the
+// plain Canvas 2D path and none of this runs.
+window.BTFX = (() => {
+const FX = { on: false, why: '' };
+const P = window.PIXI;
+let app, world, bgLayer, decalLayer, gameLayer, glowLayer, smokeLayer;
+let bgSprite = null, bgSrcCanvas = null, gameTex = null, gameSprite = null, srcCanvas = null;
+let pw = 0, ph = 0, fieldScale = 1, fieldW = 360, fieldH = 600;
+const TEX = {};
+const live = [], pool = [], decals = [];
+const MAX = 520, MAX_DECALS = 30;
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function hex(c, d = 0xffffff){
+  if (typeof c !== 'string') return d;
+  let m = c.match(/^#([0-9a-f]{6})$/i); if (m) return parseInt(m[1], 16);
+  m = c.match(/^#([0-9a-f]{3})$/i); if (m) return parseInt(m[1].split('').map(x => x + x).join(''), 16);
+  m = c.match(/rgba?\((\d+)\s*,\s*(\d+)\s*,\s*(\d+)/i); if (m) return (+m[1] << 16) | (+m[2] << 8) | +m[3];
+  return d;
+}
+const rnd = (a, b) => a + Math.random() * (b - a);
+
+// procedural particle textures (white, tinted at runtime)
+function mk(w, h, paint){ const c = document.createElement('canvas'); c.width = w; c.height = h; paint(c.getContext('2d'), w, h); return P.Texture.from(c); }
+function makeTextures(){
+  TEX.glow = mk(64, 64, (g, w) => { const r = g.createRadialGradient(w/2, w/2, 0, w/2, w/2, w/2); r.addColorStop(0, 'rgba(255,255,255,1)'); r.addColorStop(.25, 'rgba(255,255,255,.75)'); r.addColorStop(.6, 'rgba(255,255,255,.18)'); r.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = r; g.fillRect(0, 0, w, w); });
+  TEX.spark = mk(48, 12, (g, w, h) => { const r = g.createLinearGradient(0, 0, w, 0); r.addColorStop(0, 'rgba(255,255,255,0)'); r.addColorStop(.7, 'rgba(255,255,255,.9)'); r.addColorStop(1, 'rgba(255,255,255,1)'); g.fillStyle = r; g.beginPath(); g.ellipse(w/2, h/2, w/2, h/2 - 1, 0, 0, Math.PI*2); g.fill(); });
+  TEX.ring = mk(128, 128, (g, w) => { const r = g.createRadialGradient(w/2, w/2, w*.3, w/2, w/2, w/2); r.addColorStop(0, 'rgba(255,255,255,0)'); r.addColorStop(.72, 'rgba(255,255,255,.15)'); r.addColorStop(.86, 'rgba(255,255,255,1)'); r.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = r; g.fillRect(0, 0, w, w); });
+  TEX.smoke = mk(64, 64, (g, w) => { for (let i = 0; i < 7; i++) { const x = w/2 + rnd(-9, 9), y = w/2 + rnd(-9, 9), rr = rnd(13, 22), r = g.createRadialGradient(x, y, 0, x, y, rr); r.addColorStop(0, 'rgba(255,255,255,.55)'); r.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = r; g.fillRect(0, 0, w, w); } });
+  TEX.scorch = mk(96, 96, (g, w) => {
+    g.translate(w/2, w/2);
+    for (let i = 0; i < 14; i++) { const a = Math.random() * 6.28, d = rnd(0, 16), rr = rnd(12, 26), x = Math.cos(a) * d, y = Math.sin(a) * d, r = g.createRadialGradient(x, y, 0, x, y, rr); r.addColorStop(0, 'rgba(40,28,20,.5)'); r.addColorStop(1, 'rgba(40,28,20,0)'); g.fillStyle = r; g.beginPath(); g.arc(x, y, rr, 0, 6.28); g.fill(); }
+    g.strokeStyle = 'rgba(30,20,14,.35)'; g.lineWidth = 2; g.lineCap = 'round';
+    for (let i = 0; i < 9; i++) { const a = i / 9 * 6.28 + rnd(-.2, .2); g.beginPath(); g.moveTo(Math.cos(a) * 14, Math.sin(a) * 14); g.lineTo(Math.cos(a) * rnd(28, 44), Math.sin(a) * rnd(28, 44)); g.stroke(); }
+  });
+}
+
+// ---------- particles ----------
+function spawn(layer, tex, o){
+  if (live.length >= MAX) return null;
+  let sp = pool.pop();
+  if (!sp) sp = new P.Sprite(tex); else sp.texture = tex;
+  sp.anchor.set(o.ax ?? .5, .5);
+  sp.blendMode = o.add === false ? 'normal' : 'add';
+  sp.tint = o.tint ?? 0xffffff; sp.alpha = o.a0 ?? 1; sp.rotation = o.rot || 0;
+  sp.position.set(o.x, o.y); sp.visible = true;
+  layer.addChild(sp);
+  const p = Object.assign({ sp, vx: 0, vy: 0, life: .3, t: 0, s0: 1, s1: 1, sy: 1, a0: 1, a1: 0, drag: 0, grav: 0, ease: 1, layer }, o);
+  p.max = p.life;
+  live.push(p); return p;
+}
+function step(dt){
+  for (let i = live.length - 1; i >= 0; i--) {
+    const p = live[i];
+    p.t += dt;
+    const k = Math.min(1, p.t / p.max);
+    if (k >= 1) { p.sp.visible = false; p.layer.removeChild(p.sp); pool.push(p.sp); live[i] = live[live.length - 1]; live.pop(); continue; }
+    if (p.drag) { const f = Math.pow(1 - p.drag, dt * 60); p.vx *= f; p.vy *= f; }
+    p.vy += p.grav * dt;
+    p.sp.x += p.vx * dt; p.sp.y += p.vy * dt;
+    const e = p.ease === 1 ? 1 - (1 - k) * (1 - k) : k;            // ease-out growth
+    const s = p.s0 + (p.s1 - p.s0) * e;
+    if (p.streak) { const v = Math.hypot(p.vx, p.vy); p.sp.rotation = Math.atan2(p.vy, p.vx); p.sp.scale.set(Math.max(.25, v / 260) * s, s * .9); }
+    else p.sp.scale.set(s, s * p.sy);
+    p.sp.alpha = p.a0 + (p.a1 - p.a0) * (p.fade === 'late' ? Math.max(0, (k - .45) / .55) : k);
+  }
+  for (let i = decals.length - 1; i >= 0; i--) {
+    const d = decals[i]; d.t += dt;
+    const left = d.life - d.t;
+    d.sp.alpha = d.a * Math.min(1, d.t / .08) * Math.min(1, left / 2);
+    if (left <= 0) { decalLayer.removeChild(d.sp); d.sp.destroy(); decals.splice(i, 1); }
+  }
+}
+
+// ---------- public effects (field units: 360 × 600 portrait / 600 × 360 landscape) ----------
+FX.boom = (x, y, rad, lv = 1, main = true, fire = false) => {
+  if (!FX.on) return;
+  // texture sizes: glow 64 (radius 32), ring 128 (radius ~55), smoke 64 — scales below map them onto the blast radius
+  const big = main ? 1 + lv * .08 : .7, R = rad * big, hot = fire ? 0xff6a2a : 0xffb43a;
+  spawn(glowLayer, TEX.glow, { x, y, tint: 0xfff0c8, s0: R * .2 / 32, s1: R * .55 / 32, a0: .85, life: .1 });               // white-hot core
+  spawn(glowLayer, TEX.glow, { x, y, tint: hot, s0: R * .4 / 32, s1: R * 1.05 / 32, a0: .42, life: .3, fade: 'late' });      // coloured bloom
+  spawn(glowLayer, TEX.ring, { x, y, tint: hot, s0: R * .15 / 55, s1: R / 55, a0: .7, life: main ? .28 : .2 });               // shockwave
+  const n = main ? 10 + lv * 2 : 5;
+  for (let i = 0; i < n; i++) {
+    const a = Math.random() * Math.PI * 2, v = rnd(130, 300) * (main ? 1 : .7);
+    spawn(glowLayer, TEX.spark, { x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 40, drag: .09, grav: 420, streak: true, tint: i % 3 ? hot : 0xfff2c0, s0: .32, s1: .2, a0: .95, life: rnd(.2, .4), ax: 1 });
+  }
+  if (main) {
+    for (let i = 0; i < 4 + lv; i++) {
+      const a = Math.random() * Math.PI * 2, d = rnd(0, R * .35);
+      spawn(smokeLayer, TEX.smoke, { x: x + Math.cos(a) * d, y: y + Math.sin(a) * d, vx: rnd(-12, 12), vy: rnd(-30, -14), drag: .02, add: false, tint: fire ? 0x4e4240 : 0x9a9088, s0: R * .25 / 32, s1: R * rnd(.6, .85) / 32, a0: .42, life: rnd(.8, 1.2), rot: rnd(0, 6) });
+    }
+    FX.scorch(x, y, R * .8);
+  }
+};
+FX.impact = (x, y, col) => {
+  if (!FX.on) return;
+  const c = hex(col, 0xffcf5a);
+  spawn(glowLayer, TEX.glow, { x, y, tint: 0xfff6dc, s0: .12, s1: .32, a0: .7, life: .09 });
+  spawn(glowLayer, TEX.glow, { x, y, tint: c, s0: .2, s1: .5, a0: .35, life: .16 });
+  for (let i = 0; i < 4; i++) { const a = Math.random() * Math.PI * 2, v = rnd(80, 170); spawn(glowLayer, TEX.spark, { x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 30, drag: .1, grav: 320, streak: true, tint: c, s0: .22, s1: .14, life: rnd(.12, .24), ax: 1 }); }
+};
+FX.pop = (x, y, big = false) => {   // a runner drops out
+  if (!FX.on) return;
+  spawn(glowLayer, TEX.glow, { x, y, tint: 0xffe08a, s0: .15, s1: big ? 2.2 : .55, a0: big ? .6 : .5, life: big ? .35 : .16 });
+  const n = big ? 20 : 5;
+  for (let i = 0; i < n; i++) { const a = -Math.PI / 2 + rnd(-1.4, 1.4), v = rnd(110, big ? 360 : 210); spawn(glowLayer, TEX.spark, { x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, drag: .06, grav: 540, streak: true, tint: i % 2 ? 0xffc83a : 0xfff4d0, s0: big ? .4 : .26, s1: .16, life: rnd(.28, .55), ax: 1 }); }
+  if (big) { spawn(glowLayer, TEX.ring, { x, y, tint: 0xffb43a, s0: .2, s1: 2.4, a0: .75, life: .45 }); spawn(glowLayer, TEX.ring, { x, y, tint: 0xff7a4a, s0: .1, s1: 1.6, a0: .6, life: .6 }); }
+};
+FX.sparkle = (x, y, col, n) => {
+  if (!FX.on) return;
+  const c = hex(col);
+  spawn(glowLayer, TEX.glow, { x, y, tint: c, s0: .4, s1: 1.6, a0: .4, life: .35, fade: 'late' });
+  for (let i = 0; i < Math.min(20, n / 2); i++) { const a = Math.random() * Math.PI * 2, v = rnd(80, 240); spawn(glowLayer, TEX.glow, { x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, drag: .07, grav: 120, tint: c, s0: .16, s1: .05, a0: .9, life: rnd(.4, .8) }); }
+};
+FX.scorch = (x, y, r) => {
+  if (!FX.on) return;
+  const sp = new P.Sprite(TEX.scorch); sp.anchor.set(.5); sp.position.set(x, y + 2); sp.rotation = rnd(0, 6.28);
+  const s = Math.max(.35, r / 48); sp.scale.set(s, s * .62); sp.alpha = 0; decalLayer.addChild(sp);
+  decals.push({ sp, t: 0, life: 7, a: .85 });
+  if (decals.length > MAX_DECALS) { const d = decals.shift(); decalLayer.removeChild(d.sp); d.sp.destroy(); }
+};
+FX.clear = () => {
+  for (const p of live) { p.layer.removeChild(p.sp); pool.push(p.sp); } live.length = 0;
+  for (const d of decals) { decalLayer.removeChild(d.sp); d.sp.destroy(); } decals.length = 0;
+};
+// watchdog: if WebGL turns out slow on this device during play, drop to Canvas 2D and remember it
+let wdT = 0, wdN = 0, wdLast = 0;
+FX.watch = (realDt, playing) => {
+  const now = performance.now(), gap = wdLast ? (now - wdLast) / 1000 : 0; wdLast = now;
+  if (!FX.on || FX.forced || !playing || FX.watched || gap > .5) return;   // gaps over 0.5 s are pauses/tab switches, not slowness
+  wdT += gap; wdN++;
+  if (wdT < 5) return;
+  FX.watched = true; const fps = wdN / wdT;
+  FX.fps = Math.round(fps);
+  if (fps < 38) { try { localStorage.setItem('bd-renderer', 'auto-canvas'); } catch (e) {} FX.stop('slow WebGL on this device (' + Math.round(fps) + ' fps), using Canvas 2D'); }
+};
+FX.count = () => ({ particles: live.length, decals: decals.length });
+
+// ---------- host ----------
+FX.start = async (cv, field) => {
+  // renderer switch for testing: ?r=canvas or #canvas (remembered on this device), ?r=webgl or #webgl to go back
+  let pref = ''; try { pref = localStorage.getItem('bd-renderer') || ''; } catch (e) {}
+  const want = location.search.match(/[?&]r=(canvas|webgl)\b/) || location.hash.match(/(?:#|-)(canvas|webgl)\b/);
+  if (want) { pref = want[1]; try { localStorage.setItem('bd-renderer', pref); } catch (e) {} }
+  if (pref === 'canvas') { FX.why = 'forced canvas'; return false; }
+  if (pref === 'auto-canvas') { FX.why = 'slow WebGL on this device (#webgl to retry)'; return false; }
+  FX.forced = pref === 'webgl';
+  if (!P || !P.Application) { FX.why = 'PixiJS not loaded'; return false; }
+  try {
+    srcCanvas = cv; fieldW = field.W; fieldH = field.H;
+    const el = document.createElement('canvas'); el.className = 'pxl'; el.setAttribute('aria-hidden', 'true');
+    app = new P.Application();
+    await app.init({ canvas: el, width: Math.max(1, cv.width), height: Math.max(1, cv.height), resolution: 1, autoDensity: false, antialias: false,
+      autoStart: false, sharedTicker: false, preference: 'webgl', powerPreference: 'high-performance', backgroundColor: 0x7cb85a, hello: false });
+    if (app.ticker) app.ticker.stop();
+    world = new P.Container();
+    bgLayer = new P.Container(); decalLayer = new P.Container(); gameLayer = new P.Container(); smokeLayer = new P.Container(); glowLayer = new P.Container();
+    world.addChild(bgLayer, decalLayer, gameLayer, smokeLayer, glowLayer);
+    app.stage.addChild(world);
+    makeTextures();
+    el.addEventListener('webglcontextlost', e => { e.preventDefault(); FX.stop('WebGL context lost'); });
+    cv.parentNode.insertBefore(el, cv.parentNode.firstChild);
+    FX.el = el; FX.app = app; FX.on = true; FX.why = 'webgl';
+    cv.parentNode.classList.add('px');
+    return true;
+  } catch (e) { FX.why = 'init failed: ' + (e && e.message || e); FX.stop(FX.why); return false; }
+};
+FX.stop = why => {
+  FX.on = false; if (why) FX.why = why;
+  if (srcCanvas && srcCanvas.parentNode) srcCanvas.parentNode.classList.remove('px');
+  if (FX.el) FX.el.remove();
+  if (FX.onStop) FX.onStop(FX.why);
+};
+function remakeGame(){
+  if (gameSprite) { gameLayer.removeChild(gameSprite); gameSprite.destroy(); }
+  if (gameTex) gameTex.destroy(true);
+  gameTex = P.Texture.from(srcCanvas, true);
+  gameSprite = new P.Sprite(gameTex); gameLayer.addChild(gameSprite);
+}
+FX.resize = (w, h, sc) => {
+  if (!FX.on) return;
+  pw = w; ph = h; fieldScale = sc;
+  app.renderer.resize(w, h);
+  remakeGame();
+  bgSrcCanvas = null;                                      // force the background texture to be rebuilt
+};
+FX.setBg = c => {
+  if (!FX.on) return;
+  if (bgSprite) { bgLayer.removeChild(bgSprite); bgSprite.destroy(); bgSprite = null; }
+  if (bgSrcCanvas && bgSrcCanvas !== c) bgSrcCanvas = null;
+  const t = P.Texture.from(c, true); bgSrcCanvas = c;
+  if (t.source && t.source.update) t.source.update();
+  bgSprite = new P.Sprite(t); bgLayer.addChild(bgSprite);
+};
+// once per frame, after the Canvas 2D pass. dt = game time (0 while paused / hit-stop); sx, sy = shake offset in field units
+FX.frame = (dt, sx, sy, amp) => {
+  if (!FX.on) return;
+  try {
+    step(dt);
+    gameTex.source.update();
+    // field-unit containers are scaled to canvas pixels; the whole world shakes together and punches in slightly
+    const z = RM ? 1 : 1 + Math.min(.06, amp * 1.6 / Math.min(fieldW, fieldH));
+    const rot = RM ? 0 : sx * .0012;
+    world.pivot.set(pw / 2, ph / 2); world.position.set(pw / 2 + sx * fieldScale, ph / 2 + sy * fieldScale);
+    world.scale.set(z); world.rotation = rot;
+    for (const L of [decalLayer, smokeLayer, glowLayer]) L.scale.set(fieldScale);
+    app.renderer.render(app.stage);
+  } catch (e) { FX.stop('render failed: ' + (e && e.message || e)); }
+};
+return FX;
+})();
+</script>

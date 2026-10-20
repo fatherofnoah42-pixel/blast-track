@@ -477,7 +477,7 @@ function updateShots(dt){
     const p = Math.min(1, sh.t / sh.dur), px = sh.x, py = sh.y;
     sh.x = sh.x0 + (sh.tx - sh.x0) * p; sh.y = sh.y0 + (sh.ty - sh.y0) * p - Math.sin(p * Math.PI) * sh.h;
     if (sh.x !== px || sh.y !== py) sh.ang = Math.atan2(sh.y - py, sh.x - px);
-    if (p >= 1) { sh.done = true; hitFx(sh.art || sh.key, sh.tx, sh.ty); sh.onHit && sh.onHit(sh); }
+    if (p >= 1) { sh.done = true; hitFx(sh.art || sh.key, sh.tx, sh.ty); FX.impact(sh.tx, sh.ty, sh.col); sh.onHit && sh.onHit(sh); }
   }
   S.shots = S.shots.filter(s => !s.done);
   for (const dp of S.drops) { dp.t += dt; if (dp.homing && dp.tg && !dp.tg.dead) { dp.x = dp.tg.x; dp.y = dp.tg.y; } if (dp.t >= dp.dur) { dp.done = true; landBox(dp); } }
@@ -515,7 +515,7 @@ function updatePeels(dt){
       used++; hitSet.add(e);
       let d = p.dmg;
       if (e.k === 'hop') { e.dizzyT = 0; reactFx(e, 'faceplant'); stun(e, 1); d *= 2; }
-      e.slipT = 1.2; stun(e, s.slip);
+      e.slipT = 1.2; stun(e, s.slip); FX.impact(e.x, e.y + 4, '#ffe27a');
       damage(e, d, 'bomb', opt);
       if (s.slideBack && !isHeavy(e) && !e.dead) { e.d = Math.max(0, e.d - s.slideBack); if (s.slideDmg) damage(e, s.slideDmg * mult(), 'bomb', {quiet:true}); }
       if (s.bowl && !e.dead) for (const o of S.enemies) {
@@ -903,6 +903,7 @@ function drawLureFx(){
 // ---------- state ----------
 let S;
 function newGame(lvId, opt = {}){
+  FX.clear();
   const speed = S ? S.speed : 1, lvl = lvId ? CH1.find(l => l.id === lvId) : null;
   flowToken++; setWaves(lvl); bgKey = '';
   const pick = mapSel.value, ids = Object.keys(MAPS);
@@ -1111,6 +1112,7 @@ function burst(x, y, col, n, spd=120){
     const a = Math.random()*Math.PI*2, v = spd*(.4 + Math.random());
     S.parts.push({x, y, vx:Math.cos(a)*v, vy:Math.sin(a)*v, life:.35 + Math.random()*.35, max:.7, r:1.5 + Math.random()*2.5, col});
   }
+  if (n >= 30) FX.sparkle(x, y, col, n);
 }
 const ring = (x, y, R, col, life=.3) => S.parts.push({ring:true, x, y, R, col, life, max:life});
 // spreading sound wave (dance speaker): three wobbly rings that grow out to the tower's range one after another
@@ -1243,6 +1245,7 @@ function kill(e, how){
   if (S.fallers.length < 40) S.fallers.push({boss:e.boss, k:e.k, mini:e.mini, x:e.x, y:e.y, sc, look:e.look, face:e.face, ph:e.ph, golden:e.golden, sprite:spriteOf(e), skin:e.skin, bib:e.bib, rot:0, vr:e.face * rnd(5, 9), vx:-e.face * rnd(20, 60), vy:-rnd(90, 150), life:.75, max:.75});
   if (S.shoes.length < 60) S.shoes.push({x:e.x, y:e.y + 8 * sc, sc, col:e.look.shoe, rot:0, vr:rnd(-16, 16), vx:rnd(-70, 70), vy:-rnd(200, 280), life:1, max:1});
   for (let k = 0; k < 4; k++) S.parts.push({x:e.x, y:e.y - 8 * sc, vx:rnd(-60, 60), vy:rnd(-90, -30), life:.5, max:.5, r:1.6, col:'#bfe6ff'});
+  FX.pop(e.x, e.y - 8 * sc, e.k === 'boss');
   if (e.k === 'boss') {
     burst(e.x, e.y, '#ff8a5c', 70, 220); burst(e.x, e.y, '#ffcf3a', 40, 160);
     S.slowmo = RM ? 0 : .5; S.shake = RM ? 0 : 12; banner(tf('{x} 退赛！', {x:BOSS[e.boss].name}), `+${g} GST`);
@@ -1577,6 +1580,7 @@ function explode(x, y, dmg, rad, s, depth, lv){
   if (main && s.firePatch) S.fires.push({x, y, r:rad * .8, t:s.firePatch, dps:dmg * G.firePatchDps});
   if (!RM) S.shake = Math.max(S.shake, main ? 2 + lv*.6 : 1);
   boomT(main ? .06 + lv*.015 : .03);
+  FX.boom(x, y, rad, lv || 1, main, !!s.burnDur);
 }
 function wave(x1, y1, x2, y2){ const pts = [], n = 10, dx = x2 - x1, dy = y2 - y1, L = Math.hypot(dx, dy) || 1; for (let i = 0; i <= n; i++) { const t = i / n, w = Math.sin(t * Math.PI * 3 + S.t * 20) * 4; pts.push([x1 + dx*t - dy/L*w, y1 + dy*t + dx/L*w]); } return pts; }
 function jag(x1, y1, x2, y2){
@@ -1592,6 +1596,15 @@ function resize(){
   const w = cvs.getBoundingClientRect().width || W, dpr = Math.min(window.devicePixelRatio || 1, 2);
   cvs.style.aspectRatio = `${W}/${H}`;
   cvs.width = Math.round(w * dpr); cvs.height = Math.round(w * H / W * dpr); scale = cvs.width / W;
+  if (FX.on) { FX.resize(cvs.width, cvs.height, scale); bgKey = ''; }
+}
+// WebGL host (tools/fx_pixi.js). FX.on is false on the plain Canvas 2D path; every FX.* call is a no-op then.
+const FX = window.BTFX || {on:false, why:'PixiJS not loaded', boom(){}, impact(){}, pop(){}, sparkle(){}, scorch(){}, clear(){}, frame(){}, resize(){}, setBg(){}};
+// smooth screen shake: S.shake is the amplitude (field units), decays in loop(); noise instead of per-frame random jumps
+function shakeOff(){
+  if (!(S.shake > 0) || RM) return [0, 0];
+  const t = performance.now() / 1000, a = S.shake * .55;
+  return [a * (Math.sin(t * 47.3 + 1.1) * .65 + Math.sin(t * 83.1 + 2.3) * .35), a * (Math.sin(t * 52.7 + 4.2) * .65 + Math.sin(t * 91.3 + .4) * .35)];
 }
 const DISPF = '"ZCOOL QingKe HuangYou","Noto Sans SC",system-ui,sans-serif';
 const FONT = (w, px) => `${px}px ${DISPF}`;
@@ -1823,10 +1836,11 @@ function ensureBg(){
   bgCache.width = cvs.width; bgCache.height = cvs.height;
   const g = bgCache.getContext('2d'); g.setTransform(scale, 0, 0, scale, 0, 0);
   if (IMG_MAPS[CUR_MAP]) { DECOR = []; trackKey = ''; drawMapImage(g, CUR_MAP); } else if (mapArt) g.drawImage(mapArt.img, 0, 0, W, H); else paintMeadow(g);
+  if (FX.on) FX.setBg(bgCache);
 }
 function drawField(){
   ensureBg();
-  ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.drawImage(bgCache, 0, 0); ctx.restore();
+  ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); if (FX.on) ctx.clearRect(0, 0, cvs.width, cvs.height); else ctx.drawImage(bgCache, 0, 0); ctx.restore();
   const mapArt = art('map.' + CUR_MAP), painted = !!IMG_MAPS[CUR_MAP], cover = painted || (mapArt && +mapArt.cover);
   ctx.lineJoin = 'round'; ctx.lineCap = 'butt';
   const line = () => { ctx.beginPath(); for (const R of ROUTES) { ctx.moveTo(R.pts[0][0], R.pts[0][1]); for (const [x,y] of R.pts.slice(1)) ctx.lineTo(x, y); } };
@@ -2505,9 +2519,11 @@ function drawFx(){
     if (S.next.affix.length) inkText(S.next.affix.map(a => tr(AFX[a].name)).join(' + '), W/2, H/2 + 30, 14, '#ffb0a6', {maxW: W - 30});
   }
 }
+const SHK = [0, 0];
 function draw(){
   ctx.setTransform(scale, 0, 0, scale, 0, 0);
-  if (S.shake > 0) ctx.translate((Math.random()-.5)*S.shake, (Math.random()-.5)*S.shake);
+  const [sx, sy] = shakeOff(); SHK[0] = sx; SHK[1] = sy;
+  if (!FX.on && (sx || sy)) ctx.translate(sx, sy);
   drawField(); drawPeels(); drawPads(); drawTowers(); drawEnemies(); drawStatuses(); drawLureFx(); drawShots2(); drawFx();
 }
 
@@ -3158,7 +3174,20 @@ document.addEventListener('keydown', ev => {
 });
 
 // test hook for automated checks (no effect on play)
-window.__bd = { get S(){ return S; }, pathCap, computeStats, PATHS, spawnEnemy, parseConfigWorkbook, useConfig, get G(){ return G; }, TOW, E, BOSS, get WAVES(){ return WAVES; }, PADS, ROUTES, MAPS, get CUR_MAP(){ return CUR_MAP; }, get W(){ return W; }, get H(){ return H; }, get PROG(){ return PROG; }, CH1, REACT, myHash: () => myHash(), placeOk: (x, y) => placeOk(x, y), ART, get ART_DEF(){ return ART_DEF; }, loadArt, setArtLocal(o){ ART_LOCAL = o; loadArt(); }, newGame, showMap, openBlockDraft, levelWin, react, damage, explode, stun, buildTower, buildSpots, sizeOf, CELL, findFit };
+window.__bd = { get FX(){ return FX; }, get S(){ return S; }, pathCap, computeStats, PATHS, spawnEnemy, parseConfigWorkbook, useConfig, get G(){ return G; }, TOW, E, BOSS, get WAVES(){ return WAVES; }, PADS, ROUTES, MAPS, get CUR_MAP(){ return CUR_MAP; }, get W(){ return W; }, get H(){ return H; }, get PROG(){ return PROG; }, CH1, REACT, myHash: () => myHash(), placeOk: (x, y) => placeOk(x, y), ART, get ART_DEF(){ return ART_DEF; }, loadArt, setArtLocal(o){ ART_LOCAL = o; loadArt(); }, newGame, showMap, openBlockDraft, levelWin, react, damage, explode, stun, buildTower, buildSpots, sizeOf, CELL, findFit };
+
+// ---------- frame-rate readout: add #fps (or ?fps=1) to the address ----------
+const fpsEl = /[?&]fps=1\b/.test(location.search) || /#fps\b/.test(location.hash) ? Object.assign(document.createElement('div'), {className:'fpsbox'}) : null;
+if (fpsEl) document.querySelector('.stage').appendChild(fpsEl);
+const FPS = {n:0, cpu:0, t:0, worst:0};
+function fpsTick(now, cpu){
+  if (!FPS.t) FPS.t = now;
+  FPS.n++; FPS.cpu += cpu; FPS.worst = Math.max(FPS.worst, now - (FPS.last || now)); FPS.last = now;
+  if (now - FPS.t < 1000) return;
+  const sec = (now - FPS.t) / 1000, fx = FX.on && FX.count ? FX.count() : null;
+  fpsEl.textContent = `${FX.on ? 'WebGL' : 'Canvas 2D'} · ${Math.round(FPS.n / sec)} fps · ${(FPS.cpu / FPS.n).toFixed(1)} ms/frame · worst ${Math.round(FPS.worst)} ms` + (fx ? ` · fx ${fx.particles}` : '') + (FX.on ? '' : ` (${FX.why})`);
+  FPS.n = 0; FPS.cpu = 0; FPS.t = now; FPS.worst = 0;
+}
 
 // ---------- loop ----------
 let last = performance.now();
@@ -3170,8 +3199,11 @@ function loop(now){
   if (S.flash > 0) S.flash = Math.max(0, S.flash - real);
   if (S.iceFlash > 0) S.iceFlash = Math.max(0, S.iceFlash - real);
   if (S.hitstop > 0) { S.hitstop -= real; dt = 0; }
-  if (!PAUSED.has(S.state)) { update(dt); if (S.state === 'wave') mineTick(dt); }
-  draw(); renderUI();
+  const paused = PAUSED.has(S.state);
+  if (!paused) { update(dt); if (S.state === 'wave') mineTick(dt); }
+  const t0 = performance.now();
+  draw(); if (FX.on) { FX.frame(paused ? 0 : dt, SHK[0], SHK[1], RM ? 0 : S.shake); if (FX.watch) FX.watch(real, S.state === 'wave' && !document.hidden); } renderUI();
+  if (fpsEl) fpsTick(now, performance.now() - t0);
   requestAnimationFrame(loop);
 }
 { let saved = null; try { saved = JSON.parse(localStorage.getItem('bd-cfg') || 'null'); } catch (e) {}
@@ -3186,5 +3218,8 @@ newGame(); applyLang(); resize();
 window.addEventListener('resize', resize);
 if (window.ResizeObserver) new ResizeObserver(resize).observe(cvs);
 requestAnimationFrame(loop);
+// switch to the WebGL host once PixiJS is ready; the game keeps running on Canvas 2D until then (and if it fails)
+FX.onStop = () => { bgKey = ''; };
+if (FX.start) FX.start(cvs, {W, H}).then(ok => { if (ok) resize(); });
 })();
 </script>
