@@ -3894,8 +3894,15 @@ document.addEventListener('keydown', ev => {
 window.__bd = { get FX(){ return FX; }, get S(){ return S; }, pathCap, computeStats, PATHS, spawnEnemy, parseConfigWorkbook, useConfig, get G(){ return G; }, TOW, E, BOSS, get WAVES(){ return WAVES; }, PADS, ROUTES, MAPS, get CUR_MAP(){ return CUR_MAP; }, get W(){ return W; }, get H(){ return H; }, get PROG(){ return PROG; }, CH1, REACT, myHash: () => myHash(), placeOk: (x, y) => placeOk(x, y), ART, get ART_DEF(){ return ART_DEF; }, loadArt, setArtLocal(o){ ART_LOCAL = o; loadArt(); }, newGame, showMap, openBlockDraft, levelWin, react, damage, explode, stun, buildTower, buildSpots, sizeOf, CELL, findFit };
 
 // ---------- frame-rate readout: add #fps (or ?fps=1) to the address ----------
-const fpsEl = /[?&]fps=1\b/.test(location.search) || /#fps\b/.test(location.hash) ? Object.assign(document.createElement('div'), {className:'fpsbox'}) : null;
-if (fpsEl) document.querySelector('.stage').appendChild(fpsEl);
+let fpsEl = null;
+function showFps(){ if (fpsEl) return; fpsEl = Object.assign(document.createElement('div'), {className:'fpsbox', textContent:'…'}); document.querySelector('.stage').appendChild(fpsEl); }
+if (/[?&]fps=1\b/.test(location.search) || /#fps\b/.test(location.hash)) showFps();
+// typing #fps / #canvas / #webgl into the address bar of an open page does not reload it, so react here
+window.addEventListener('hashchange', () => {
+  const h = location.hash;
+  if (/(?:#|-)(canvas|webgl)\b/.test(h)) { location.reload(); return; }
+  if (/#fps\b/.test(h)) showFps();
+});
 const FPS = {n:0, cpu:0, t:0, worst:0};
 function fpsTick(now, cpu){
   if (!FPS.t) FPS.t = now;
