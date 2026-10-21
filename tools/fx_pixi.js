@@ -1,18 +1,17 @@
 <script>
-// ---------- PixiJS (WebGL) renderer host + effects layer ----------
-// Stage order:  background (map)  →  decals (scorch marks)  →  game canvas (units, UI text)  →  glow FX (additive)
-// The game still draws units/UI with Canvas 2D into #cv; that canvas is uploaded as one texture per frame.
-// If PixiJS is missing, WebGL is unavailable, the context is lost, or the URL has ?r=canvas, the game keeps the
-// plain Canvas 2D path and none of this runs.
+// ---------- PixiJS (WebGL) effects overlay ----------
+// The game draws the map, units and UI with Canvas 2D into #cv exactly as before. PixiJS draws only the glow
+// effects (additive flashes, sparks, shockwaves) and smoke into a transparent WebGL canvas stacked on top of #cv;
+// the browser composites the two. Nothing is copied between them, so the overlay costs almost nothing per frame.
+// If PixiJS is missing, WebGL is unavailable or slow, the context is lost, or the URL has #canvas, the overlay stays off.
 window.BTFX = (() => {
 const FX = { on: false, why: '' };
 const P = window.PIXI;
-let app, world, bgLayer, decalLayer, gameLayer, glowLayer, smokeLayer;
-let bgSprite = null, bgSrcCanvas = null, gameTex = null, gameSprite = null, srcCanvas = null;
+let app, world, glowLayer, smokeLayer, srcCanvas = null, drawn = false;
 let pw = 0, ph = 0, fieldScale = 1, fieldW = 360, fieldH = 600;
 const TEX = {};
-const live = [], pool = [], decals = [];
-const MAX = 520, MAX_DECALS = 30;
+const live = [], pool = [];
+const MAX = 520;
 const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 function hex(c, d = 0xffffff){
@@ -31,12 +30,6 @@ function makeTextures(){
   TEX.spark = mk(48, 12, (g, w, h) => { const r = g.createLinearGradient(0, 0, w, 0); r.addColorStop(0, 'rgba(255,255,255,0)'); r.addColorStop(.7, 'rgba(255,255,255,.9)'); r.addColorStop(1, 'rgba(255,255,255,1)'); g.fillStyle = r; g.beginPath(); g.ellipse(w/2, h/2, w/2, h/2 - 1, 0, 0, Math.PI*2); g.fill(); });
   TEX.ring = mk(128, 128, (g, w) => { const r = g.createRadialGradient(w/2, w/2, w*.3, w/2, w/2, w/2); r.addColorStop(0, 'rgba(255,255,255,0)'); r.addColorStop(.72, 'rgba(255,255,255,.15)'); r.addColorStop(.86, 'rgba(255,255,255,1)'); r.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = r; g.fillRect(0, 0, w, w); });
   TEX.smoke = mk(64, 64, (g, w) => { for (let i = 0; i < 7; i++) { const x = w/2 + rnd(-9, 9), y = w/2 + rnd(-9, 9), rr = rnd(13, 22), r = g.createRadialGradient(x, y, 0, x, y, rr); r.addColorStop(0, 'rgba(255,255,255,.55)'); r.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = r; g.fillRect(0, 0, w, w); } });
-  TEX.scorch = mk(96, 96, (g, w) => {
-    g.translate(w/2, w/2);
-    for (let i = 0; i < 14; i++) { const a = Math.random() * 6.28, d = rnd(0, 16), rr = rnd(12, 26), x = Math.cos(a) * d, y = Math.sin(a) * d, r = g.createRadialGradient(x, y, 0, x, y, rr); r.addColorStop(0, 'rgba(40,28,20,.5)'); r.addColorStop(1, 'rgba(40,28,20,0)'); g.fillStyle = r; g.beginPath(); g.arc(x, y, rr, 0, 6.28); g.fill(); }
-    g.strokeStyle = 'rgba(30,20,14,.35)'; g.lineWidth = 2; g.lineCap = 'round';
-    for (let i = 0; i < 9; i++) { const a = i / 9 * 6.28 + rnd(-.2, .2); g.beginPath(); g.moveTo(Math.cos(a) * 14, Math.sin(a) * 14); g.lineTo(Math.cos(a) * rnd(28, 44), Math.sin(a) * rnd(28, 44)); g.stroke(); }
-  });
 }
 
 // ---------- particles ----------
@@ -68,12 +61,6 @@ function step(dt){
     else p.sp.scale.set(s, s * p.sy);
     p.sp.alpha = p.a0 + (p.a1 - p.a0) * (p.fade === 'late' ? Math.max(0, (k - .45) / .55) : k);
   }
-  for (let i = decals.length - 1; i >= 0; i--) {
-    const d = decals[i]; d.t += dt;
-    const left = d.life - d.t;
-    d.sp.alpha = d.a * Math.min(1, d.t / .08) * Math.min(1, left / 2);
-    if (left <= 0) { decalLayer.removeChild(d.sp); d.sp.destroy(); decals.splice(i, 1); }
-  }
 }
 
 // ---------- public effects (field units: 360 × 600 portrait / 600 × 360 landscape) ----------
@@ -92,9 +79,8 @@ FX.boom = (x, y, rad, lv = 1, main = true, fire = false) => {
   if (main) {
     for (let i = 0; i < 4 + lv; i++) {
       const a = Math.random() * Math.PI * 2, d = rnd(0, R * .35);
-      spawn(smokeLayer, TEX.smoke, { x: x + Math.cos(a) * d, y: y + Math.sin(a) * d, vx: rnd(-12, 12), vy: rnd(-30, -14), drag: .02, add: false, tint: fire ? 0x4e4240 : 0x9a9088, s0: R * .25 / 32, s1: R * rnd(.6, .85) / 32, a0: .42, life: rnd(.8, 1.2), rot: rnd(0, 6) });
+      spawn(smokeLayer, TEX.smoke, { x: x + Math.cos(a) * d, y: y + Math.sin(a) * d, vx: rnd(-12, 12), vy: rnd(-30, -14), drag: .02, add: false, tint: fire ? 0x6a5a54 : 0xb4ab9f, s0: R * .22 / 32, s1: R * rnd(.5, .7) / 32, a0: .3, life: rnd(.8, 1.2), rot: rnd(0, 6) });
     }
-    FX.scorch(x, y, R * .8);
   }
 };
 FX.impact = (x, y, col) => {
@@ -117,16 +103,8 @@ FX.sparkle = (x, y, col, n) => {
   spawn(glowLayer, TEX.glow, { x, y, tint: c, s0: .4, s1: 1.6, a0: .4, life: .35, fade: 'late' });
   for (let i = 0; i < Math.min(20, n / 2); i++) { const a = Math.random() * Math.PI * 2, v = rnd(80, 240); spawn(glowLayer, TEX.glow, { x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, drag: .07, grav: 120, tint: c, s0: .16, s1: .05, a0: .9, life: rnd(.4, .8) }); }
 };
-FX.scorch = (x, y, r) => {
-  if (!FX.on) return;
-  const sp = new P.Sprite(TEX.scorch); sp.anchor.set(.5); sp.position.set(x, y + 2); sp.rotation = rnd(0, 6.28);
-  const s = Math.max(.35, r / 48); sp.scale.set(s, s * .62); sp.alpha = 0; decalLayer.addChild(sp);
-  decals.push({ sp, t: 0, life: 7, a: .85 });
-  if (decals.length > MAX_DECALS) { const d = decals.shift(); decalLayer.removeChild(d.sp); d.sp.destroy(); }
-};
 FX.clear = () => {
   for (const p of live) { p.layer.removeChild(p.sp); pool.push(p.sp); } live.length = 0;
-  for (const d of decals) { decalLayer.removeChild(d.sp); d.sp.destroy(); } decals.length = 0;
 };
 // watchdog: if WebGL turns out slow on this device during play, drop to Canvas 2D and remember it
 let wdT = 0, wdN = 0, wdLast = 0;
@@ -139,7 +117,7 @@ FX.watch = (realDt, playing) => {
   FX.fps = Math.round(fps);
   if (fps < 38) { try { localStorage.setItem('bd-renderer', 'auto-canvas'); } catch (e) {} FX.stop('slow WebGL on this device (' + Math.round(fps) + ' fps), using Canvas 2D'); }
 };
-FX.count = () => ({ particles: live.length, decals: decals.length });
+FX.count = () => ({ particles: live.length });
 
 // ---------- host ----------
 FX.start = async (cv, field) => {
@@ -156,59 +134,41 @@ FX.start = async (cv, field) => {
     const el = document.createElement('canvas'); el.className = 'pxl'; el.setAttribute('aria-hidden', 'true');
     app = new P.Application();
     await app.init({ canvas: el, width: Math.max(1, cv.width), height: Math.max(1, cv.height), resolution: 1, autoDensity: false, antialias: false,
-      autoStart: false, sharedTicker: false, preference: 'webgl', powerPreference: 'high-performance', backgroundColor: 0x7cb85a, hello: false });
+      autoStart: false, sharedTicker: false, preference: 'webgl', powerPreference: 'default', backgroundAlpha: 0, premultipliedAlpha: true, hello: false });
     if (app.ticker) app.ticker.stop();
-    world = new P.Container();
-    bgLayer = new P.Container(); decalLayer = new P.Container(); gameLayer = new P.Container(); smokeLayer = new P.Container(); glowLayer = new P.Container();
-    world.addChild(bgLayer, decalLayer, gameLayer, smokeLayer, glowLayer);
-    app.stage.addChild(world);
+    world = new P.Container(); smokeLayer = new P.Container(); glowLayer = new P.Container();
+    world.addChild(smokeLayer, glowLayer); app.stage.addChild(world);
     makeTextures();
+    // true additive light over the game canvas: add colour, leave the overlay's alpha untouched, so the browser
+    // composites glow as light on top of the scene instead of a semi-opaque film (Pixi's default 'add' also adds alpha)
+    { const st = app.renderer.state, gl = app.renderer.gl; if (st && st.blendModesMap && gl) st.blendModesMap.add = [gl.ONE, gl.ONE, gl.ZERO, gl.ONE]; }
     el.addEventListener('webglcontextlost', e => { e.preventDefault(); FX.stop('WebGL context lost'); });
-    cv.parentNode.insertBefore(el, cv.parentNode.firstChild);
+    cv.after(el);
     FX.el = el; FX.app = app; FX.on = true; FX.why = 'webgl';
-    cv.parentNode.classList.add('px');
     return true;
   } catch (e) { FX.why = 'init failed: ' + (e && e.message || e); FX.stop(FX.why); return false; }
 };
 FX.stop = why => {
   FX.on = false; if (why) FX.why = why;
-  if (srcCanvas && srcCanvas.parentNode) srcCanvas.parentNode.classList.remove('px');
   if (FX.el) FX.el.remove();
   if (FX.onStop) FX.onStop(FX.why);
 };
-function remakeGame(){
-  if (gameSprite) { gameLayer.removeChild(gameSprite); gameSprite.destroy(); }
-  if (gameTex) gameTex.destroy(true);
-  gameTex = P.Texture.from(srcCanvas, true);
-  gameSprite = new P.Sprite(gameTex); gameLayer.addChild(gameSprite);
-}
 FX.resize = (w, h, sc) => {
   if (!FX.on) return;
   pw = w; ph = h; fieldScale = sc;
-  app.renderer.resize(w, h);
-  remakeGame();
-  bgSrcCanvas = null;                                      // force the background texture to be rebuilt
+  app.renderer.resize(w, h); drawn = true;
 };
-FX.setBg = c => {
-  if (!FX.on) return;
-  if (bgSprite) { bgLayer.removeChild(bgSprite); bgSprite.destroy(); bgSprite = null; }
-  if (bgSrcCanvas && bgSrcCanvas !== c) bgSrcCanvas = null;
-  const t = P.Texture.from(c, true); bgSrcCanvas = c;
-  if (t.source && t.source.update) t.source.update();
-  bgSprite = new P.Sprite(t); bgLayer.addChild(bgSprite);
-};
-// once per frame, after the Canvas 2D pass. dt = game time (0 while paused / hit-stop); sx, sy = shake offset in field units
-FX.frame = (dt, sx, sy, amp) => {
+// once per frame, after the Canvas 2D pass. dt = game time (0 while paused / hit-stop);
+// sx, sy, z, rot = the same shake / punch-in the 2D pass used, so effects stay glued to the scene
+FX.frame = (dt, sx, sy, z = 1, rot = 0) => {
   if (!FX.on) return;
   try {
     step(dt);
-    gameTex.source.update();
-    // field-unit containers are scaled to canvas pixels; the whole world shakes together and punches in slightly
-    const z = RM ? 1 : 1 + Math.min(.06, amp * 1.6 / Math.min(fieldW, fieldH));
-    const rot = RM ? 0 : sx * .0012;
-    world.pivot.set(pw / 2, ph / 2); world.position.set(pw / 2 + sx * fieldScale, ph / 2 + sy * fieldScale);
-    world.scale.set(z); world.rotation = rot;
-    for (const L of [decalLayer, smokeLayer, glowLayer]) L.scale.set(fieldScale);
+    if (!live.length && !drawn) return;                    // nothing on screen and already cleared: skip the GPU entirely
+    drawn = live.length > 0;
+    world.pivot.set(fieldW / 2, fieldH / 2);
+    world.position.set((fieldW / 2 + sx) * fieldScale, (fieldH / 2 + sy) * fieldScale);
+    world.scale.set(fieldScale * z); world.rotation = rot;
     app.renderer.render(app.stage);
   } catch (e) { FX.stop('render failed: ' + (e && e.message || e)); }
 };

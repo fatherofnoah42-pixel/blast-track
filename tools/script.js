@@ -1581,6 +1581,7 @@ function explode(x, y, dmg, rad, s, depth, lv){
   if (!RM) S.shake = Math.max(S.shake, main ? 2 + lv*.6 : 1);
   boomT(main ? .06 + lv*.015 : .03);
   FX.boom(x, y, rad, lv || 1, main, !!s.burnDur);
+  if (main) addScorch(x, y, rad * .8 * (1 + (lv || 1) * .08));
 }
 function wave(x1, y1, x2, y2){ const pts = [], n = 10, dx = x2 - x1, dy = y2 - y1, L = Math.hypot(dx, dy) || 1; for (let i = 0; i <= n; i++) { const t = i / n, w = Math.sin(t * Math.PI * 3 + S.t * 20) * 4; pts.push([x1 + dx*t - dy/L*w, y1 + dy*t + dx/L*w]); } return pts; }
 function jag(x1, y1, x2, y2){
@@ -1596,10 +1597,33 @@ function resize(){
   const w = cvs.getBoundingClientRect().width || W, dpr = Math.min(window.devicePixelRatio || 1, 2);
   cvs.style.aspectRatio = `${W}/${H}`;
   cvs.width = Math.round(w * dpr); cvs.height = Math.round(w * H / W * dpr); scale = cvs.width / W;
-  if (FX.on) { FX.resize(cvs.width, cvs.height, scale); bgKey = ''; }
+  if (FX.on) FX.resize(cvs.width, cvs.height, scale);
 }
-// WebGL host (tools/fx_pixi.js). FX.on is false on the plain Canvas 2D path; every FX.* call is a no-op then.
-const FX = window.BTFX || {on:false, why:'PixiJS not loaded', boom(){}, impact(){}, pop(){}, sparkle(){}, scorch(){}, clear(){}, frame(){}, resize(){}, setBg(){}};
+// WebGL effects overlay (tools/fx_pixi.js). FX.on is false on the plain Canvas 2D path; every FX.* call is a no-op then.
+const FX = window.BTFX || {on:false, why:'PixiJS not loaded', boom(){}, impact(){}, pop(){}, sparkle(){}, clear(){}, frame(){}, resize(){}};
+// scorch marks left by blasts: drawn on the 2D map layer (under runners), fade out after a few seconds
+let scorchImg = null;
+function scorchTex(){
+  if (scorchImg) return scorchImg;
+  const c = scorchImg = document.createElement('canvas'), w = c.width = c.height = 96, g = c.getContext('2d'); g.translate(w/2, w/2);
+  for (let i = 0; i < 14; i++) { const a = Math.random() * 6.28, d = Math.random() * 16, rr = 12 + Math.random() * 14, x = Math.cos(a) * d, y = Math.sin(a) * d, r = g.createRadialGradient(x, y, 0, x, y, rr); r.addColorStop(0, 'rgba(40,28,20,.5)'); r.addColorStop(1, 'rgba(40,28,20,0)'); g.fillStyle = r; g.beginPath(); g.arc(x, y, rr, 0, 6.28); g.fill(); }
+  g.strokeStyle = 'rgba(30,20,14,.35)'; g.lineWidth = 2; g.lineCap = 'round';
+  for (let i = 0; i < 9; i++) { const a = i / 9 * 6.28 + (Math.random() - .5) * .4; g.beginPath(); g.moveTo(Math.cos(a) * 14, Math.sin(a) * 14); const L = 28 + Math.random() * 16; g.lineTo(Math.cos(a) * L, Math.sin(a) * L); g.stroke(); }
+  return c;
+}
+const SCORCH_LIFE = 7;
+function addScorch(x, y, r){ if (RM) return; (S.scorch = S.scorch || []).push({x, y, r, rot:Math.random() * 6.28, t0:S.t}); if (S.scorch.length > 20) S.scorch.shift(); }
+function drawScorch(){
+  const L = S.scorch; if (!L || !L.length) return;
+  const img = scorchTex();
+  for (let i = L.length - 1; i >= 0; i--) {
+    const d = L[i], age = S.t - d.t0, left = SCORCH_LIFE - age;
+    if (left <= 0 || age < 0) { L.splice(i, 1); continue; }
+    const s = Math.max(.35, d.r / 48);
+    ctx.save(); ctx.globalAlpha = .6 * Math.min(1, age / .08) * Math.min(1, left / 2); ctx.translate(d.x, d.y + 2); ctx.scale(1, .62); ctx.rotate(d.rot);
+    ctx.drawImage(img, -48 * s, -48 * s, 96 * s, 96 * s); ctx.restore();
+  }
+}
 // smooth screen shake: S.shake is the amplitude (field units), decays in loop(); noise instead of per-frame random jumps
 function shakeOff(){
   if (!(S.shake > 0) || RM) return [0, 0];
@@ -1836,11 +1860,11 @@ function ensureBg(){
   bgCache.width = cvs.width; bgCache.height = cvs.height;
   const g = bgCache.getContext('2d'); g.setTransform(scale, 0, 0, scale, 0, 0);
   if (IMG_MAPS[CUR_MAP]) { DECOR = []; trackKey = ''; drawMapImage(g, CUR_MAP); } else if (mapArt) g.drawImage(mapArt.img, 0, 0, W, H); else paintMeadow(g);
-  if (FX.on) FX.setBg(bgCache);
 }
 function drawField(){
   ensureBg();
-  ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); if (FX.on) ctx.clearRect(0, 0, cvs.width, cvs.height); else ctx.drawImage(bgCache, 0, 0); ctx.restore();
+  ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.drawImage(bgCache, 0, 0); ctx.restore();
+  drawScorch();
   const mapArt = art('map.' + CUR_MAP), painted = !!IMG_MAPS[CUR_MAP], cover = painted || (mapArt && +mapArt.cover);
   ctx.lineJoin = 'round'; ctx.lineCap = 'butt';
   const line = () => { ctx.beginPath(); for (const R of ROUTES) { ctx.moveTo(R.pts[0][0], R.pts[0][1]); for (const [x,y] of R.pts.slice(1)) ctx.lineTo(x, y); } };
@@ -2519,11 +2543,13 @@ function drawFx(){
     if (S.next.affix.length) inkText(S.next.affix.map(a => tr(AFX[a].name)).join(' + '), W/2, H/2 + 30, 14, '#ffb0a6', {maxW: W - 30});
   }
 }
-const SHK = [0, 0];
+const SHK = [0, 0, 1, 0];
 function draw(){
   ctx.setTransform(scale, 0, 0, scale, 0, 0);
-  const [sx, sy] = shakeOff(); SHK[0] = sx; SHK[1] = sy;
-  if (!FX.on && (sx || sy)) ctx.translate(sx, sy);
+  // shake + slight punch-in on big hits; the WebGL overlay gets the same numbers so effects stay glued to the scene
+  const [sx, sy] = shakeOff(), z = RM ? 1 : 1 + Math.min(.05, S.shake * 1.6 / Math.min(W, H)), rot = RM ? 0 : sx * .0012;
+  SHK[0] = sx; SHK[1] = sy; SHK[2] = z; SHK[3] = rot;
+  if (sx || sy || z !== 1) { ctx.translate(W / 2 + sx, H / 2 + sy); ctx.rotate(rot); ctx.scale(z, z); ctx.translate(-W / 2, -H / 2); }
   drawField(); drawPeels(); drawPads(); drawTowers(); drawEnemies(); drawStatuses(); drawLureFx(); drawShots2(); drawFx();
 }
 
@@ -3214,7 +3240,7 @@ function loop(now){
   const t1 = performance.now();
   draw();
   const t2 = performance.now();
-  if (FX.on) { FX.frame(paused ? 0 : dt, SHK[0], SHK[1], RM ? 0 : S.shake); if (FX.watch) FX.watch(real, S.state === 'wave' && !document.hidden); }
+  if (FX.on) { FX.frame(paused ? 0 : dt, SHK[0], SHK[1], SHK[2], SHK[3]); if (FX.watch) FX.watch(real, S.state === 'wave' && !document.hidden); }
   const t3 = performance.now();
   renderUI();
   if (fpsEl) fpsTick(now, [t1 - t0, t2 - t1, t3 - t2, performance.now() - t3]);
