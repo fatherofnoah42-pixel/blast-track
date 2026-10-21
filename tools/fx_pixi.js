@@ -1,13 +1,13 @@
 <script>
 // ---------- PixiJS (WebGL) effects overlay ----------
 // The game draws the map, units and UI with Canvas 2D into #cv exactly as before. PixiJS draws only the glow
-// effects (additive flashes, sparks, shockwaves) and smoke into a transparent WebGL canvas stacked on top of #cv;
-// the browser composites the two. Nothing is copied between them, so the overlay costs almost nothing per frame.
+// effects (flashes, sparks, shockwaves) into a transparent WebGL canvas stacked on top of #cv; the browser adds it
+// onto the scene as light (CSS mix-blend-mode: plus-lighter). Nothing is copied between them, so the overlay costs almost nothing per frame.
 // If PixiJS is missing, WebGL is unavailable or slow, the context is lost, or the URL has #canvas, the overlay stays off.
 window.BTFX = (() => {
 const FX = { on: false, why: '' };
 const P = window.PIXI;
-let app, world, glowLayer, smokeLayer, srcCanvas = null, drawn = false;
+let app, world, glowLayer, srcCanvas = null, drawn = false;
 let pw = 0, ph = 0, fieldScale = 1, fieldW = 360, fieldH = 600;
 const TEX = {};
 const live = [], pool = [];
@@ -29,7 +29,6 @@ function makeTextures(){
   TEX.glow = mk(64, 64, (g, w) => { const r = g.createRadialGradient(w/2, w/2, 0, w/2, w/2, w/2); r.addColorStop(0, 'rgba(255,255,255,1)'); r.addColorStop(.25, 'rgba(255,255,255,.75)'); r.addColorStop(.6, 'rgba(255,255,255,.18)'); r.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = r; g.fillRect(0, 0, w, w); });
   TEX.spark = mk(48, 12, (g, w, h) => { const r = g.createLinearGradient(0, 0, w, 0); r.addColorStop(0, 'rgba(255,255,255,0)'); r.addColorStop(.7, 'rgba(255,255,255,.9)'); r.addColorStop(1, 'rgba(255,255,255,1)'); g.fillStyle = r; g.beginPath(); g.ellipse(w/2, h/2, w/2, h/2 - 1, 0, 0, Math.PI*2); g.fill(); });
   TEX.ring = mk(128, 128, (g, w) => { const r = g.createRadialGradient(w/2, w/2, w*.3, w/2, w/2, w/2); r.addColorStop(0, 'rgba(255,255,255,0)'); r.addColorStop(.72, 'rgba(255,255,255,.15)'); r.addColorStop(.86, 'rgba(255,255,255,1)'); r.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = r; g.fillRect(0, 0, w, w); });
-  TEX.smoke = mk(64, 64, (g, w) => { for (let i = 0; i < 7; i++) { const x = w/2 + rnd(-9, 9), y = w/2 + rnd(-9, 9), rr = rnd(13, 22), r = g.createRadialGradient(x, y, 0, x, y, rr); r.addColorStop(0, 'rgba(255,255,255,.55)'); r.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = r; g.fillRect(0, 0, w, w); } });
 }
 
 // ---------- particles ----------
@@ -66,7 +65,7 @@ function step(dt){
 // ---------- public effects (field units: 360 × 600 portrait / 600 × 360 landscape) ----------
 FX.boom = (x, y, rad, lv = 1, main = true, fire = false) => {
   if (!FX.on) return;
-  // texture sizes: glow 64 (radius 32), ring 128 (radius ~55), smoke 64 — scales below map them onto the blast radius
+  // texture sizes: glow 64 (radius 32), ring 128 (radius ~55) — scales below map them onto the blast radius
   const big = main ? 1 + lv * .08 : .7, R = rad * big, hot = fire ? 0xff6a2a : 0xffb43a;
   spawn(glowLayer, TEX.glow, { x, y, tint: 0xfff0c8, s0: R * .2 / 32, s1: R * .55 / 32, a0: .85, life: .1 });               // white-hot core
   spawn(glowLayer, TEX.glow, { x, y, tint: hot, s0: R * .4 / 32, s1: R * 1.05 / 32, a0: .42, life: .3, fade: 'late' });      // coloured bloom
@@ -76,32 +75,30 @@ FX.boom = (x, y, rad, lv = 1, main = true, fire = false) => {
     const a = Math.random() * Math.PI * 2, v = rnd(130, 300) * (main ? 1 : .7);
     spawn(glowLayer, TEX.spark, { x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 40, drag: .09, grav: 420, streak: true, tint: i % 3 ? hot : 0xfff2c0, s0: .32, s1: .2, a0: .95, life: rnd(.2, .4), ax: 1 });
   }
-  if (main) {
-    for (let i = 0; i < 4 + lv; i++) {
-      const a = Math.random() * Math.PI * 2, d = rnd(0, R * .35);
-      spawn(smokeLayer, TEX.smoke, { x: x + Math.cos(a) * d, y: y + Math.sin(a) * d, vx: rnd(-12, 12), vy: rnd(-30, -14), drag: .02, add: false, tint: fire ? 0x6a5a54 : 0xb4ab9f, s0: R * .22 / 32, s1: R * rnd(.5, .7) / 32, a0: .3, life: rnd(.8, 1.2), rot: rnd(0, 6) });
-    }
-  }
 };
 FX.impact = (x, y, col) => {
   if (!FX.on) return;
   const c = hex(col, 0xffcf5a);
-  spawn(glowLayer, TEX.glow, { x, y, tint: 0xfff6dc, s0: .12, s1: .32, a0: .7, life: .09 });
-  spawn(glowLayer, TEX.glow, { x, y, tint: c, s0: .2, s1: .5, a0: .35, life: .16 });
+  spawn(glowLayer, TEX.glow, { x, y, tint: 0xfff6dc, s0: .16, s1: .42, a0: .85, life: .1 });
+  spawn(glowLayer, TEX.glow, { x, y, tint: c, s0: .25, s1: .7, a0: .5, life: .18 });
   for (let i = 0; i < 4; i++) { const a = Math.random() * Math.PI * 2, v = rnd(80, 170); spawn(glowLayer, TEX.spark, { x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 30, drag: .1, grav: 320, streak: true, tint: c, s0: .22, s1: .14, life: rnd(.12, .24), ax: 1 }); }
 };
-FX.pop = (x, y, big = false) => {   // a runner drops out
-  if (!FX.on) return;
-  spawn(glowLayer, TEX.glow, { x, y, tint: 0xffe08a, s0: .15, s1: big ? 2.2 : .55, a0: big ? .6 : .5, life: big ? .35 : .16 });
-  const n = big ? 20 : 5;
-  for (let i = 0; i < n; i++) { const a = -Math.PI / 2 + rnd(-1.4, 1.4), v = rnd(110, big ? 360 : 210); spawn(glowLayer, TEX.spark, { x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, drag: .06, grav: 540, streak: true, tint: i % 2 ? 0xffc83a : 0xfff4d0, s0: big ? .4 : .26, s1: .16, life: rnd(.28, .55), ax: 1 }); }
-  if (big) { spawn(glowLayer, TEX.ring, { x, y, tint: 0xffb43a, s0: .2, s1: 2.4, a0: .75, life: .45 }); spawn(glowLayer, TEX.ring, { x, y, tint: 0xff7a4a, s0: .1, s1: 1.6, a0: .6, life: .6 }); }
+// the game's burst(x, y, col, n, spd): a flash sized by particle count plus coloured sparks
+FX.flash = (x, y, col, n, spd = 120) => {
+  if (!FX.on || n < 6) return;
+  const c = hex(col, 0xffe27a), k = Math.max(.6, Math.min(3.4, n / 12));
+  spawn(glowLayer, TEX.glow, { x, y, tint: 0xffffff, s0: .2 * k, s1: .6 * k, a0: .9, life: .1 });
+  spawn(glowLayer, TEX.glow, { x, y, tint: c, s0: .35 * k, s1: 1.15 * k, a0: .7, life: .28, fade: 'late' });
+  const m = Math.min(26, Math.round(n * .8));
+  for (let i = 0; i < m; i++) {
+    const a = Math.random() * Math.PI * 2, v = spd * rnd(.9, 2);
+    spawn(glowLayer, TEX.spark, { x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - spd * .3, drag: .08, grav: 380, streak: true, tint: i % 3 ? c : 0xffffff, s0: .34, s1: .2, a0: 1, life: rnd(.2, .42), ax: 1 });
+  }
 };
-FX.sparkle = (x, y, col, n) => {
-  if (!FX.on) return;
-  const c = hex(col);
-  spawn(glowLayer, TEX.glow, { x, y, tint: c, s0: .4, s1: 1.6, a0: .4, life: .35, fade: 'late' });
-  for (let i = 0; i < Math.min(20, n / 2); i++) { const a = Math.random() * Math.PI * 2, v = rnd(80, 240); spawn(glowLayer, TEX.glow, { x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, drag: .07, grav: 120, tint: c, s0: .16, s1: .05, a0: .9, life: rnd(.4, .8) }); }
+// the game's ring(x, y, R, col, life): a glowing shockwave of radius R
+FX.ring = (x, y, R, col, life = .3) => {
+  if (!FX.on || !(R > 0)) return;
+  spawn(glowLayer, TEX.ring, { x, y, tint: hex(col, 0xffd84a), s0: R * .25 / 55, s1: R / 55, a0: .85, life: Math.min(.7, life * 1.15) });
 };
 FX.clear = () => {
   for (const p of live) { p.layer.removeChild(p.sp); pool.push(p.sp); } live.length = 0;
@@ -136,12 +133,11 @@ FX.start = async (cv, field) => {
     await app.init({ canvas: el, width: Math.max(1, cv.width), height: Math.max(1, cv.height), resolution: 1, autoDensity: false, antialias: false,
       autoStart: false, sharedTicker: false, preference: 'webgl', powerPreference: 'default', backgroundAlpha: 0, premultipliedAlpha: true, hello: false });
     if (app.ticker) app.ticker.stop();
-    world = new P.Container(); smokeLayer = new P.Container(); glowLayer = new P.Container();
-    world.addChild(smokeLayer, glowLayer); app.stage.addChild(world);
+    world = new P.Container(); glowLayer = new P.Container();
+    world.addChild(glowLayer); app.stage.addChild(world);
     makeTextures();
-    // true additive light over the game canvas: add colour, leave the overlay's alpha untouched, so the browser
-    // composites glow as light on top of the scene instead of a semi-opaque film (Pixi's default 'add' also adds alpha)
-    { const st = app.renderer.state, gl = app.renderer.gl; if (st && st.blendModesMap && gl) st.blendModesMap.add = [gl.ONE, gl.ONE, gl.ZERO, gl.ONE]; }
+    // the overlay is composited onto the game with CSS mix-blend-mode: plus-lighter (true additive light);
+    // browsers without it fall back to normal layering, which is dimmer but still visible
     el.addEventListener('webglcontextlost', e => { e.preventDefault(); FX.stop('WebGL context lost'); });
     cv.after(el);
     FX.el = el; FX.app = app; FX.on = true; FX.why = 'webgl';

@@ -1112,9 +1112,9 @@ function burst(x, y, col, n, spd=120){
     const a = Math.random()*Math.PI*2, v = spd*(.4 + Math.random());
     S.parts.push({x, y, vx:Math.cos(a)*v, vy:Math.sin(a)*v, life:.35 + Math.random()*.35, max:.7, r:1.5 + Math.random()*2.5, col});
   }
-  if (n >= 30) FX.sparkle(x, y, col, n);
+  FX.flash(x, y, col, n, spd);
 }
-const ring = (x, y, R, col, life=.3) => S.parts.push({ring:true, x, y, R, col, life, max:life});
+const ring = (x, y, R, col, life=.3) => { S.parts.push({ring:true, x, y, R, col, life, max:life}); FX.ring(x, y, R, col, life); };
 // spreading sound wave (dance speaker): three wobbly rings that grow out to the tower's range one after another
 const soundWave = (x, y, R) => { for (let i = 0; i < 3; i++) S.parts.push({wave:true, x, y, R, col: i % 2 ? '#ffcf3a' : '#ff8fd0', life:.6 + i * .13, max:.6, ph:Math.random() * 6}); };
 function floatText(x, y, txt, opts={}){
@@ -1245,7 +1245,6 @@ function kill(e, how){
   if (S.fallers.length < 40) S.fallers.push({boss:e.boss, k:e.k, mini:e.mini, x:e.x, y:e.y, sc, look:e.look, face:e.face, ph:e.ph, golden:e.golden, sprite:spriteOf(e), skin:e.skin, bib:e.bib, rot:0, vr:e.face * rnd(5, 9), vx:-e.face * rnd(20, 60), vy:-rnd(90, 150), life:.75, max:.75});
   if (S.shoes.length < 60) S.shoes.push({x:e.x, y:e.y + 8 * sc, sc, col:e.look.shoe, rot:0, vr:rnd(-16, 16), vx:rnd(-70, 70), vy:-rnd(200, 280), life:1, max:1});
   for (let k = 0; k < 4; k++) S.parts.push({x:e.x, y:e.y - 8 * sc, vx:rnd(-60, 60), vy:rnd(-90, -30), life:.5, max:.5, r:1.6, col:'#bfe6ff'});
-  FX.pop(e.x, e.y - 8 * sc, e.k === 'boss');
   if (e.k === 'boss') {
     burst(e.x, e.y, '#ff8a5c', 70, 220); burst(e.x, e.y, '#ffcf3a', 40, 160);
     S.slowmo = RM ? 0 : .5; S.shake = RM ? 0 : 12; banner(tf('{x} 退赛！', {x:BOSS[e.boss].name}), `+${g} GST`);
@@ -1600,7 +1599,7 @@ function resize(){
   if (FX.on) FX.resize(cvs.width, cvs.height, scale);
 }
 // WebGL effects overlay (tools/fx_pixi.js). FX.on is false on the plain Canvas 2D path; every FX.* call is a no-op then.
-const FX = window.BTFX || {on:false, why:'PixiJS not loaded', boom(){}, impact(){}, pop(){}, sparkle(){}, clear(){}, frame(){}, resize(){}};
+const FX = window.BTFX || {on:false, why:'PixiJS not loaded', boom(){}, impact(){}, flash(){}, ring(){}, clear(){}, frame(){}, resize(){}};
 // scorch marks left by blasts: drawn on the 2D map layer (under runners), fade out after a few seconds
 let scorchImg = null;
 function scorchTex(){
