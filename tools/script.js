@@ -3186,14 +3186,16 @@ window.addEventListener('hashchange', () => {
   if (/(?:#|-)(canvas|webgl)\b/.test(h)) { location.reload(); return; }
   if (/#fps\b/.test(h)) showFps();
 });
-const FPS = {n:0, cpu:0, t:0, worst:0};
-function fpsTick(now, cpu){
+// per-frame cost split: logic (update) · 2D (Canvas 2D drawing) · GL (WebGL upload + render) · UI (side panel / DOM)
+const FPS = {n:0, t:0, worst:0, ms:[0, 0, 0, 0]};
+function fpsTick(now, parts){
   if (!FPS.t) FPS.t = now;
-  FPS.n++; FPS.cpu += cpu; FPS.worst = Math.max(FPS.worst, now - (FPS.last || now)); FPS.last = now;
+  FPS.n++; parts.forEach((v, i) => FPS.ms[i] += v); FPS.worst = Math.max(FPS.worst, now - (FPS.last || now)); FPS.last = now;
   if (now - FPS.t < 1000) return;
-  const sec = (now - FPS.t) / 1000, fx = FX.on && FX.count ? FX.count() : null;
-  fpsEl.textContent = `${FX.on ? 'WebGL' : 'Canvas 2D'} · ${Math.round(FPS.n / sec)} fps · ${(FPS.cpu / FPS.n).toFixed(1)} ms/frame · worst ${Math.round(FPS.worst)} ms` + (fx ? ` · fx ${fx.particles}` : '') + (FX.on ? '' : ` (${FX.why})`);
-  FPS.n = 0; FPS.cpu = 0; FPS.t = now; FPS.worst = 0;
+  const sec = (now - FPS.t) / 1000, fx = FX.on && FX.count ? FX.count() : null, m = FPS.ms.map(v => (v / FPS.n).toFixed(1));
+  fpsEl.textContent = `${FX.on ? 'WebGL' : 'Canvas 2D'} · ${Math.round(FPS.n / sec)} fps · worst ${Math.round(FPS.worst)} ms` + (fx ? ` · fx ${fx.particles}` : '') + (FX.on ? '' : ` (${FX.why})`) +
+    `\nlogic ${m[0]} · 2D ${m[1]} · GL ${m[2]} · UI ${m[3]} ms · ${S.enemies.length} runners · ${cvs.width}×${cvs.height}`;
+  FPS.n = 0; FPS.t = now; FPS.worst = 0; FPS.ms = [0, 0, 0, 0];
 }
 
 // ---------- loop ----------
@@ -3207,10 +3209,15 @@ function loop(now){
   if (S.iceFlash > 0) S.iceFlash = Math.max(0, S.iceFlash - real);
   if (S.hitstop > 0) { S.hitstop -= real; dt = 0; }
   const paused = PAUSED.has(S.state);
-  if (!paused) { update(dt); if (S.state === 'wave') mineTick(dt); }
   const t0 = performance.now();
-  draw(); if (FX.on) { FX.frame(paused ? 0 : dt, SHK[0], SHK[1], RM ? 0 : S.shake); if (FX.watch) FX.watch(real, S.state === 'wave' && !document.hidden); } renderUI();
-  if (fpsEl) fpsTick(now, performance.now() - t0);
+  if (!paused) { update(dt); if (S.state === 'wave') mineTick(dt); }
+  const t1 = performance.now();
+  draw();
+  const t2 = performance.now();
+  if (FX.on) { FX.frame(paused ? 0 : dt, SHK[0], SHK[1], RM ? 0 : S.shake); if (FX.watch) FX.watch(real, S.state === 'wave' && !document.hidden); }
+  const t3 = performance.now();
+  renderUI();
+  if (fpsEl) fpsTick(now, [t1 - t0, t2 - t1, t3 - t2, performance.now() - t3]);
   requestAnimationFrame(loop);
 }
 { let saved = null; try { saved = JSON.parse(localStorage.getItem('bd-cfg') || 'null'); } catch (e) {}

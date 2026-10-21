@@ -301,7 +301,7 @@ body.land .controls .primary{flex-basis:100%}
 /* WebGL layer (PixiJS): sits under the overlays; #cv stays on top, invisible, and keeps receiving clicks */
 .stage canvas.pxl{position:absolute;left:0;top:0;width:100%;height:100%;aspect-ratio:auto;pointer-events:none;background:var(--grass)}
 .stage.px #cv{opacity:0}
-.fpsbox{position:absolute;z-index:5;left:8px;bottom:24px;padding:2px 8px;border-radius:6px;background:rgba(0,0,0,.65);color:#9f9;font:12px/1.4 ui-monospace,monospace;pointer-events:none}
+.fpsbox{position:absolute;z-index:1;left:8px;right:8px;bottom:24px;white-space:pre-wrap;padding:2px 8px;border-radius:6px;background:rgba(0,0,0,.65);color:#9f9;font:12px/1.4 ui-monospace,monospace;pointer-events:none}
 .lvtag{position:absolute;z-index:2;right:10px;top:10px;padding:3px 12px 4px;border-radius:999px;background:rgba(32,30,44,.82);color:#fff;font-size:12px;font-weight:900;pointer-events:none;box-shadow:inset 0 0 0 1px rgba(255,255,255,.2)}
 .lvtag:empty{display:none}
 
